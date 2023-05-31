@@ -12,7 +12,8 @@ import { useSelector } from "react-redux";
 import './App.css'
 
 function App() {
-  const isAuthenticated = useSelector((state) => state.user.isAuthenticated)
+  // const isAuthenticated = useSelector((state) => state.user.isAuthenticated)
+  const isAuthenticated = true;
   
 
   return (
@@ -26,17 +27,15 @@ function App() {
       <Route path='/product/:id' element={<SingleProductPage/>}/>
       <Route path='*' element={<NotFoundPage/>}/>
 
-      {isAuthenticated (
+      {isAuthenticated ? (
         <>
           <Route path='/cart' element={<ShoppingCartPage/>}/>
           {/* <Route path='/checkout' element={}/> */}
           
         </>
-      )}
+      ) : {}}
 
     </Routes>
-
-
     <Footer/>
     </BrowserRouter>
 
