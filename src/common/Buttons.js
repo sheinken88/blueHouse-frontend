@@ -40,3 +40,4 @@ export const AddToCartButton = styled(Button)(({ theme }) => ({
     color: theme.palette.secondary.main,
   }
 }));
+
