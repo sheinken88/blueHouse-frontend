@@ -7,9 +7,12 @@ import {LoginPage} from "../src/pages/LoginPage"
 import {SingleProductPage} from "../src/pages/SingleProductPage"
 import {ShoppingCartPage} from "../src/pages/ShoppingCartPage"
 import {NotFoundPage} from "../src/pages/NotFoundPage"
-import { useSelector } from "react-redux";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "./theme";
+// import { useSelector } from "react-redux";
 
-import './App.css'
+// import './App.css'
+import { CssBaseline } from '@mui/material'
 
 function App() {
   // const isAuthenticated = useSelector((state) => state.user.isAuthenticated)
@@ -18,6 +21,8 @@ function App() {
 
   return (
     <>
+    <ThemeProvider theme={theme}>
+    <CssBaseline/>
     <BrowserRouter>
     <Navbar/>
     <Routes>
@@ -38,6 +43,8 @@ function App() {
     </Routes>
     <Footer/>
     </BrowserRouter>
+
+    </ThemeProvider>
 
     </>
   )
