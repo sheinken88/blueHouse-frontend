@@ -7,7 +7,7 @@ import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { useTheme } from "@mui/material/styles";
-import LogoBlueHouse from "../assets/logo_blueHouse.svg";
+import LogoBlueHouse from "../assets/logo_blueHouse_noWording.svg";
 import LogoTikTok from "../assets/logo_tikTok.svg";
 import LogoFacebook from "../assets/logo_facebook.svg";
 import LogoInstagram from "../assets/logo_instagram.svg";
