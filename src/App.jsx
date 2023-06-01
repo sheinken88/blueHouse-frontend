@@ -11,7 +11,6 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
 // import { useSelector } from "react-redux";
 
-// import './App.css'
 import { CssBaseline } from '@mui/material'
 
 function App() {
