@@ -1,6 +1,9 @@
+import PrimaryButton from "../common/PrimaryButton"
+
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { fetchAllProducts } from "../state/thunks/productsThunks"
+
 
 export const HomePage = () => {
   const dispatch = useDispatch()
@@ -20,6 +23,7 @@ export const HomePage = () => {
       {products.slice(0,1).map((product) => (
          <div key={product.id}>{product.name}</div>
       ))}
+      <PrimaryButton>primary button</PrimaryButton>
     </>
   )
 }
