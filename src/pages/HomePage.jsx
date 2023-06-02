@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAllProducts } from "../state/thunks/productsThunks";
 import { ProductGrid } from "../components/ProductGrid";
-
+import { About } from "../components/About";
 
 export const HomePage = () => {
   const dispatch = useDispatch();
@@ -24,6 +24,7 @@ export const HomePage = () => {
       {/* {products.slice(0, 1).map((product) => (
         <div key={product.id}>{product.name}</div>
       ))} */}
+    <About/>
     </>
   );
 };
