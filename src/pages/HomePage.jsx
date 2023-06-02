@@ -1,16 +1,16 @@
-
-import { useEffect } from "react"
-import { useSelector, useDispatch } from "react-redux"
-import { fetchAllProducts } from "../state/thunks/productsThunks"
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchAllProducts } from "../state/thunks/productsThunks";
+import { ProductGrid } from "../components/ProductGrid";
 
 export const HomePage = () => {
-  // const dispatch = useDispatch()
-  const products = useSelector((state) => state.products.products);
+  const dispatch = useDispatch();
+  // const products = useSelector((state) => state.products.products);
   const isLoading = useSelector((state) => state.products.isLoading);
 
-  // useEffect(() => {
-  //   dispatch(fetchAllProducts())
-  // }, [dispatch])
+  useEffect(() => {
+    dispatch(fetchAllProducts());
+  }, [dispatch]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -18,13 +18,11 @@ export const HomePage = () => {
 
   return (
     <>
+      <ProductGrid />
 
-
-      {products.slice(0,1).map((product) => (
-         <div key={product.id}>{product.name}</div>
-      ))}
-
-
+      {/* {products.slice(0, 1).map((product) => (
+        <div key={product.id}>{product.name}</div>
+      ))} */}
     </>
   );
 };
