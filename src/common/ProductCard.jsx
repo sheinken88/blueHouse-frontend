@@ -13,8 +13,9 @@ import {
 } from "@chakra-ui/react";
 
 const ProductCard = (item) => {
+  console.log(item);
   return (
-    <Box maxW="322.1" maxH="475.62">
+    <Box w="322.1" h="475.62" margin={10}>
       <Card boxShadow="none">
         <Box position="relative">
           <IconButton
@@ -27,10 +28,10 @@ const ProductCard = (item) => {
             color="blue"
           />
           <Image
-            w="100%"
-            h="auto"
-            src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-            alt="Green double couch with wooden legs"
+            w="321.79px"
+            h="321.79px"
+            src={item.item.images[0].src}
+            alt={item.item.name}
           />
         </Box>
         <CardBody>
@@ -41,56 +42,80 @@ const ProductCard = (item) => {
               fontSize={25}
               h={75}
             >
-              Living room Sofa
+              {item.item.name}
             </Heading>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Text
-                color="grey"
-                fontSize={28}
-                fontWeight="semibold"
-                position="relative"
-                opacity={"50%"}
-                h={5}
+
+            {item.item.on_sale == false ? (
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
               >
-                €450
-                <Box
-                  position="absolute"
-                  top={4}
-                  left={0}
-                  right={0}
-                  height="4px"
-                  backgroundColor="rgba(37, 71, 135, 1)"
-                  transform="rotate(20deg)"
-                  transformOrigin="center"
-                />
-              </Text>
-              <Text
-                color="rgba(37, 71, 135, 1)"
-                fontSize={28}
-                fontWeight="semibold"
-                position="relative"
-                h={5}
+                <Text
+                  color="rgba(37, 71, 135, 1)"
+                  fontSize={28}
+                  fontWeight="semibold"
+                  position="relative"
+                  h={5}
+                >
+                  € {item.item.price}
+                </Text>
+              </Box>
+            ) : (
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
               >
-                €450
-              </Text>
-              <Text
-                h={5}
-                color="rgba(234, 98, 68, 1)"
-                fontWeight="bold"
-                fontSize={20}
-              >
-                Sale
-              </Text>
-            </Box>
+                <Text
+                  color="grey"
+                  opacity={"75%"}
+                  fontSize={28}
+                  fontWeight="semibold"
+                  position="relative"
+                  h={5}
+                >
+                  € {item.item.price}
+                  <Box
+                    position="absolute"
+                    top={4}
+                    left={0}
+                    right={0}
+                    height="4px"
+                    backgroundColor="rgba(37, 71, 135, 1)"
+                    transform="rotate(20deg)"
+                    transformOrigin="center"
+                  />
+                </Text>
+                <Text
+                  color="rgba(37, 71, 135, 1)"
+                  fontSize={28}
+                  fontWeight="semibold"
+                  position="relative"
+                  h={5}
+                >
+                  € {item.item.sale_price}
+                </Text>
+                <Text
+                  h={5}
+                  color="rgba(234, 98, 68, 1)"
+                  fontWeight="bold"
+                  fontSize={20}
+                >
+                  Sale
+                </Text>
+              </Box>
+            )}
           </Stack>
         </CardBody>
         <CardFooter justifyContent="left">
-          <Text color="rgba(179, 188, 245, 1)" fontSize={20} fontWeight="bold">
-            FREE SHIPPING
+          <Text
+            color="rgba(179, 188, 245, 1)"
+            fontSize={20}
+            fontWeight="bold"
+            textTransform={"uppercase"}
+          >
+            {item.item.shipping_class}
           </Text>
         </CardFooter>
       </Card>
