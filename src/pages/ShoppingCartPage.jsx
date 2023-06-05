@@ -23,7 +23,9 @@ export const ShoppingCartPage = () => {
   };
 
   const handleQuantityChange = (id, quantity) => {
-    dispatch(updateQuantity({ id, quantity }));
+    if (quantity > 0) {
+      dispatch(updateQuantity({ id, quantity }));
+    }
   };
 
   const getTotalPrice = () => {
@@ -59,7 +61,11 @@ export const ShoppingCartPage = () => {
                 size="sm"
                 color="primary"
                 bgColor="secondary"
-                onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                onClick={() =>
+                  item.quantity > 1
+                    ? handleQuantityChange(item.id, item.quantity - 1)
+                    : null
+                }
               />
               <Text mx={2}>{item.quantity}</Text>
               <IconButton
