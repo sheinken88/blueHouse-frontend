@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllProducts } from "../state/thunks/productsThunks";
 import { ProductCard } from "../common/ProductCard";
@@ -7,6 +8,13 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
 export const ProductGrid = () => {
+
+
+
+
+import { CarrouselGeneric } from "./CarrouselGeneric";
+
+
   const responsive = {
     desktop: {
       breakpoint: { max: 2560, min: 768 },
@@ -21,6 +29,13 @@ export const ProductGrid = () => {
       items: 1,
     },
   };
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchAllProducts());
+  }, [dispatch]);
+
+
   const prod = useSelector((state) => state.products.products);
   const isLoading = useSelector((state) => state.products.isLoading);
 
