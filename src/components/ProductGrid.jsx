@@ -29,7 +29,12 @@ export const ProductGrid = () => {
   }
 
   return (
-    <Carousel responsive={responsive}>
+    <Carousel
+      responsive={responsive}
+      showDots={true}
+      removeArrowOnDeviceType={["tablet", "mobile", "desktop"]}
+      keyBoardControl={true}
+    >
       {prod.map((item) => (
         <ProductCard key={item.id} item={item} />
       ))}
