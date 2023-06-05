@@ -8,15 +8,12 @@ import { SingleProductPage } from "../src/pages/SingleProductPage";
 import { ShoppingCartPage } from "../src/pages/ShoppingCartPage";
 import { NotFoundPage } from "../src/pages/NotFoundPage";
 
-// import { useSelector } from "react-redux";
-
 function App() {
   // const isAuthenticated = useSelector((state) => state.user.isAuthenticated)
   const isAuthenticated = true;
 
   return (
     <>
-
       <BrowserRouter>
         <Navbar />
         <Routes>
@@ -37,7 +34,6 @@ function App() {
         </Routes>
         <Footer />
       </BrowserRouter>
-
     </>
   );
 }
