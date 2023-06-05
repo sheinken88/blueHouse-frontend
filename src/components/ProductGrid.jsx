@@ -1,7 +1,5 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchAllProducts } from "../state/thunks/productsThunks";
-import ProductCard from "../common/ProductCard";
+import { useSelector } from "react-redux";
+import { ProductCard } from "../common/ProductCard";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
@@ -21,7 +19,7 @@ export const ProductGrid = () => {
     },
   };
 
-  const prod = useSelector((state) => state.products.products);
+  const products = useSelector((state) => state.products.products);
   const isLoading = useSelector((state) => state.products.isLoading);
 
   if (isLoading) {
@@ -35,8 +33,8 @@ export const ProductGrid = () => {
       removeArrowOnDeviceType={["tablet", "mobile", "desktop"]}
       keyBoardControl={true}
     >
-      {prod.map((item) => (
-        <ProductCard key={item.id} item={item} />
+      {products.map((product) => (
+        <ProductCard key={product.id} product={product} />
       ))}
     </Carousel>
 
