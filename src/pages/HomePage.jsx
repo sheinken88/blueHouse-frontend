@@ -2,8 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAllProducts } from "../state/thunks/productsThunks";
 import { ProductGrid } from "../components/ProductGrid";
-
-import { PrimaryButton, SecondaryButton, AddToCartButton } from "../common/Buttons";
+import { About } from "../components/About";
 
 export const HomePage = () => {
   const dispatch = useDispatch();
@@ -20,14 +19,12 @@ export const HomePage = () => {
 
   return (
     <>
-      <PrimaryButton>Primary Btn</PrimaryButton>
-      <SecondaryButton>Secondary Btn</SecondaryButton>
-      <AddToCartButton>Add to cart</AddToCartButton>
       <ProductGrid />
 
       {/* {products.slice(0, 1).map((product) => (
         <div key={product.id}>{product.name}</div>
       ))} */}
+    <About/>
     </>
   );
 };
