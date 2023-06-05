@@ -1,4 +1,3 @@
-import React from "react";
 import { GrFavorite } from "react-icons/gr";
 import {
   Box,
@@ -11,12 +10,60 @@ import {
   Image,
   Text,
   Badge,
+  useColorModeValue as mode,
+  Tooltip,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
+import { FaShoppingCart } from "react-icons/fa";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { addItemToCart } from "../state/slices/cartSlice";
 
-const ProductCard = (item) => {
-  console.log(item);
+export const ProductCard = ({ product }) => {
+  const cartItems = useSelector((state) => state.cart.items);
+  const isAuthenticated = true;
+
+  const dispatch = useDispatch();
+
+  const [showAlert, setShowAlert] = useState(false);
+
+  const handleAddToCart = (event) => {
+    event.preventDefault();
+    if (!isAuthenticated) {
+      alert("Login to add items to your cart");
+      return;
+    }
+
+    const item = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.images[0].src,
+      quantity: 1,
+    };
+
+    const existingItem = cartItems[item.id];
+
+    if (existingItem) {
+      alert("Item is already in the cart");
+    } else {
+      dispatch(addItemToCart(item));
+
+      setShowAlert(true);
+
+      setTimeout(() => setShowAlert(false), 3000);
+    }
+  };
+
   return (
     <Box maxWidth="321.79px" h="475.62" mb={10} mt={10}>
+      {showAlert && (
+        <Alert status="success">
+          <AlertIcon />
+          Product successfully added!
+        </Alert>
+      )}
       <Card boxShadow="none">
         <Box position="relative">
           <IconButton
@@ -27,10 +74,31 @@ const ProductCard = (item) => {
             left={0}
             zIndex={1}
           />
+          <Tooltip
+            label="Add to cart"
+            placement="top"
+            hasArrow
+            bg={mode("gray.800", "white")}
+            color={mode("white", "gray.800")}
+          >
+            <IconButton
+              icon={<FaShoppingCart />}
+              aria-label="Add to cart"
+              borderRadius="full"
+              position="absolute"
+              bottom={0}
+              left={0}
+              zIndex={1}
+              color="primary"
+              bg="secondary"
+              _hover={{ bg: "primary" }}
+              onClick={handleAddToCart}
+            />
+          </Tooltip>
 
           {
             //EN CASO DE TENER DESCUENTO SE APLICA ESTE TERNARIO:
-            item.item.on_sale == true ? (
+            product.on_sale == true ? (
               <Badge
                 h={"75px"}
                 w={"75px"}
@@ -55,8 +123,8 @@ const ProductCard = (item) => {
           <Image
             w="321.79px"
             h="321.79px"
-            src={item.item.images[0].src}
-            alt={item.item.name}
+            src={product.images[0].src}
+            alt={product.name}
           />
         </Box>
         <CardBody>
@@ -69,12 +137,12 @@ const ProductCard = (item) => {
               w={"321.99px"}
               overflow="hidden"
             >
-              {item.item.name}
+              {product.name}
             </Heading>
 
             {
               //EN CASO DE TENER DESCUENTO SE APLICA ESTE TERNARIO:
-              item.item.on_sale == false ? (
+              product.on_sale == false ? (
                 <Box
                   display="flex"
                   justifyContent="space-between"
@@ -87,7 +155,7 @@ const ProductCard = (item) => {
                     position="relative"
                     h={"20.04px"}
                   >
-                    € {item.item.price}
+                    € {product.price}
                   </Text>
                 </Box>
               ) : (
@@ -104,7 +172,7 @@ const ProductCard = (item) => {
                     position="relative"
                     h={5}
                   >
-                    € {item.item.price}
+                    € {product.price}
                     <Box
                       position="absolute"
                       top={4}
@@ -123,7 +191,7 @@ const ProductCard = (item) => {
                     position="relative"
                     h={5}
                   >
-                    € {item.item.sale_price}
+                    € {product.sale_price}
                   </Text>
                   <Text
                     h={5}
@@ -145,12 +213,10 @@ const ProductCard = (item) => {
             fontWeight="bold"
             textTransform={"uppercase"}
           >
-            {item.item.shipping_class}
+            {product.shipping_class}
           </Text>
         </CardFooter>
       </Card>
     </Box>
   );
 };
-
-export default ProductCard;
