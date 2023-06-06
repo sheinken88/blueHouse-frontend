@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { ProductCard } from "../common/ProductCard";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { Center } from "@chakra-ui/react";
 
 export const ProductGrid = () => {
   const responsive = {
@@ -9,12 +10,8 @@ export const ProductGrid = () => {
       breakpoint: { max: 2560, min: 768 },
       items: 5,
     },
-    tablet: {
-      breakpoint: { max: 768, min: 425 },
-      items: 3,
-    },
     mobile: {
-      breakpoint: { max: 425, min: 0 },
+      breakpoint: { max: 768, min: 0 },
       items: 1,
     },
   };
@@ -34,10 +31,11 @@ export const ProductGrid = () => {
       keyBoardControl={true}
     >
       {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
+        <Center>
+          <ProductCard key={product.id} product={product} />
+        </Center>
       ))}
     </Carousel>
-
     // <Grid container spacing={2} direction={"horizontal"}>
     //   {prod.map((item) => (
     //     <Grid padding={2}>
