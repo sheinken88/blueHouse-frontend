@@ -1,28 +1,3 @@
-/* import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchAllCategories } from "../state/thunks/categoriesThunks";
-import { Stack } from "@chakra-ui/react";
-import { CategoryCard } from "../common/CategoryCard";
-
-export const ShopByCategory = () => {
-  const dispatch = useDispatch();
-  const categories = useSelector((state) => state.categories.categories);
-
-  useEffect(() => {
-    dispatch(fetchAllCategories());
-  }, [dispatch]);
-
-     return (
-    <div>
-      <Stack direction="row">
-        {categories.map((category) => (
-          <CategoryCard key={category.id} category={category} />
-        ))}
-      </Stack>
-    </div>
-  );
-}; */
-
 import { useDispatch, useSelector } from "react-redux";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
