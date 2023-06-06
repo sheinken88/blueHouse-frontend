@@ -4,6 +4,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Center } from "@chakra-ui/react";
 
+
 export const ProductGrid = () => {
   const responsive = {
     desktop: {
@@ -36,12 +37,6 @@ export const ProductGrid = () => {
         </Center>
       ))}
     </Carousel>
-    // <Grid container spacing={2} direction={"horizontal"}>
-    //   {prod.map((item) => (
-    //     <Grid padding={2}>
-    //       <ProductCard key={item.id} item={item} />
-    //     </Grid>
-    //   ))}
-    // </Grid>
+
   );
 };

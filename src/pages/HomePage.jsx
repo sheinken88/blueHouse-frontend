@@ -9,6 +9,9 @@ import { PeopleOpinions } from "../components/PeopleOpinions";
 
 import { NewsLetter } from "../components/NewsLetter";
 
+import { ShopByCategory } from "../components/ShopByCategory";
+import { HeroBanner } from "../components/HeroBanner";
+
 export const HomePage = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.products.isLoading);
@@ -24,8 +27,9 @@ export const HomePage = () => {
 
   return (
     <>
+      <HeroBanner />
+      <ShopByCategory />
       <ProductGrid />
-
       <PeopleOpinions />
       <About />
 
