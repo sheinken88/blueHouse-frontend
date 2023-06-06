@@ -8,7 +8,8 @@ import { About } from "../components/About";
 import { PeopleOpinions } from "../components/PeopleOpinions";
 
 import { NewsLetter } from "../components/NewsLetter";
-
+import { ShopByCategory } from "../components/ShopByCategory";
+import { HeroBanner } from "../components/HeroBanner";
 
 export const HomePage = () => {
   const dispatch = useDispatch();
@@ -25,14 +26,13 @@ export const HomePage = () => {
 
   return (
     <>
+      <HeroBanner />
+      <ShopByCategory />
       <ProductGrid />
-
       <PeopleOpinions />
       <About />
 
-
       <NewsLetter />
-
     </>
   );
 };
