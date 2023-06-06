@@ -37,6 +37,7 @@ export const OpinionCard = ({ reviews }) => {
       overflow="hidden"
       variant="outline"
       border={"none"}
+      w={2500}
     >
       <Image
         objectFit="cover"
