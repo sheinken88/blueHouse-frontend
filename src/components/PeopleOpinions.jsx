@@ -2,8 +2,7 @@ import { useSelector } from "react-redux";
 import { OpinionCard } from "../common/OpinionCard";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { Box, Stack, Text } from "@chakra-ui/react";
 
 export const PeopleOpinions = () => {
   const responsive = {
@@ -29,10 +28,18 @@ export const PeopleOpinions = () => {
   }
 
   return (
-    <>
-      <div>
-        <h1></h1>
-      </div>
+    <Box m={5}>
+      <Box m={5}>
+        <Stack>
+          <Text
+            fontWeight={"bold"}
+            fontSize={"40"}
+            color={"rgba(37, 71, 135, 1)"}
+          >
+            What People are Saying
+          </Text>
+        </Stack>
+      </Box>
       <Carousel
         responsive={responsive}
         removeArrowOnDeviceType={["tablet", "mobile", "desktop"]}
@@ -44,6 +51,6 @@ export const PeopleOpinions = () => {
           <OpinionCard key={reviews.id} reviews={reviews} />
         ))}
       </Carousel>
-    </>
+    </Box>
   );
 };
