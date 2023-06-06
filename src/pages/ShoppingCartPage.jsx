@@ -41,7 +41,7 @@ export const ShoppingCartPage = () => {
 
     const queryString = queryParams.join("&");
 
-    const url = `https://websitedeprueba.com/checkout?${queryString}`;
+    const url = `https://websitedepruebas.com/checkout?${queryString}`;
 
     console.log(url);
   };
