@@ -1,9 +1,7 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchAllProducts } from "../state/thunks/productsThunks";
 import ProductCard from "../common/ProductCard";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { useSelector } from "react-redux";
 
 export const ProductGrid = () => {
   const responsive = {

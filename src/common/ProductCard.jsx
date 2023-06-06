@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 
 const ProductCard = (item) => {
-  console.log(item);
   return (
     <Box w="322.1" h="475.62" margin={10}>
       <Card boxShadow="none">
