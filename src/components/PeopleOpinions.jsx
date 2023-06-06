@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { OpinionCard } from "../common/OpinionCard";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { Box, Stack, Text } from "@chakra-ui/react";
+import { Box, Center, Stack, Text } from "@chakra-ui/react";
 
 export const PeopleOpinions = () => {
   const responsive = {
@@ -48,7 +48,9 @@ export const PeopleOpinions = () => {
         infinite={true}
       >
         {reviews.map((reviews) => (
-          <OpinionCard key={reviews.id} reviews={reviews} />
+          <Center>
+            <OpinionCard key={reviews.id} reviews={reviews} />
+          </Center>
         ))}
       </Carousel>
     </Box>
