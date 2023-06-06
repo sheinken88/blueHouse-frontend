@@ -56,6 +56,8 @@ export const ProductCard = ({ product }) => {
     }
   };
 
+
+
   return (
     <Box maxWidth="321.79px" h="475.62" mb={10} mt={10}>
       {showAlert && (
