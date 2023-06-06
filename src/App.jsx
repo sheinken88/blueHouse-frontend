@@ -26,7 +26,6 @@ function App() {
           {isAuthenticated ? (
             <>
               <Route path="/cart" element={<ShoppingCartPage />} />
-              {/* <Route path='/checkout' element={}/> */}
             </>
           ) : (
             {}

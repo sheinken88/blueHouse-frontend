@@ -1,4 +1,5 @@
-import ProductCard from "../common/ProductCard";
+import { useSelector } from "react-redux";
+import { ProductCard } from "../common/ProductCard";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useSelector } from "react-redux";
@@ -19,7 +20,7 @@ export const ProductGrid = () => {
     },
   };
 
-  const prod = useSelector((state) => state.products.products);
+  const products = useSelector((state) => state.products.products);
   const isLoading = useSelector((state) => state.products.isLoading);
 
   if (isLoading) {
@@ -27,9 +28,14 @@ export const ProductGrid = () => {
   }
 
   return (
-    <Carousel responsive={responsive}>
-      {prod.map((item) => (
-        <ProductCard key={item.id} item={item} />
+    <Carousel
+      responsive={responsive}
+      showDots={true}
+      removeArrowOnDeviceType={["tablet", "mobile", "desktop"]}
+      keyBoardControl={true}
+    >
+      {products.map((product) => (
+        <ProductCard key={product.id} product={product} />
       ))}
     </Carousel>
 
