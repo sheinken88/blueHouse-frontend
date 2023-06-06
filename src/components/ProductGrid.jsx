@@ -2,7 +2,6 @@ import { useSelector } from "react-redux";
 import { ProductCard } from "../common/ProductCard";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { useSelector } from "react-redux";
 
 export const ProductGrid = () => {
   const responsive = {
