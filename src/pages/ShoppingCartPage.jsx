@@ -34,6 +34,18 @@ export const ShoppingCartPage = () => {
     }, 0);
   };
 
+  const handleCheckout = () => {
+    const queryParams = Object.values(cart.items).map(
+      (item) => `productId=${item.id}&qty=${item.quantity}`
+    );
+
+    const queryString = queryParams.join("&");
+
+    const url = `https://websitedepruebas.com/checkout?${queryString}`;
+
+    console.log(url);
+  };
+
   return (
     <Box bg="white" p={5}>
       <Flex justify="space-between" mb={5}>
@@ -51,7 +63,13 @@ export const ShoppingCartPage = () => {
             src={item.image}
             alt={item.name}
           />
-          <Flex direction="column" justify="center" align="flex-start" ml={4}>
+          <Flex
+            direction="column"
+            justify="center"
+            align="flex-start"
+            ml={4}
+            justifyContent="space-between"
+          >
             <Text color="primary" fontSize="m">
               {item.name}
             </Text>
@@ -110,7 +128,7 @@ export const ShoppingCartPage = () => {
           <Text>${getTotalPrice().toFixed(2)}</Text>
         </HStack>
         <Center>
-          <AddToCartButton width="80%" mt="8">
+          <AddToCartButton width="80%" mt="8" onClick={handleCheckout}>
             Checkout
           </AddToCartButton>
         </Center>

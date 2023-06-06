@@ -1,35 +1,10 @@
-/* import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchAllCategories } from "../state/thunks/categoriesThunks";
-import { Stack } from "@chakra-ui/react";
-import { CategoryCard } from "../common/CategoryCard";
-
-export const ShopByCategory = () => {
-  const dispatch = useDispatch();
-  const categories = useSelector((state) => state.categories.categories);
-
-  useEffect(() => {
-    dispatch(fetchAllCategories());
-  }, [dispatch]);
-
-     return (
-    <div>
-      <Stack direction="row">
-        {categories.map((category) => (
-          <CategoryCard key={category.id} category={category} />
-        ))}
-      </Stack>
-    </div>
-  );
-}; */
-
 import { useDispatch, useSelector } from "react-redux";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useEffect } from "react";
 import { fetchAllCategories } from "../state/thunks/categoriesThunks";
 import { CategoryCard } from "../common/CategoryCard";
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 
 export const ShopByCategory = () => {
   const dispatch = useDispatch();
@@ -64,8 +39,16 @@ export const ShopByCategory = () => {
   };
 
   return (
-    <Box maxW="1020px" mx="auto">
-      <Carousel responsive={responsive}>
+    <Box maxW="1500px" mx="auto" p="4">
+      <Text p="4" sx={{ fontSize: 25, fontWeight: 700, color: "#254787" }}>
+        Shop By Top Categories
+      </Text>
+      <Carousel
+        responsive={responsive}
+        removeArrowOnDeviceType={["tablet", "mobile"]}
+        keyBoardControl={true}
+        infinite="true"
+      >
         {categories.map((category) => (
           <CategoryCard key={category.id} category={category} />
         ))}
