@@ -8,6 +8,7 @@ import { About } from "../components/About";
 import { PeopleOpinions } from "../components/PeopleOpinions";
 
 import { NewsLetter } from "../components/NewsLetter";
+
 import { ShopByCategory } from "../components/ShopByCategory";
 import { HeroBanner } from "../components/HeroBanner";
 
