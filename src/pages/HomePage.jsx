@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAllProducts } from "../state/thunks/productsThunks";
+import { fetchAllReviews } from "../state/thunks/reviewsThunks";
 import { ProductGrid } from "../components/ProductGrid";
 import { About } from "../components/About";
+import { PeopleOpinions } from "../components/PeopleOpinions";
 
 export const HomePage = () => {
   const dispatch = useDispatch();
@@ -11,6 +13,7 @@ export const HomePage = () => {
 
   useEffect(() => {
     dispatch(fetchAllProducts());
+    dispatch(fetchAllReviews());
   }, [dispatch]);
 
   if (isLoading) {
@@ -20,11 +23,8 @@ export const HomePage = () => {
   return (
     <>
       <ProductGrid />
-
-      {/* {products.slice(0, 1).map((product) => (
-        <div key={product.id}>{product.name}</div>
-      ))} */}
-    <About/>
+      <PeopleOpinions />
+      <About />
     </>
   );
 };
