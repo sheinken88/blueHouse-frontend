@@ -33,46 +33,49 @@ export const OpinionCard = ({ reviews }) => {
 
   return (
     <Card
-      direction={{ base: "column", sm: "row" }}
-      overflow="hidden"
+      direction={"row"}
+      lineHeight={"short"}
       variant="outline"
       border={"none"}
-      w={2500}
+      maxW={{ base: "900px", md: "2000px" }}
+      maxH={{ base: "116px", md: "205px" }}
+      color={"#254787"}
     >
       <Image
         objectFit="cover"
-        w={205}
-        h={205}
+        w={{ base: "116px", md: "205px" }}
+        h={{ base: "116px", md: "205px" }}
         src={prodURL ? prodURL : imageNotFound}
         alt={reviews.product_name}
       />
-      <Box color={"rgba(37, 71, 135, 1)"}>
-        <CardBody h={205} overflow={"hidden"}>
-          <Text fontWeight={"bold"}>{reviews.reviewer}</Text>
 
-          {reviews.verified ? <Text>(verified owner) - </Text> : <></>}
+      <CardBody overflow={"hidden"}>
+        <Text fontSize={{ base: "13px", md: "20px" }} fontWeight={"semibold"}>
+          {reviews.reviewer}
+        </Text>
 
-          <Text>{dateReview}</Text>
-          <Box alignItems={"center"} mt={2}>
-            <Rating
-              readonly
-              stop={reviews.rating}
-              initialRating={reviews.rating}
-              fullSymbol={
-                <FontAwesomeIcon
-                  icon={faStar}
-                  size="lg"
-                  style={{ color: "#FDB32B" }}
-                />
-              }
-            />
-          </Box>
-          <Text
-            py="2"
-            dangerouslySetInnerHTML={{ __html: reviews.review }}
-          ></Text>
-        </CardBody>
-      </Box>
+        {reviews.verified ? <Text>(verified owner) - </Text> : <></>}
+
+        <Text fontSize={{ base: "13px", md: "20px" }}>{dateReview}</Text>
+        <Box alignItems={"center"} mb={-3}>
+          <Rating
+            readonly
+            stop={reviews.rating}
+            initialRating={reviews.rating}
+            fullSymbol={
+              <FontAwesomeIcon
+                icon={faStar}
+                size={{ base: "xs", md: "lg" }}
+                style={{ color: "#FDB32B" }}
+              />
+            }
+          />
+        </Box>
+        <Text
+          fontSize={{ base: "13px", md: "20px" }}
+          dangerouslySetInnerHTML={{ __html: reviews.review }}
+        ></Text>
+      </CardBody>
     </Card>
   );
 };

@@ -34,8 +34,8 @@ export const FilterSection = () => {
       items: 2,
     },
     mobile: {
-      breakpoint: { max: 425, min: 320 },
-      items: 1,
+      breakpoint: { max: 425, min: 0 },
+      items: 2,
     },
   };
 
@@ -186,8 +186,8 @@ export const FilterSection = () => {
             <Center key={product.id}>
               {isLoading ? (
                 <Spinner
-                  w="321.79px"
-                  h="321.79"
+                  maxW="321.79px"
+                  maxH="321.79px"
                   mb={10}
                   mt={10}
                   thickness="4px"
@@ -203,7 +203,11 @@ export const FilterSection = () => {
           ))}
         </Carousel>
 
-        <Text color="#22488B" textAlign={"center"}>
+        <Text
+          color="#22488B"
+          textAlign={"center"}
+          fontSize={{ base: "18px", md: "22px" }}
+        >
           Shop More {selected}
         </Text>
       </Tabs>

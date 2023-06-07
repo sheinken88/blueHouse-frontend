@@ -59,19 +59,17 @@ export const ProductCard = ({ product }) => {
 
   return (
     <Box
-
-      maxW={{ base: "md", sm: "lg", md: "xl" }}
-      borderWidth="1px"
-      borderRadius="lg"
-      overflow="hidden"
+      maxW={{ base: "148px", md: "322px" }}
+      maxH={{ base: "230px", md: "475px" }}
+      p={0}
+      // borderRadius="lg"
+      // overflow="hidden"
       display="flex"
-      flexDirection={{ base: "column", md: "row" }}
-
+      // flexDirection={{ base: "column", md: "row" }}
       mb={10}
       mt={10}
       as={Link}
       to={`/product/${product.id}`}
-
     >
       {showAlert && (
         <Alert status="success">
@@ -79,7 +77,7 @@ export const ProductCard = ({ product }) => {
           Product successfully added!
         </Alert>
       )}
-      <Card boxShadow="none" flex={{ base: "initial", md: 1 }}>
+      <Card boxShadow="none">
         <Box position="relative">
           <IconButton
             icon={<GrFavorite />}
@@ -115,14 +113,15 @@ export const ProductCard = ({ product }) => {
             //EN CASO DE TENER DESCUENTO SE APLICA ESTE TERNARIO:
             product.on_sale == true ? (
               <Badge
-                h={"75px"}
-                w={"75px"}
+                w={{ base: "40px", md: "80px" }}
+                h={{ base: "40px", md: "80px" }}
+                fontSize={{ base: "10px", md: "25px" }}
                 textColor={"white"}
                 borderRadius="full"
-                backgroundColor={"tomato"}
+                backgroundColor={"#EA6244"}
                 position="absolute"
-                bottom={5}
-                right={5}
+                bottom={{ base: 0, md: 3 }}
+                right={{ base: 0, md: 3 }}
                 zIndex={1}
                 display="flex"
                 justifyContent="center"
@@ -136,7 +135,9 @@ export const ProductCard = ({ product }) => {
             )
           }
           <Image
-            flex={{ base: "initial", md: 1 }}
+            w={{ base: "148px", md: "322px" }}
+            h={{ base: "148px", md: "322px" }}
+            // flex={{ base: "initial", md: 1 }}
             objectFit="cover"
             objectPosition="center"
             src={product.images[0].src}
@@ -144,88 +145,86 @@ export const ProductCard = ({ product }) => {
           />
         </Box>
         <CardBody>
-          <Stack>
-            <Heading
-              fontWeight="normal"
-              color="rgba(37, 71, 135, 1)"
-              fontSize={25}
-              h={"44.58px"}
-              w={"321.99px"}
-              overflow="hidden"
-            >
-              {product.name}
-            </Heading>
+          <Heading
+            fontWeight="normal"
+            color="#254788"
+            fontSize={{ base: "13px", md: "25px" }}
+            textAlign={"justify"}
+            maxH={{ base: "27px", md: "70px" }}
+            maxW={{ base: "148px", md: "322px" }}
+            overflow="hidden"
+            lineHeight={"shorter"}
+          >
+            {product.name}
+          </Heading>
 
-            {
-              //EN CASO DE TENER DESCUENTO SE APLICA ESTE TERNARIO:
-              product.on_sale == false ? (
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
+          {
+            //EN CASO DE TENER DESCUENTO SE APLICA ESTE TERNARIO:
+            product.on_sale == false ? (
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Text
+                  color="rgba(37, 71, 135, 1)"
+                  fontSize={{ base: "12px", md: "28px" }}
+                  fontWeight="semibold"
+                  position="relative"
                 >
-                  <Text
-                    color="rgba(37, 71, 135, 1)"
-                    fontSize={28}
-                    fontWeight="semibold"
-                    position="relative"
-                    h={"20.04px"}
-                  >
-                    € {product.price}
-                  </Text>
-                </Box>
-              ) : (
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
+                  € {product.price}
+                </Text>
+              </Box>
+            ) : (
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Text
+                  color="lightgrey"
+                  fontSize={{ base: "12px", md: "28px" }}
+                  fontWeight="semibold"
+                  position="relative"
+                  h={5}
                 >
-                  <Text
-                    color="grey"
-                    opacity={"75%"}
-                    fontSize={28}
-                    fontWeight="semibold"
-                    position="relative"
-                    h={5}
-                  >
-                    € {product.regular_price}
-                    <Box
-                      position="absolute"
-                      top={4}
-                      left={0}
-                      right={0}
-                      height="2px"
-                      backgroundColor="rgba(37, 71, 135, 1)"
-                      transform="rotate(20deg)"
-                      transformOrigin="center"
-                    />
-                  </Text>
-                  <Text
-                    color="rgba(37, 71, 135, 1)"
-                    fontSize={28}
-                    fontWeight="semibold"
-                    position="relative"
-                    h={5}
-                  >
-                    € {product.sale_price}
-                  </Text>
-                  <Text
-                    h={5}
-                    color="rgba(234, 98, 68, 1)"
-                    fontWeight="bold"
-                    fontSize={20}
-                  >
-                    Sale
-                  </Text>
-                </Box>
-              )
-            }
-          </Stack>
+                  € {product.regular_price}
+                  <Box
+                    position="absolute"
+                    top={{ base: "7px", md: "20px" }}
+                    left={{ base: -1, md: -1 }}
+                    right={{ base: -1, md: -1 }}
+                    height={{ base: "2px", md: "5px" }}
+                    backgroundColor="#254787"
+                    transform="rotate(20deg)"
+                    transformOrigin="center"
+                  />
+                </Text>
+                <Text
+                  color="#254787"
+                  fontSize={{ base: "12px", md: "28px" }}
+                  fontWeight="semibold"
+                  position="relative"
+                  h={5}
+                >
+                  € {product.sale_price}
+                </Text>
+                <Text
+                  h={5}
+                  color="rgba(234, 98, 68, 1)"
+                  fontWeight="bold"
+                  fontSize={{ base: "12px", md: "28px" }}
+                >
+                  Sale
+                </Text>
+              </Box>
+            )
+          }
         </CardBody>
         <CardFooter justifyContent="left">
           <Text
-            color="rgba(179, 188, 245, 1)"
-            fontSize={20}
+            color="#B3BCF5"
+            fontSize={{ base: "12px", md: "20px" }}
             fontWeight="bold"
             textTransform={"uppercase"}
           >

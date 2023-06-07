@@ -32,8 +32,8 @@ export const PeopleOpinions = () => {
       <Box m={5}>
         <Stack>
           <Text
-            fontWeight={"bold"}
-            fontSize={"40"}
+            fontWeight={{ base: "semibold", md: "bold" }}
+            fontSize={{ base: "18px", md: "40px" }}
             color={"rgba(37, 71, 135, 1)"}
           >
             What People are Saying

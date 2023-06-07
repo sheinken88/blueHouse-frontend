@@ -20,7 +20,7 @@ export const ProductGrid = () => {
     },
     mobile: {
       breakpoint: { max: 425, min: 0 },
-      items: 1,
+      items: 2,
     },
   };
 
