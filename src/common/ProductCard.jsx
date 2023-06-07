@@ -19,6 +19,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addItemToCart } from "../state/slices/cartSlice";
+import { Link } from "react-router-dom";
 
 export const ProductCard = ({ product }) => {
   const cartItems = useSelector((state) => state.cart.items);
@@ -58,12 +59,19 @@ export const ProductCard = ({ product }) => {
 
   return (
     <Box
+
       maxW={{ base: "md", sm: "lg", md: "xl" }}
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
       display="flex"
       flexDirection={{ base: "column", md: "row" }}
+
+      mb={10}
+      mt={10}
+      as={Link}
+      to={`/product/${product.id}`}
+
     >
       {showAlert && (
         <Alert status="success">
