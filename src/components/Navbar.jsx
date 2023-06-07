@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCategories } from "../state/thunks/categoriesThunks";
 
 import logo_blueHouse from "../assets/logo_blueHouse.svg";
+import { ImageMenuItem } from "../common/ImageMenuItem";
 
 export const Navbar = () => {
   const bgColor = useColorModeValue("secondary", "primary");
@@ -76,7 +77,9 @@ export const Navbar = () => {
             />
             <MenuList>
               {categories.map((category) => (
-                <MenuItem key={category.id}>{category.name}</MenuItem>
+                <MenuItem key={category.id}>
+                  <ImageMenuItem category={category}/>
+                  {category.name}</MenuItem>
               ))}
             </MenuList>
           </Menu>
