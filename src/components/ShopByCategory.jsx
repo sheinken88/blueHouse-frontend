@@ -4,7 +4,7 @@ import "react-multi-carousel/lib/styles.css";
 import { useEffect } from "react";
 import { fetchAllCategories } from "../state/thunks/categoriesThunks";
 import { CategoryCard } from "../common/CategoryCard";
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 
 export const ShopByCategory = () => {
   const dispatch = useDispatch();
@@ -39,8 +39,16 @@ export const ShopByCategory = () => {
   };
 
   return (
-    <Box maxW="1020px" mx="auto">
-      <Carousel responsive={responsive}>
+    <Box maxW="1500px" mx="auto" p="4">
+      <Text p="4" sx={{ fontSize: 25, fontWeight: 700, color: "#254787" }}>
+        Shop By Top Categories
+      </Text>
+      <Carousel
+        responsive={responsive}
+        removeArrowOnDeviceType={["tablet", "mobile"]}
+        keyBoardControl={true}
+        infinite="true"
+      >
         {categories.map((category) => (
           <CategoryCard key={category.id} category={category} />
         ))}

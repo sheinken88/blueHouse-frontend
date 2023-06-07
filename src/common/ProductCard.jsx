@@ -180,7 +180,7 @@ export const ProductCard = ({ product }) => {
                     position="relative"
                     h={5}
                   >
-                    € {product.price}
+                    € {product.regular_price}
                     <Box
                       position="absolute"
                       top={4}
