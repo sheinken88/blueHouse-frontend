@@ -56,8 +56,6 @@ export const ProductCard = ({ product }) => {
     }
   };
 
-
-
   return (
     <Box maxWidth="321.79px" h="475.62" mb={10} mt={10}>
       {showAlert && (
@@ -174,7 +172,7 @@ export const ProductCard = ({ product }) => {
                     position="relative"
                     h={5}
                   >
-                    € {product.price}
+                    € {product.regular_price}
                     <Box
                       position="absolute"
                       top={4}

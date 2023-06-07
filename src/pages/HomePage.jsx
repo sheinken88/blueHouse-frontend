@@ -4,7 +4,7 @@ import { fetchAllProducts } from "../state/thunks/productsThunks";
 import { fetchAllReviews } from "../state/thunks/reviewsThunks";
 import { ProductGrid } from "../components/ProductGrid";
 import { About } from "../components/About";
-
+import { FilterSection } from "../components/FilterSection";
 import { PeopleOpinions } from "../components/PeopleOpinions";
 
 import { NewsLetter } from "../components/NewsLetter";
@@ -29,6 +29,7 @@ export const HomePage = () => {
     <>
       <HeroBanner />
       <ShopByCategory />
+      <FilterSection />
       <ProductGrid />
       <PeopleOpinions />
       <About />
