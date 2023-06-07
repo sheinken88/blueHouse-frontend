@@ -40,7 +40,7 @@ export const ProductGrid = () => {
       focusOnSelect={true}
     >
       {products.map((product) => (
-        <Center>
+        <Center key={product.id}>
           <ProductCard key={product.id} product={product} />
         </Center>
       ))}

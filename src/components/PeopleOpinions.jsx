@@ -48,7 +48,7 @@ export const PeopleOpinions = () => {
         infinite={true}
       >
         {reviews.map((reviews) => (
-          <Center>
+          <Center key={reviews.id}>
             <OpinionCard key={reviews.id} reviews={reviews} />
           </Center>
         ))}
