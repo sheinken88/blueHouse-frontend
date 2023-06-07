@@ -61,7 +61,7 @@ export const OpinionCard = ({ reviews }) => {
               fullSymbol={
                 <FontAwesomeIcon
                   icon={faStar}
-                  size="l"
+                  size="lg"
                   style={{ color: "#FDB32B" }}
                 />
               }

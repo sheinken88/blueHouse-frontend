@@ -34,12 +34,8 @@ export const BrandClaims = () => {
       <Wrap spacing="20px" justify="center" sx={{ my: 7 }}>
         {!clickMore
           ? SixBlueLabels.map((bluelabel) => (
-              <WrapItem>
-                <BlueLabelsBox
-                  key={bluelabel.id}
-                  name={bluelabel.name}
-                  color={bluelabel.color}
-                />
+              <WrapItem key={bluelabel.id}>
+                <BlueLabelsBox name={bluelabel.name} color={bluelabel.color} />
               </WrapItem>
             ))
           : AllBlueLabels.map((bluelabel) => (

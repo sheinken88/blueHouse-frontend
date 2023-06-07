@@ -59,12 +59,19 @@ export const ProductCard = ({ product }) => {
 
   return (
     <Box
-      maxWidth="321.79px"
-      h="475.62"
+
+      maxW={{ base: "md", sm: "lg", md: "xl" }}
+      borderWidth="1px"
+      borderRadius="lg"
+      overflow="hidden"
+      display="flex"
+      flexDirection={{ base: "column", md: "row" }}
+
       mb={10}
       mt={10}
       as={Link}
       to={`/product/${product.id}`}
+
     >
       {showAlert && (
         <Alert status="success">
@@ -72,7 +79,7 @@ export const ProductCard = ({ product }) => {
           Product successfully added!
         </Alert>
       )}
-      <Card boxShadow="none">
+      <Card boxShadow="none" flex={{ base: "initial", md: 1 }}>
         <Box position="relative">
           <IconButton
             icon={<GrFavorite />}
@@ -129,8 +136,9 @@ export const ProductCard = ({ product }) => {
             )
           }
           <Image
-            w="321.79px"
-            h="321.79px"
+            flex={{ base: "initial", md: 1 }}
+            objectFit="cover"
+            objectPosition="center"
             src={product.images[0].src}
             alt={product.name}
           />
