@@ -4,15 +4,22 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Center } from "@chakra-ui/react";
 
-
 export const ProductGrid = () => {
   const responsive = {
     desktop: {
-      breakpoint: { max: 2560, min: 768 },
+      breakpoint: { max: 3500, min: 1441 },
       items: 5,
     },
+    laptop: {
+      breakpoint: { max: 769, min: 1440 },
+      items: 3,
+    },
+    tablet: {
+      breakpoint: { max: 768, min: 426 },
+      items: 2,
+    },
     mobile: {
-      breakpoint: { max: 768, min: 0 },
+      breakpoint: { max: 425, min: 0 },
       items: 1,
     },
   };
@@ -27,9 +34,10 @@ export const ProductGrid = () => {
   return (
     <Carousel
       responsive={responsive}
-      showDots={true}
-      removeArrowOnDeviceType={["tablet", "mobile", "desktop"]}
+      removeArrowOnDeviceType={["tablet", "mobile"]}
       keyBoardControl={true}
+      infinite={true}
+      focusOnSelect={true}
     >
       {products.map((product) => (
         <Center>
@@ -37,6 +45,5 @@ export const ProductGrid = () => {
         </Center>
       ))}
     </Carousel>
-
   );
 };

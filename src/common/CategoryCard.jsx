@@ -1,7 +1,7 @@
 import { Image, Center, Text } from "@chakra-ui/react";
 
 export const CategoryCard = (category) => {
-  console.log(category.category);
+  // console.log(category.category);
 
   const image = category.category.image
     ? category.category.image.src
