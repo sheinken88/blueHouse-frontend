@@ -60,7 +60,7 @@ export const ProductCard = ({ product }) => {
   return (
     <Box
       maxW={{ base: "148px", md: "322px" }}
-      maxH={{ base: "230px", md: "475px" }}
+      maxH={{ base: "230px", md: "490px" }}
       p={0}
       // borderRadius="lg"
       // overflow="hidden"
@@ -148,9 +148,10 @@ export const ProductCard = ({ product }) => {
           <Heading
             fontWeight="normal"
             color="#254788"
-            fontSize={{ base: "13px", md: "25px" }}
+            fontSize={{ base: "7px", md: "20px" }}
             textAlign={"justify"}
-            maxH={{ base: "27px", md: "70px" }}
+            h={{ base: "27px", md: "80px" }}
+            maxH={{ base: "27px", md: "80px" }}
             maxW={{ base: "148px", md: "322px" }}
             overflow="hidden"
             lineHeight={"shorter"}
@@ -161,29 +162,33 @@ export const ProductCard = ({ product }) => {
           {
             //EN CASO DE TENER DESCUENTO SE APLICA ESTE TERNARIO:
             product.on_sale == false ? (
-              <Box
-                display="flex"
+              <Stack
+                direction={"row"}
                 justifyContent="space-between"
                 alignItems="center"
+                spacing={2}
+                mt={5}
               >
                 <Text
-                  color="rgba(37, 71, 135, 1)"
-                  fontSize={{ base: "12px", md: "28px" }}
+                  color="#254787"
+                  fontSize={{ base: "9px", md: "25px" }}
                   fontWeight="semibold"
                   position="relative"
                 >
                   € {product.price}
                 </Text>
-              </Box>
+              </Stack>
             ) : (
-              <Box
-                display="flex"
+              <Stack
+                direction={"row"}
                 justifyContent="space-between"
                 alignItems="center"
+                spacing={2}
+                mt={5}
               >
                 <Text
                   color="lightgrey"
-                  fontSize={{ base: "12px", md: "28px" }}
+                  fontSize={{ base: "9px", md: "25px" }}
                   fontWeight="semibold"
                   position="relative"
                   h={5}
@@ -192,9 +197,9 @@ export const ProductCard = ({ product }) => {
                   <Box
                     position="absolute"
                     top={{ base: "7px", md: "20px" }}
-                    left={{ base: -1, md: -1 }}
-                    right={{ base: -1, md: -1 }}
-                    height={{ base: "2px", md: "5px" }}
+                    left={{ base: 0, md: -1 }}
+                    right={{ base: 0, md: -1 }}
+                    height={{ base: "1px", md: "5px" }}
                     backgroundColor="#254787"
                     transform="rotate(20deg)"
                     transformOrigin="center"
@@ -202,7 +207,7 @@ export const ProductCard = ({ product }) => {
                 </Text>
                 <Text
                   color="#254787"
-                  fontSize={{ base: "12px", md: "28px" }}
+                  fontSize={{ base: "9px", md: "25px" }}
                   fontWeight="semibold"
                   position="relative"
                   h={5}
@@ -213,11 +218,11 @@ export const ProductCard = ({ product }) => {
                   h={5}
                   color="rgba(234, 98, 68, 1)"
                   fontWeight="bold"
-                  fontSize={{ base: "12px", md: "28px" }}
+                  fontSize={{ base: "10px", md: "25px" }}
                 >
                   Sale
                 </Text>
-              </Box>
+              </Stack>
             )
           }
         </CardBody>
