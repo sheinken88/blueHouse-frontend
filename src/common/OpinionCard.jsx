@@ -37,8 +37,8 @@ export const OpinionCard = ({ reviews }) => {
       lineHeight={"short"}
       variant="outline"
       border={"none"}
-      maxW={{ base: "900px", md: "2000px" }}
-      maxH={{ base: "116px", md: "205px" }}
+      w={{ base: "900px", md: "1500px" }}
+      h={{ base: "116px", md: "205px" }}
       color={"#254787"}
     >
       <Image
@@ -65,7 +65,7 @@ export const OpinionCard = ({ reviews }) => {
             fullSymbol={
               <FontAwesomeIcon
                 icon={faStar}
-                size={{ base: "xs", md: "lg" }}
+                // size={{ base: "xs", md: "lg" }}
                 style={{ color: "#FDB32B" }}
               />
             }

@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { ProductCard } from "../common/ProductCard";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { Center } from "@chakra-ui/react";
+import { Box, Center, Heading } from "@chakra-ui/react";
 
 export const ProductGrid = () => {
   const responsive = {
@@ -32,18 +32,23 @@ export const ProductGrid = () => {
   }
 
   return (
-    <Carousel
-      responsive={responsive}
-      removeArrowOnDeviceType={["tablet", "mobile"]}
-      keyBoardControl={true}
-      infinite={true}
-      focusOnSelect={true}
-    >
-      {products.map((product) => (
-        <Center key={product.id}>
-          <ProductCard key={product.id} product={product} />
-        </Center>
-      ))}
-    </Carousel>
+    <Box mt={"50px"} color={"#254787"}>
+      <Heading fontSize={{ base: "18px", md: "40px" }} fontWeight={"semibold"}>
+        Summer Essentials
+      </Heading>
+      <Carousel
+        responsive={responsive}
+        removeArrowOnDeviceType={["tablet", "mobile"]}
+        keyBoardControl={true}
+        infinite={true}
+        focusOnSelect={true}
+      >
+        {products.map((product) => (
+          <Center key={product.id}>
+            <ProductCard key={product.id} product={product} />
+          </Center>
+        ))}
+      </Carousel>
+    </Box>
   );
 };
