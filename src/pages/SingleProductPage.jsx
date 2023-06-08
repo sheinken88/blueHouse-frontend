@@ -4,12 +4,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchSingleProduct } from "../state/thunks/productsThunks";
 import { Image, Text } from "@chakra-ui/react";
+import { Review } from "../components/singleProduct/Review";
 
 export const SingleProductPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const product = useSelector((state) => state.products.product);
-  console.log("PRODUCT", product);
 
   useEffect(() => {
     dispatch(fetchSingleProduct(id));
@@ -27,6 +27,7 @@ export const SingleProductPage = () => {
   return (
     <>
       <PurchaseSettings product={product} />
+      <Review />
     </>
   );
 };

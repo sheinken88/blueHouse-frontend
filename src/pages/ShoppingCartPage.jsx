@@ -18,19 +18,26 @@ export const ShoppingCartPage = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
 
-  const handleRemove = (id) => {
-    dispatch(removeItemFromCart(id));
+  const handleRemove = (id, attribute) => {
+    console.log("id:", id, "attribute:", attribute);
+    dispatch(removeItemFromCart({ id, attribute: attribute ? attribute : "" }));
   };
 
-  const handleQuantityChange = (id, quantity) => {
+  const handleQuantityChange = (id, quantity, attribute) => {
     if (quantity > 0) {
-      dispatch(updateQuantity({ id, quantity }));
+      dispatch(
+        updateQuantity({
+          id,
+          quantity,
+          attribute: attribute ? attribute : "",
+        })
+      );
     }
   };
 
   const getTotalPrice = () => {
     return Object.values(cart.items).reduce((acc, item) => {
-      return acc + item.price * item.quantity;
+      return acc + Number(item.price) * Number(item.quantity);
     }, 0);
   };
 
@@ -73,6 +80,13 @@ export const ShoppingCartPage = () => {
             <Text color="primary" fontSize="m">
               {item.name}
             </Text>
+
+            {item.attribute && (
+              <Text color="black" fontSize="sm">
+                option: {item.attribute}
+              </Text>
+            )}
+
             <Flex align="center" mt={2}>
               <IconButton
                 icon={<AiOutlineMinus boxSize="10px" />}
@@ -81,7 +95,11 @@ export const ShoppingCartPage = () => {
                 bgColor="secondary"
                 onClick={() =>
                   item.quantity > 1
-                    ? handleQuantityChange(item.id, item.quantity - 1)
+                    ? handleQuantityChange(
+                        item.id,
+                        item.quantity - 1,
+                        item.attribute
+                      )
                     : null
                 }
               />
@@ -91,7 +109,13 @@ export const ShoppingCartPage = () => {
                 size="sm"
                 color="primary"
                 bgColor="secondary"
-                onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                onClick={() =>
+                  handleQuantityChange(
+                    item.id,
+                    item.quantity + 1,
+                    item.attribute
+                  )
+                }
               />
             </Flex>
           </Flex>
@@ -110,7 +134,7 @@ export const ShoppingCartPage = () => {
               borderRadius="full"
               bgColor="secondary"
               color="primary"
-              onClick={() => handleRemove(item.id)}
+              onClick={() => handleRemove(item.id, item.attribute)}
               ml={4}
               size="sm"
             />

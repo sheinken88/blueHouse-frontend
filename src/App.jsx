@@ -7,14 +7,31 @@ import { LoginPage } from "../src/pages/LoginPage";
 import { SingleProductPage } from "../src/pages/SingleProductPage";
 import { ShoppingCartPage } from "../src/pages/ShoppingCartPage";
 import { NotFoundPage } from "../src/pages/NotFoundPage";
+import { NewsLetter } from "./components/NewsLetter";
+import { useSelector } from "react-redux";
+import { Alert, AlertIcon } from "@chakra-ui/react";
 
 function App() {
   // const isAuthenticated = useSelector((state) => state.user.isAuthenticated)
   const isAuthenticated = true;
 
+  const alert = useSelector((state) => state.alerts);
+
   return (
     <>
       <BrowserRouter>
+        {alert && (
+          <Alert
+            status={alert.status}
+            position="fixed"
+            bottom="0"
+            w="100%"
+            zIndex="9999"
+          >
+            <AlertIcon />
+            {alert.message}
+          </Alert>
+        )}
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -31,6 +48,7 @@ function App() {
             {}
           )}
         </Routes>
+        <NewsLetter />
         <Footer />
       </BrowserRouter>
     </>

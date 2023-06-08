@@ -18,6 +18,7 @@ import {
   VStack,
   Select,
   Center,
+  Divider,
 } from "@chakra-ui/react";
 import { GrFavorite } from "react-icons/gr";
 import { FaShoppingCart } from "react-icons/fa";
@@ -30,12 +31,15 @@ import { faStar as emptyStar } from "@fortawesome/free-regular-svg-icons";
 import { useDisclosure } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { addItemToCart, updateQuantity } from "../../state/slices/cartSlice";
+import { setAlert, clearAlert } from "../../state/slices/alertSlice";
 
 export const PurchaseSettings = ({ product }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isScrolled, setIsScrolled] = useState(false);
   const [count, setCount] = useState(1);
-  const [showAlert, setShowAlert] = useState(false);
+  const [selectedAttribute, setSelectedAttribute] = useState(null);
+
+  // const [showAlert, setShowAlert] = useState(false);
   const reviews = useSelector((state) => state.reviews.reviews);
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
@@ -55,7 +59,6 @@ export const PurchaseSettings = ({ product }) => {
   };
 
   useEffect(() => {
-    console.log("REVIEWS: ", reviews);
     window.addEventListener("scroll", checkScroll);
     return () => {
       window.removeEventListener("scroll", checkScroll);
@@ -63,29 +66,45 @@ export const PurchaseSettings = ({ product }) => {
   }, []);
 
   const handleAddToCart = () => {
-    if (count <= 0) {
-      alert("Please select a quantity");
+    console.log("selectedAttribute:", selectedAttribute);
+    if (product.attributes.length > 0 && !selectedAttribute) {
+      dispatch(
+        setAlert({
+          message: "Please select an option before adding to cart",
+          status: "warning",
+        })
+      );
+      setTimeout(() => {
+        dispatch(clearAlert());
+      }, 3000);
       return;
     }
+
     const item = {
       id: product.id,
       name: product.name,
       price: product.price,
       image: product.images[0].src,
       quantity: count > 0 ? count : 1,
+      attribute: selectedAttribute,
     };
 
     const existingItem = cartItems[item.id];
 
     if (existingItem) {
-      alert("Item is already in the cart");
+      dispatch(
+        setAlert({ message: "Item is already in the cart", status: "warning" })
+      );
     } else {
       dispatch(addItemToCart(item));
 
-      setShowAlert(true);
-
-      setTimeout(() => setShowAlert(false), 3000);
+      dispatch(
+        setAlert({ message: "Product successfully added!", status: "success" })
+      );
     }
+    setTimeout(() => {
+      dispatch(clearAlert());
+    }, 3000);
   };
 
   return (
@@ -219,18 +238,37 @@ export const PurchaseSettings = ({ product }) => {
               )}
             </HStack>
 
-            <Select
-              placeholder="Choose an option"
-              color="gray"
-              mt={8}
-              borderRadius={30}
-            >
-              {product.attributes[0].options.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </Select>
+            <Box>
+              {product.attributes.length > 0 ? (
+                <Select
+                  placeholder="Choose an option"
+                  color="gray"
+                  mt={8}
+                  borderRadius={30}
+                  onChange={(e) => {
+                    console.log("e:", e.target.value);
+                    setSelectedAttribute(e.target.value);
+                  }}
+                >
+                  {product.attributes[0].options.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                    // <option
+                    //   key={option}
+                    //   value={{
+                    //     name: product.attributes[0].name,
+                    //     option: option,
+                    //   }}
+                    // >
+                    //   {option}
+                    // </option>
+                  ))}
+                </Select>
+              ) : (
+                <></>
+              )}
+            </Box>
 
             <Flex mt={8}>
               <IconButton
@@ -279,12 +317,50 @@ export const PurchaseSettings = ({ product }) => {
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
+                  border: "none",
+                  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
                 }}
                 onClick={handleAddToCart}
               >
                 <FaShoppingCart style={{ marginRight: "10px" }} /> add to cart
               </AddToCartButton>
-              <Text>...</Text>
+            </Flex>
+            <Flex direction="column" mt={10} textAlign="left">
+              <Text color="primary">
+                Order before 15:00 hs and receive between <strong>19/04</strong>{" "}
+                and <strong>21/04</strong>
+              </Text>
+              <Divider
+                borderColor="gray.300"
+                w="95%"
+                alignSelf="center"
+                mt={2}
+                mb={5}
+              />
+              <Text color="primary" fontWeight="bold">
+                Return paid by customer.
+              </Text>
+              <Divider
+                borderColor="gray.300"
+                w="95%"
+                alignSelf="center"
+                mt={2}
+                mb={5}
+              />
+              <Text color="primary">
+                <strong>14 days</strong> to change your mind
+              </Text>
+              <Divider
+                borderColor="gray.300"
+                w="95%"
+                alignSelf="center"
+                mt={2}
+                mb={5}
+              />
+              <Text color="primary">
+                This store offers Free Shipping for orders over{" "}
+                <strong>€35</strong>
+              </Text>
             </Flex>
           </Box>
         )}

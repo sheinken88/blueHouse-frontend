@@ -14,11 +14,13 @@ import {
   Tooltip,
   Alert,
   AlertIcon,
+  Toast,
 } from "@chakra-ui/react";
 import { FaShoppingCart } from "react-icons/fa";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addItemToCart } from "../state/slices/cartSlice";
+import { setAlert, clearAlert } from "../state/slices/alertSlice";
 import { Link } from "react-router-dom";
 
 export const ProductCard = ({ product }) => {
@@ -29,11 +31,33 @@ export const ProductCard = ({ product }) => {
 
   const [showAlert, setShowAlert] = useState(false);
 
+  const handleAddToFavorite = (e) => {
+    e.preventDefault();
+    dispatch(
+      setAlert({
+        message: "Product successfully added to favorites!",
+        status: "success",
+      })
+    );
+    setTimeout(() => {
+      dispatch(clearAlert());
+    }, 3000);
+  };
+
   const handleAddToCart = (event) => {
     event.preventDefault();
     if (!isAuthenticated) {
       alert("Login to add items to your cart");
       return;
+    }
+
+    let option = null;
+    if (
+      product.attributes &&
+      product.attributes.length > 0 &&
+      product.attributes[0].options.length > 0
+    ) {
+      option = product.attributes[0].options[0];
     }
 
     const item = {
@@ -42,25 +66,31 @@ export const ProductCard = ({ product }) => {
       price: product.price,
       image: product.images[0].src,
       quantity: 1,
+      attribute: option,
     };
 
     const existingItem = cartItems[item.id];
 
     if (existingItem) {
-      alert("Item is already in the cart");
+      dispatch(
+        setAlert({ message: "Item is already in the cart", status: "warning" })
+      );
     } else {
       dispatch(addItemToCart(item));
 
-      setShowAlert(true);
-
-      setTimeout(() => setShowAlert(false), 3000);
+      dispatch(
+        setAlert({ message: "Product successfully added!", status: "success" })
+      );
     }
+    setTimeout(() => {
+      dispatch(clearAlert());
+    }, 3000);
   };
 
   return (
     <Box
       maxW={{ base: "148px", md: "322px" }}
-      maxH={{ base: "230px", md: "475px" }}
+      maxH={{ base: "230px", md: "490px" }}
       p={0}
       // borderRadius="lg"
       // overflow="hidden"
@@ -71,12 +101,12 @@ export const ProductCard = ({ product }) => {
       as={Link}
       to={`/product/${product.id}`}
     >
-      {showAlert && (
+      {/* {showAlert && (
         <Alert status="success">
           <AlertIcon />
           Product successfully added!
         </Alert>
-      )}
+      )} */}
       <Card boxShadow="none">
         <Box position="relative">
           <IconButton
@@ -86,6 +116,7 @@ export const ProductCard = ({ product }) => {
             top={0}
             left={0}
             zIndex={1}
+            onClick={handleAddToFavorite}
           />
           <Tooltip
             label="Add to cart"
@@ -148,9 +179,10 @@ export const ProductCard = ({ product }) => {
           <Heading
             fontWeight="normal"
             color="#254788"
-            fontSize={{ base: "13px", md: "25px" }}
+            fontSize={{ base: "7px", md: "20px" }}
             textAlign={"justify"}
-            maxH={{ base: "27px", md: "70px" }}
+            h={{ base: "27px", md: "80px" }}
+            maxH={{ base: "27px", md: "80px" }}
             maxW={{ base: "148px", md: "322px" }}
             overflow="hidden"
             lineHeight={"shorter"}
@@ -161,29 +193,33 @@ export const ProductCard = ({ product }) => {
           {
             //EN CASO DE TENER DESCUENTO SE APLICA ESTE TERNARIO:
             product.on_sale == false ? (
-              <Box
-                display="flex"
+              <Stack
+                direction={"row"}
                 justifyContent="space-between"
                 alignItems="center"
+                spacing={2}
+                mt={5}
               >
                 <Text
-                  color="rgba(37, 71, 135, 1)"
-                  fontSize={{ base: "12px", md: "28px" }}
+                  color="#254787"
+                  fontSize={{ base: "9px", md: "25px" }}
                   fontWeight="semibold"
                   position="relative"
                 >
                   € {product.price}
                 </Text>
-              </Box>
+              </Stack>
             ) : (
-              <Box
-                display="flex"
+              <Stack
+                direction={"row"}
                 justifyContent="space-between"
                 alignItems="center"
+                spacing={2}
+                mt={5}
               >
                 <Text
                   color="lightgrey"
-                  fontSize={{ base: "12px", md: "28px" }}
+                  fontSize={{ base: "9px", md: "25px" }}
                   fontWeight="semibold"
                   position="relative"
                   h={5}
@@ -192,9 +228,9 @@ export const ProductCard = ({ product }) => {
                   <Box
                     position="absolute"
                     top={{ base: "7px", md: "20px" }}
-                    left={{ base: -1, md: -1 }}
-                    right={{ base: -1, md: -1 }}
-                    height={{ base: "2px", md: "5px" }}
+                    left={{ base: 0, md: -1 }}
+                    right={{ base: 0, md: -1 }}
+                    height={{ base: "1px", md: "5px" }}
                     backgroundColor="#254787"
                     transform="rotate(20deg)"
                     transformOrigin="center"
@@ -202,7 +238,7 @@ export const ProductCard = ({ product }) => {
                 </Text>
                 <Text
                   color="#254787"
-                  fontSize={{ base: "12px", md: "28px" }}
+                  fontSize={{ base: "9px", md: "25px" }}
                   fontWeight="semibold"
                   position="relative"
                   h={5}
@@ -213,11 +249,11 @@ export const ProductCard = ({ product }) => {
                   h={5}
                   color="rgba(234, 98, 68, 1)"
                   fontWeight="bold"
-                  fontSize={{ base: "12px", md: "28px" }}
+                  fontSize={{ base: "10px", md: "25px" }}
                 >
                   Sale
                 </Text>
-              </Box>
+              </Stack>
             )
           }
         </CardBody>
