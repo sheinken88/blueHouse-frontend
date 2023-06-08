@@ -16,23 +16,42 @@ import {
   ModalCloseButton,
   Button,
   VStack,
+  Select,
+  Center,
 } from "@chakra-ui/react";
 import { GrFavorite } from "react-icons/gr";
+import { FaShoppingCart } from "react-icons/fa";
 import { AddToCartButton } from "../../common/Buttons";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Rating from "react-rating";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as fullStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as emptyStar } from "@fortawesome/free-regular-svg-icons";
 import { useDisclosure } from "@chakra-ui/react";
+import { AddIcon, MinusIcon } from "@chakra-ui/icons";
+import { addItemToCart, updateQuantity } from "../../state/slices/cartSlice";
 
 export const PurchaseSettings = ({ product }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [count, setCount] = useState(1);
+  const [showAlert, setShowAlert] = useState(false);
   const reviews = useSelector((state) => state.reviews.reviews);
+  const cartItems = useSelector((state) => state.cart.items);
+  const dispatch = useDispatch();
 
   const checkScroll = () => {
     setIsScrolled(window.scrollY > 0);
+  };
+
+  const increment = () => {
+    setCount(count + 1);
+  };
+
+  const decrement = () => {
+    if (count > 0) {
+      setCount(count - 1);
+    }
   };
 
   useEffect(() => {
@@ -42,6 +61,32 @@ export const PurchaseSettings = ({ product }) => {
       window.removeEventListener("scroll", checkScroll);
     };
   }, []);
+
+  const handleAddToCart = () => {
+    if (count <= 0) {
+      alert("Please select a quantity");
+      return;
+    }
+    const item = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.images[0].src,
+      quantity: count > 0 ? count : 1,
+    };
+
+    const existingItem = cartItems[item.id];
+
+    if (existingItem) {
+      alert("Item is already in the cart");
+    } else {
+      dispatch(addItemToCart(item));
+
+      setShowAlert(true);
+
+      setTimeout(() => setShowAlert(false), 3000);
+    }
+  };
 
   return (
     <>
@@ -69,13 +114,16 @@ export const PurchaseSettings = ({ product }) => {
             position: isScrolled ? "static" : "fixed",
             bottom: isScrolled ? undefined : 0,
             width: isScrolled ? undefined : "100%",
-            display: isScrolled ? "none" : "block",
+            display: isScrolled ? "none" : "flex",
             cursor: "pointer",
             borderRadius: "0",
             height: "70px",
+
+            alignItems: "center",
           }}
+          onClick={handleAddToCart}
         >
-          add to cart
+          <FaShoppingCart style={{ marginRight: "10px" }} /> add to cart
         </AddToCartButton>
 
         {isScrolled &&
@@ -114,7 +162,7 @@ export const PurchaseSettings = ({ product }) => {
             >
               {product.store.shop_name}
             </Text>
-            <HStack mt={4} gap={4}>
+            <HStack mt={8} gap={4}>
               <Rating
                 emptySymbol={<FontAwesomeIcon icon={emptyStar} />}
                 fullSymbol={<FontAwesomeIcon icon={fullStar} color="gold" />}
@@ -169,8 +217,75 @@ export const PurchaseSettings = ({ product }) => {
               ) : (
                 <></>
               )}
-              {/* {product.categories[0].name === "Footwear" ? () : ()} */}
             </HStack>
+
+            <Select
+              placeholder="Choose an option"
+              color="gray"
+              mt={8}
+              borderRadius={30}
+            >
+              {product.attributes[0].options.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </Select>
+
+            <Flex mt={8}>
+              <IconButton
+                onClick={decrement}
+                aria-label="Decrease"
+                borderRadius="full"
+                bgColor="white"
+                border="1px"
+                borderColor="white"
+                boxShadow="inset 0 0 3px gray"
+                color="gray"
+                icon={<MinusIcon />}
+              />
+              <Box
+                border="1px solid"
+                borderRadius="50%"
+                padding={2}
+                paddingLeft={4}
+                paddingRight={4}
+                mx="2"
+                color="gray"
+                boxShadow="inset 0 0 3px gray"
+                borderColor="white"
+              >
+                {count}
+              </Box>
+              <IconButton
+                onClick={increment}
+                aria-label="Increase"
+                borderRadius="full"
+                bgColor="white"
+                border="1px"
+                borderColor="white"
+                boxShadow="inset 0 0 3px gray"
+                color="gray"
+                icon={<AddIcon />}
+              />
+            </Flex>
+            <Box bgColor="gray" height={20} mt={10}>
+              GIFT WRAPPING???
+            </Box>
+
+            <Flex display="flex" justifyContent="center" mt={10}>
+              <AddToCartButton
+                style={{
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+                onClick={handleAddToCart}
+              >
+                <FaShoppingCart style={{ marginRight: "10px" }} /> add to cart
+              </AddToCartButton>
+              <Text>...</Text>
+            </Flex>
           </Box>
         )}
       </Box>
