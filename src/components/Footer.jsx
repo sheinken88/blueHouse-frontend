@@ -23,7 +23,6 @@ import { Link } from "react-router-dom";
 
 export const Footer = () => {
   const [mobileDesign] = useMediaQuery("(max-width: 425px)");
-  const tab = <>&nbsp;&nbsp;</>;
 
   return (
     <>
@@ -46,19 +45,16 @@ export const Footer = () => {
           </Box>
           <Box display="flex" alignItems="center" justifyContent="center">
             <Link to="https://www.tiktok.com">
-              <Image src={LogoTikTok} />
+              <Image mx={1} src={LogoTikTok} />
             </Link>
-            {tab}
             <Link to="https://www.instagram.com">
-              <Image src={LogoInstagram} />
+              <Image mx={1} src={LogoInstagram} />
             </Link>
-            {tab}
             <Link to="https://www.facebook.com">
-              <Image src={LogoFacebook} />
+              <Image mx={1} src={LogoFacebook} />
             </Link>
-            {tab}
             <Link to="https://www.linkedin.com">
-              <Image src={LogoLinkedIn} />
+              <Image mx={1} src={LogoLinkedIn} />
             </Link>
           </Box>
           <Accordion
@@ -285,19 +281,16 @@ export const Footer = () => {
             <Spacer />
             <Box display="flex" justifyContent="center">
               <Link to="https://www.tiktok.com">
-                <Image src={LogoTikTok} />
+                <Image mx={1} src={LogoTikTok} />
               </Link>
-              {tab}
               <Link to="https://www.instagram.com">
-                <Image src={LogoInstagram} />
+                <Image mx={1} src={LogoInstagram} />
               </Link>
-              {tab}
               <Link to="https://www.facebook.com">
-                <Image src={LogoFacebook} />
+                <Image mx={1} src={LogoFacebook} />
               </Link>
-              {tab}
               <Link to="https://www.linkedin.com">
-                <Image src={LogoLinkedIn} />
+                <Image mx={1} src={LogoLinkedIn} />
               </Link>
             </Box>
           </HStack>
