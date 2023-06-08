@@ -38,19 +38,27 @@ export const Footer = () => {
         </HStack>
       </Box>
       <Box display="flex" alignItems="center" justifyContent="center">
-        <Link to='https://www.tiktok.com'><Image src={LogoTikTok} /></Link>
+        <Link to="https://www.tiktok.com">
+          <Image src={LogoTikTok} />
+        </Link>
         {tab}
-        <Link to='https://www.instagram.com'><Image src={LogoInstagram} /></Link>
+        <Link to="https://www.instagram.com">
+          <Image src={LogoInstagram} />
+        </Link>
         {tab}
-        <Link to='https://www.facebook.com'><Image src={LogoFacebook} /></Link>
+        <Link to="https://www.facebook.com">
+          <Image src={LogoFacebook} />
+        </Link>
         {tab}
-        <Link to='https://www.linkedin.com'><Image src={LogoLinkedIn} /></Link>
+        <Link to="https://www.linkedin.com">
+          <Image src={LogoLinkedIn} />
+        </Link>
       </Box>
       <Accordion
         sx={{
           mt: 8,
           w: "100%",
-          borderColor: "white",/*COLOR DE FONDO DEL FIGMA: "#F8F8F5"*/
+          borderColor: "white" /*COLOR DE FONDO DEL FIGMA: "#F8F8F5"*/,
           color: "primary",
         }}
         allowMultiple
@@ -61,25 +69,41 @@ export const Footer = () => {
               <Box pl={10} flex="1" textAlign="left">
                 BLUEHOUSE
               </Box>
-              <AccordionIcon sx={{w: "30%"}}/>
+              <AccordionIcon sx={{ w: "30%" }} />
             </AccordionButton>
           </h2>
-          <AccordionPanel as={Link} to='/' sx={{ fontSize: 12, pb: "2px", pl: 20 }}>
+          <AccordionPanel
+            as={Link}
+            to="/"
+            sx={{ fontSize: 12, pb: "2px", pl: 20 }}
+          >
             About Us
           </AccordionPanel>
-          <AccordionPanel as={Link} to='/' sx={{ fontSize: 12, pb: "2px", pl: 20 }}>
+          <AccordionPanel
+            as={Link}
+            to="/"
+            sx={{ fontSize: 12, pb: "2px", pl: 20 }}
+          >
             Blue Labels
           </AccordionPanel>
-          <AccordionPanel as={Link} to='/' sx={{ fontSize: 12, pb: "2px", pl: 20 }}>
+          <AccordionPanel
+            as={Link}
+            to="/"
+            sx={{ fontSize: 12, pb: "2px", pl: 20 }}
+          >
             Our Values
           </AccordionPanel>
-          <AccordionPanel as={Link} to='/' sx={{ fontSize: 12, pb: "2px", pl: 20 }}>
+          <AccordionPanel
+            as={Link}
+            to="/"
+            sx={{ fontSize: 12, pb: "2px", pl: 20 }}
+          >
             Store List
           </AccordionPanel>
-          <AccordionPanel as={Link} to='/' sx={{ fontSize: 12, pb: 2, pl: 20 }}>
+          <AccordionPanel as={Link} to="/" sx={{ fontSize: 12, pb: 2, pl: 20 }}>
             Blog
           </AccordionPanel>
-          <AccordionPanel as={Link} to='/' sx={{ fontSize: 12, pb: 2, pl: 20 }}>
+          <AccordionPanel as={Link} to="/" sx={{ fontSize: 12, pb: 2, pl: 20 }}>
             Our Glossary
           </AccordionPanel>
         </AccordionItem>
@@ -90,16 +114,24 @@ export const Footer = () => {
               <Box pl={10} border="none" flex="1" textAlign="left">
                 SELL
               </Box>
-              <AccordionIcon sx={{w: "30%"}} />
+              <AccordionIcon sx={{ w: "30%" }} />
             </AccordionButton>
           </h2>
-          <AccordionPanel as={Link} to='/' sx={{ fontSize: 12, pb: "2px", pl: 20 }}>
+          <AccordionPanel
+            as={Link}
+            to="/"
+            sx={{ fontSize: 12, pb: "2px", pl: 20 }}
+          >
             Terms & Conditions
           </AccordionPanel>
-          <AccordionPanel as={Link} to='/' sx={{ fontSize: 12, pb: "2px", pl: 20 }}>
+          <AccordionPanel
+            as={Link}
+            to="/"
+            sx={{ fontSize: 12, pb: "2px", pl: 20 }}
+          >
             Register
           </AccordionPanel>
-          <AccordionPanel as={Link} to='/' sx={{ fontSize: 12, pb: 2, pl: 20 }}>
+          <AccordionPanel as={Link} to="/" sx={{ fontSize: 12, pb: 2, pl: 20 }}>
             Contact Us
           </AccordionPanel>
         </AccordionItem>
@@ -110,22 +142,38 @@ export const Footer = () => {
               <Box pl={10} flex="1" textAlign="left">
                 CUSTOMER SERVICE
               </Box>
-              <AccordionIcon sx={{w: "30%"}}/>
+              <AccordionIcon sx={{ w: "30%" }} />
             </AccordionButton>
           </h2>
-          <AccordionPanel as={Link} to='/' sx={{ fontSize: 12, pb: "2px", pl: 20 }}>
+          <AccordionPanel
+            as={Link}
+            to="/"
+            sx={{ fontSize: 12, pb: "2px", pl: 20 }}
+          >
             FAQs
           </AccordionPanel>
-          <AccordionPanel as={Link} to='/' sx={{ fontSize: 12, pb: "2px", pl: 20 }}>
+          <AccordionPanel
+            as={Link}
+            to="/"
+            sx={{ fontSize: 12, pb: "2px", pl: 20 }}
+          >
             Help
           </AccordionPanel>
-          <AccordionPanel as={Link} to='/' sx={{ fontSize: 12, pb: "2px", pl: 20 }}>
+          <AccordionPanel
+            as={Link}
+            to="/"
+            sx={{ fontSize: 12, pb: "2px", pl: 20 }}
+          >
             Return & Refund
           </AccordionPanel>
-          <AccordionPanel as={Link} to='/' sx={{ fontSize: 12, pb: "2px", pl: 20 }}>
+          <AccordionPanel
+            as={Link}
+            to="/"
+            sx={{ fontSize: 12, pb: "2px", pl: 20 }}
+          >
             Shipping
           </AccordionPanel>
-          <AccordionPanel as={Link} to='/' sx={{ fontSize: 12, pb: 2, pl: 20 }}>
+          <AccordionPanel as={Link} to="/" sx={{ fontSize: 12, pb: 2, pl: 20 }}>
             Contact Us
           </AccordionPanel>
         </AccordionItem>

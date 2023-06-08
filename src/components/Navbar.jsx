@@ -12,6 +12,7 @@ import {
   MenuList,
   MenuItem,
   useColorModeValue,
+  Accordion,
 } from "@chakra-ui/react";
 import { SearchIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
@@ -22,6 +23,7 @@ import { fetchAllCategories } from "../state/thunks/categoriesThunks";
 
 import logo_blueHouse from "../assets/logo_blueHouse.svg";
 import { ImageMenuItem } from "../common/ImageMenuItem";
+import { SubItemMenu } from "../common/SubItemMenu";
 
 export const Navbar = () => {
   const bgColor = useColorModeValue("secondary", "primary");
@@ -71,15 +73,15 @@ export const Navbar = () => {
               icon={<HamburgerIcon />}
               variant="outline"
               color="primary"
-              mx={2}
+              mx={1}
               _before={{ bg: "primary" }}
               _after={{ bg: "primary" }}
             />
             <MenuList>
               {categories.map((category) => (
-                <MenuItem key={category.id}>
-                  <ImageMenuItem category={category}/>
-                  {category.name}</MenuItem>
+                <MenuItem key={category.id} w="400px" closeOnSelect={false}>
+                  <SubItemMenu category={category} />
+                </MenuItem>
               ))}
             </MenuList>
           </Menu>
