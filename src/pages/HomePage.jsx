@@ -7,12 +7,11 @@ import { About } from "../components/About";
 
 import { FilterSection } from "../components/FilterSection";
 
-
 import { PeopleOpinions } from "../components/PeopleOpinions";
-import { NewsLetter } from "../components/NewsLetter";
 import { BrandClaims } from "../components/BrandClaims";
 import { ShopByCategory } from "../components/ShopByCategory";
 import { HeroBanner } from "../components/HeroBanner";
+import { Image } from "@chakra-ui/react";
 
 export const HomePage = () => {
   const dispatch = useDispatch();
@@ -31,12 +30,12 @@ export const HomePage = () => {
     <>
       <HeroBanner />
       <ShopByCategory />
+      <Image src="src/assets/BigCategory1.png" mt={10} mb={10} ml={2}></Image>
       <FilterSection />
       <ProductGrid />
       <PeopleOpinions />
-      <BrandClaims/>
+      <BrandClaims />
       <About />
-      <NewsLetter />
     </>
   );
 };

@@ -24,6 +24,7 @@ export const Review = () => {
   const reviews = useSelector((state) => state.reviews.reviews);
   const twoReviews = reviews.slice(0, 2);
   const moreReviews = reviews.slice(0, 5);
+  console.log("reviews from review: ", reviews);
 
   const isLoading = useSelector((state) => state.products.isLoading);
   if (isLoading) {
@@ -38,6 +39,7 @@ export const Review = () => {
   const nameUser = useInput();
   const newReviewText = useInput();
   const newReviewStars = useInput(1);
+
   const handleMoreStars = (event) => {
     event.preventDefault();
     let newValue;
@@ -88,12 +90,12 @@ export const Review = () => {
       <Box>
         {!clickMore
           ? twoReviews.map((review) => (
-              <Center>
+              <Center key={review.id}>
                 <OpinionCard key={review.id} reviews={review} />
               </Center>
             ))
           : moreReviews.map((review) => (
-              <Center>
+              <Center key={review.id}>
                 <OpinionCard key={review.id} reviews={review} />
               </Center>
             ))}

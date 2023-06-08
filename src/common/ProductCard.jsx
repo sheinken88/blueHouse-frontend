@@ -19,6 +19,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addItemToCart } from "../state/slices/cartSlice";
+import { setAlert, clearAlert } from "../state/slices/alertSlice";
 import { Link } from "react-router-dom";
 
 export const ProductCard = ({ product }) => {
@@ -27,7 +28,7 @@ export const ProductCard = ({ product }) => {
 
   const dispatch = useDispatch();
 
-  const [showAlert, setShowAlert] = useState(false);
+  // const [showAlert, setShowAlert] = useState(false);
 
   const handleAddToCart = (event) => {
     event.preventDefault();
@@ -36,25 +37,40 @@ export const ProductCard = ({ product }) => {
       return;
     }
 
+    let option = null;
+    if (
+      product.attributes &&
+      product.attributes.length > 0 &&
+      product.attributes[0].options.length > 0
+    ) {
+      option = product.attributes[0].options[0];
+    }
+
     const item = {
       id: product.id,
       name: product.name,
       price: product.price,
       image: product.images[0].src,
       quantity: 1,
+      attribute: option,
     };
 
     const existingItem = cartItems[item.id];
 
     if (existingItem) {
-      alert("Item is already in the cart");
+      dispatch(
+        setAlert({ message: "Item is already in the cart", status: "warning" })
+      );
     } else {
       dispatch(addItemToCart(item));
 
-      setShowAlert(true);
-
-      setTimeout(() => setShowAlert(false), 3000);
+      dispatch(
+        setAlert({ message: "Product successfully added!", status: "success" })
+      );
     }
+    setTimeout(() => {
+      dispatch(clearAlert());
+    }, 3000);
   };
 
   return (
@@ -71,12 +87,12 @@ export const ProductCard = ({ product }) => {
       as={Link}
       to={`/product/${product.id}`}
     >
-      {showAlert && (
+      {/* {showAlert && (
         <Alert status="success">
           <AlertIcon />
           Product successfully added!
         </Alert>
-      )}
+      )} */}
       <Card boxShadow="none">
         <Box position="relative">
           <IconButton

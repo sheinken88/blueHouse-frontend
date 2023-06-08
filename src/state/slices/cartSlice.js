@@ -13,32 +13,35 @@ const cartSlice = createSlice({
   reducers: {
     addItemToCart: (state, action) => {
       const newItem = action.payload;
-      const existingItem = state.items[newItem.id];
+      const itemKey = `${newItem.id}_${newItem.attribute || ""}`;
+      const existingItem = state.items[itemKey];
+
       if (!existingItem) {
-        state.items[newItem.id] = {
-          ...newItem,
-        };
-        state.totalPrice += newItem.price;
+        state.items[itemKey] = { ...newItem };
+        state.totalPrice += Number(newItem.price);
       } else {
         existingItem.quantity++;
-        state.totalPrice += newItem.price;
+        state.totalPrice += Number(newItem.price);
       }
     },
     removeItemFromCart: (state, action) => {
-      const id = action.payload;
-      const existingItem = state.items[id];
+      const { id, attribute } = action.payload;
+      console.log("Action Payload: ", action.payload);
+      const itemKey = `${id}_${attribute || ""}`;
+      const existingItem = state.items[itemKey];
       if (existingItem) {
-        state.totalPrice -= existingItem.price * existingItem.quantity;
-        delete state.items[id];
+        state.totalPrice -= Number(existingItem.price) * existingItem.quantity;
+        delete state.items[itemKey];
       }
     },
     updateQuantity: (state, action) => {
-      const { id, quantity } = action.payload;
-      const existingItem = state.items[id];
+      const { id, quantity, attribute } = action.payload;
+      const itemKey = `${id}_${attribute || ""}`;
+      const existingItem = state.items[itemKey];
       if (existingItem) {
         const quantityDifference = quantity - existingItem.quantity;
         existingItem.quantity = quantity;
-        state.totalPrice += quantityDifference * existingItem.price;
+        state.totalPrice += quantityDifference * Number(existingItem.price);
       }
     },
     clearCart: (state) => {
