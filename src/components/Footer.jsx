@@ -151,6 +151,7 @@ export const Footer = () => {
               </AccordionPanel>
             </AccordionItem>
 
+
             <AccordionItem>
               <h2>
                 <AccordionButton>
@@ -261,6 +262,7 @@ export const Footer = () => {
             <VStack alignItems={"left"} color={"primary"}>
               <Text sx={{ fontSize: 18, mb: "8px", fontWeight: "bold" }}>
                 CUSTOMER SERVICE
+
               </Text>
               <Text as={Link} to="/" sx={{ fontSize: 12 }}>
                 FAQs
