@@ -39,7 +39,7 @@ export const BrandClaims = () => {
               </WrapItem>
             ))
           : AllBlueLabels.map((bluelabel) => (
-              <WrapItem>
+              <WrapItem key={bluelabel.id}>
                 <BlueLabelsBox
                   key={bluelabel.id}
                   name={bluelabel.name}
