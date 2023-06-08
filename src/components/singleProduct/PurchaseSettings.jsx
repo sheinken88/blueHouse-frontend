@@ -284,7 +284,7 @@ export const PurchaseSettings = ({ product }) => {
               >
                 <FaShoppingCart style={{ marginRight: "10px" }} /> add to cart
               </AddToCartButton>
-              <Text></Text>
+              <Text>...</Text>
             </Flex>
           </Box>
         )}
