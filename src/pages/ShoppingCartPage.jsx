@@ -43,12 +43,12 @@ export const ShoppingCartPage = () => {
 
   const handleCheckout = () => {
     const queryParams = Object.values(cart.items).map(
-      (item) => `productId=${item.id}&qty=${item.quantity}`
+      (item) => `${item.id}:${item.quantity}`
     );
 
-    const queryString = queryParams.join("&");
+    const queryString = queryParams.join(",");
 
-    const url = `https://websitedepruebas.com/checkout?${queryString}`;
+    const url = `https://staging15.bluehouseworld.nl/?add-to-cart=${queryString}`;
 
     console.log(url);
   };
