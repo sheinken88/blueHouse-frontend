@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchSingleProduct } from "../state/thunks/productsThunks";
-import { Image, Text } from "@chakra-ui/react";
+import { Center, Image, Spinner, Text } from "@chakra-ui/react";
 import { Review } from "../components/singleProduct/Review";
 
 export const SingleProductPage = () => {
@@ -21,7 +21,17 @@ export const SingleProductPage = () => {
     !product.images[0] ||
     !product.images[0].src
   ) {
-    return <div>Loading...</div>;
+    return (
+      <Center m={10}>
+        <Spinner
+          thickness="4px"
+          speed="o.65s"
+          emptyColor="#D4D9FF"
+          color="#22488B"
+          size="xl"
+        />
+      </Center>
+    );
   }
 
   return (

@@ -307,9 +307,9 @@ export const PurchaseSettings = ({ product }) => {
                 icon={<AddIcon />}
               />
             </Flex>
-            <Box bgColor="gray" height={20} mt={10}>
+            {/* <Box bgColor="gray" height={20} mt={10}>
               GIFT WRAPPING???
-            </Box>
+            </Box> */}
 
             <Flex display="flex" justifyContent="center" mt={10}>
               <AddToCartButton
