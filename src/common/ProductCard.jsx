@@ -14,6 +14,7 @@ import {
   Tooltip,
   Alert,
   AlertIcon,
+  Toast,
 } from "@chakra-ui/react";
 import { FaShoppingCart } from "react-icons/fa";
 import { useState } from "react";
@@ -28,7 +29,20 @@ export const ProductCard = ({ product }) => {
 
   const dispatch = useDispatch();
 
-  // const [showAlert, setShowAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+
+  const handleAddToFavorite = (e) => {
+    e.preventDefault();
+    dispatch(
+      setAlert({
+        message: "Product successfully added to favorites!",
+        status: "success",
+      })
+    );
+    setTimeout(() => {
+      dispatch(clearAlert());
+    }, 3000);
+  };
 
   const handleAddToCart = (event) => {
     event.preventDefault();
@@ -102,6 +116,7 @@ export const ProductCard = ({ product }) => {
             top={0}
             left={0}
             zIndex={1}
+            onClick={handleAddToFavorite}
           />
           <Tooltip
             label="Add to cart"
