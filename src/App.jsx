@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Navbar } from "../src/components/Navbar";
 import { Footer } from "../src/components/Footer";
 import { HomePage } from "../src/pages/HomePage";
+import { AboutUsPage } from "./pages/AboutUsPage";
 import { SignUpPage } from "../src/pages/SignUpPage";
 import { LoginPage } from "../src/pages/LoginPage";
 import { SingleProductPage } from "../src/pages/SingleProductPage";
@@ -35,6 +36,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/aboutus" element={<AboutUsPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/product/:id" element={<SingleProductPage />} />
