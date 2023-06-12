@@ -1,4 +1,5 @@
-import { Image, Center, Text } from "@chakra-ui/react";
+import { Image, Center, Text, Box } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 export const CategoryCard = (category) => {
   // console.log(category.category);
@@ -8,18 +9,27 @@ export const CategoryCard = (category) => {
     : "src/assets/logo_blueHouse.svg";
 
   return (
-    <div>
+    <Box category={category.id}>
       <Center>
         <Image
           borderRadius="full"
-          boxSize="118px"
+          h={{ base: "45px", md: "130px" }}
+          w={{ base: "45px", md: "130px" }}
           src={image}
           alt={category.category.name}
         />
       </Center>
       <Center>
-        <Text fontSize="lg">{category.category.slug}</Text>
+        <Text
+          h={{ base: "45px", md: "130px" }}
+          w={{ base: "45px", md: "130px" }}
+          color={"#254787"}
+          textAlign={"center"}
+          // maxW={{ base: "auto", md: "132px" }}
+          fontSize={{ base: "14px", md: "20px" }}
+          dangerouslySetInnerHTML={{ __html: category.category.name }}
+        />
       </Center>
-    </div>
+    </Box>
   );
 };

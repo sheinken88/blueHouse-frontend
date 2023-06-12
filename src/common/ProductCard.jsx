@@ -139,7 +139,6 @@ export const ProductCard = ({ product }) => {
               onClick={handleAddToCart}
             />
           </Tooltip>
-
           {
             //EN CASO DE TENER DESCUENTO SE APLICA ESTE TERNARIO:
             product.on_sale == true ? (
@@ -165,6 +164,7 @@ export const ProductCard = ({ product }) => {
               <></>
             )
           }
+
           <Image
             w={{ base: "148px", md: "322px" }}
             h={{ base: "148px", md: "322px" }}
