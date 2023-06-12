@@ -11,6 +11,7 @@ import { NotFoundPage } from "../src/pages/NotFoundPage";
 import { NewsLetter } from "./components/NewsLetter";
 import { useSelector } from "react-redux";
 import { Alert, AlertIcon } from "@chakra-ui/react";
+import { ProductDesk } from "./components/ProductDesk";
 
 function App() {
   // const isAuthenticated = useSelector((state) => state.user.isAuthenticated)
@@ -35,6 +36,7 @@ function App() {
         )}
         <Navbar />
         <Routes>
+          <Route path="/pd" element={<ProductDesk />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/aboutus" element={<AboutUsPage />} />
           <Route path="/signup" element={<SignUpPage />} />
