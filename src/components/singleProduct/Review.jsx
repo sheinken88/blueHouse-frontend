@@ -24,12 +24,11 @@ export const Review = () => {
   const reviews = useSelector((state) => state.reviews.reviews);
   const twoReviews = reviews.slice(0, 2);
   const moreReviews = reviews.slice(0, 5);
-  console.log("reviews from review: ", reviews);
 
-  const isLoading = useSelector((state) => state.products.isLoading);
-  if (isLoading) {
-    return <div>Loading reviews...</div>;
-  }
+  // const isLoading = useSelector((state) => state.products.isLoading);
+  // if (isLoading) {
+  //   return <div>Loading reviews...</div>;
+  // }
 
   const [clickMore, setClickMore] = useState(false);
   const handleClickMore = () => {
