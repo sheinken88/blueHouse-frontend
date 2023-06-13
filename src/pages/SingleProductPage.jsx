@@ -10,6 +10,7 @@ import { Center, Image, Spinner, Text } from "@chakra-ui/react";
 import { Review } from "../components/singleProduct/Review";
 import { InfoDisplay } from "../components/singleProduct/InfoDisplay";
 import { RelatedProducts } from "../components/singleProduct/RelatedProducts";
+import { Contact } from "../components/singleProduct/Contact";
 
 export const SingleProductPage = () => {
   const { id } = useParams();
@@ -52,6 +53,7 @@ export const SingleProductPage = () => {
       <InfoDisplay product={product} />
       <Review />
       <RelatedProducts relatedProducts={relatedProducts} />
+      <Contact />
     </>
   );
 };

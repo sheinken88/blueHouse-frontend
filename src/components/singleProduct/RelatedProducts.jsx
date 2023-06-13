@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { ProductCard } from "../../common/ProductCard";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { Box, Center, Heading, Text } from "@chakra-ui/react";
+import { Box, Center, Flex, Heading, Text, VStack } from "@chakra-ui/react";
 
 export const RelatedProducts = ({ relatedProducts }) => {
   const responsive = {
@@ -26,10 +26,23 @@ export const RelatedProducts = ({ relatedProducts }) => {
   };
 
   return (
-    <>
-      {relatedProducts.map((product) => (
-        <Text key={product.id}>{product.name}</Text>
-      ))}
-    </>
+    <Box mt={"50px"} color={"#254787"} padding={4}>
+      <Heading fontSize={{ base: "18px", md: "40px" }} fontWeight={"semibold"}>
+        YOU MIGHT ALSO LIKE
+      </Heading>
+      <Carousel
+        responsive={responsive}
+        removeArrowOnDeviceType={["tablet", "mobile"]}
+        keyBoardControl={true}
+        infinite={true}
+        focusOnSelect={true}
+      >
+        {relatedProducts.map((product) => (
+          <Center key={product.id}>
+            <ProductCard key={product.id} product={product} />
+          </Center>
+        ))}
+      </Carousel>
+    </Box>
   );
 };
