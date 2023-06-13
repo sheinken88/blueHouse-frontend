@@ -43,6 +43,30 @@ export const fetchSingleProduct = (productId) => async (dispatch) => {
   }
 };
 
+//nuevo action para buscar multiples products por ids
+export const fetchMultipleProductsByIds = (productIds) => async (dispatch) => {
+  try {
+    dispatch(setLoading(true));
+
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/products/ids`,
+      {
+        params: {
+          include: productIds.join(","),
+        },
+      }
+    );
+
+    dispatch(setProducts(response.data));
+
+    dispatch(setLoading(false));
+  } catch (err) {
+    console.error("Fetch multiple products error: ", err);
+    dispatch(setError(err));
+    dispatch(setLoading(false));
+  }
+};
+
 //PROVISORIO, A LA ESPERA DE DEFINIR POSIBLE RUTA ALL PRODUCTS UNIFICADA PARA CATEGORÍAS Y TAGS
 export const fetchProductsByCategory = (categoryId) => async (dispatch) => {
   try {
