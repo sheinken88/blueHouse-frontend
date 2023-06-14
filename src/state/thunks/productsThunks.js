@@ -71,13 +71,10 @@ export const fetchMultipleProductsByIds = (productIds) => async (dispatch) => {
 export const fetchProductsByCategory = (categoryId) => async (dispatch) => {
   try {
     // dispatch(setLoading(true));
-    console.log("SOY LA CATEGORIA QUE LLEGA A PR THUN", categoryId);
 
     const response = await axios.get(
       `${import.meta.env.VITE_API_URL}/products/bycategory/${categoryId}`
     );
-
-    console.log("SOY LA RESPUESTA DEL BACK PARA PRO BY CAT", response);
 
     dispatch(setProducts(response.data));
 
@@ -101,6 +98,27 @@ export const fetchProductsByTag = (tagId) => async (dispatch) => {
     dispatch(setLoading(false));
   } catch (err) {
     console.error("Fetch products by tag error: ", err);
+    dispatch(setError(err));
+    dispatch(setLoading(false));
+  }
+};
+
+//PROVISORIO, A LA ESPERA DE DEFINIR POSIBLE RUTA ALL PRODUCTS UNIFICADA PARA CATEGORÍAS Y TAGS
+export const fetchFilteredProducts = (obj) => async (dispatch) => {
+  try {
+    dispatch(setLoading(true));
+
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/products`
+    );
+
+    console.log("SOY LA RESPUESTA DE FILTERED", response);
+
+    dispatch(setProducts(response.data));
+
+    dispatch(setLoading(false));
+  } catch (err) {
+    console.error("Fetch filtered products error: ", err);
     dispatch(setError(err));
     dispatch(setLoading(false));
   }
