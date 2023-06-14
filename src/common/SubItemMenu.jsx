@@ -10,7 +10,6 @@ import { Link } from "react-router-dom";
 import { ImageMenuItem } from "./ImageMenuItem";
 
 export const SubItemMenu = ({ category }) => {
-  console.log("SOY CATEGORY EN SUBITEM MENU", category);
   return (
     <Accordion
       sx={{

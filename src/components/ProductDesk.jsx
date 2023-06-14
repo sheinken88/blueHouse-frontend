@@ -41,8 +41,9 @@ export const ProductDesk = () => {
   const categories = useSelector((state) => state.categories.categories);
   const products = useSelector((state) => state.products.products);
 
+  console.log("SOY PRODUCT EN PRODUCT DESK", products);
+
   const [id, setId] = useState();
-  const [prodCat, setProdCat] = useState([], products);
   const [sliderValues, setSliderValues] = useState([150, 350]);
   const [showBluelabels, setShowBluelabels] = useState(false);
   const [showBrands, setShowBrands] = useState(false);
@@ -91,9 +92,12 @@ export const ProductDesk = () => {
   };
 
   useEffect(() => {
+    const obj = { store: 62 };
+
     axios
-      .get(`http://localhost:8080/api/products/bycategory/${id}`)
-      .then((res) => setProdCat(res.data));
+      .post(`http://localhost:8080/api/products/filtered`, obj)
+
+      .then((res) => console.log("SOY LO QUE LLEGA DEL BACK A PD", res.data));
   }, [id]);
 
   return (
