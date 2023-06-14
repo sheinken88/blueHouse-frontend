@@ -8,8 +8,31 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { ImageMenuItem } from "./ImageMenuItem";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { fetchSubCategories } from "../state/thunks/categoriesThunks";
+
+export const SubItemMenu = (category) => {
+  const dispatch = useDispatch();
+  const subCategories = useSelector((state) => state.categories.subCategories);
+
+  useEffect(() => {
+    dispatch(fetchSubCategories(category.category.id));
+  }, [dispatch]);
+
+  let categoryName = category.category.name.split("amp;");
+  categoryName = categoryName.join("");
+
+  let subCat = [];
+    subCategories.map((subcategory) => {
+      if ((!subCat.includes(subcategory)) && (subcategory.parent === category.category.id)) {
+        subCat.push(subcategory);
+      }
+    });
+
 
 export const SubItemMenu = ({ category }) => {
+
   return (
     <Accordion
       sx={{
@@ -24,52 +47,22 @@ export const SubItemMenu = ({ category }) => {
         <h2>
           <AccordionButton>
             <ImageMenuItem category={category} />
-            <Box
-              pl={10}
-              flex="1"
-              textAlign="left"
-              dangerouslySetInnerHTML={{ __html: category.name }}
-            >
-              {/* {category.name} */}
+            <Box pl={10} flex="1" textAlign="left">
+              {categoryName}
             </Box>
             <AccordionIcon sx={{ w: "30%" }} />
           </AccordionButton>
         </h2>
-        <AccordionPanel
-          as={Link}
-          to="/"
-          sx={{ fontSize: 12, pb: "2px", pl: 20 }}
-        >
-          About Us
-        </AccordionPanel>
-        <AccordionPanel
-          as={Link}
-          to="/"
-          sx={{ fontSize: 12, pb: "2px", pl: 20 }}
-        >
-          Blue Labels
-        </AccordionPanel>
-
-        <AccordionPanel
-          as={Link}
-          to="/"
-          sx={{ fontSize: 12, pb: "2px", pl: 20 }}
-        >
-          Our Values
-        </AccordionPanel>
-        <AccordionPanel
-          as={Link}
-          to="/"
-          sx={{ fontSize: 12, pb: "2px", pl: 20 }}
-        >
-          Store List
-        </AccordionPanel>
-        <AccordionPanel as={Link} to="/" sx={{ fontSize: 12, pb: 2, pl: 20 }}>
-          Blog
-        </AccordionPanel>
-        <AccordionPanel as={Link} to="/" sx={{ fontSize: 12, pb: 2, pl: 20 }}>
-          Our Glossary
-        </AccordionPanel>
+        {subCat.map((subCategory) => (
+          <AccordionPanel
+            key={category.id}
+            as={Link}
+            to="/"
+            sx={{ fontSize: 12, pb: "2px", pl: 10 }}
+          >
+            {subCategory.name}
+          </AccordionPanel>
+        ))}
       </AccordionItem>
     </Accordion>
   );
