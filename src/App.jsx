@@ -36,7 +36,7 @@ function App() {
         )}
         <Navbar />
         <Routes>
-          <Route path="/pd" element={<ProductDesk />} />
+          <Route path="/productdesk" element={<ProductDesk />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/aboutus" element={<AboutUsPage />} />
           <Route path="/signup" element={<SignUpPage />} />

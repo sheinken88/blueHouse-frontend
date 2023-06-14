@@ -2,8 +2,6 @@ import { Image, Center, Text, Box } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 export const CategoryCard = (category) => {
-  // console.log(category.category);
-
   const image = category.category.image
     ? category.category.image.src
     : "src/assets/logo_blueHouse.svg";
