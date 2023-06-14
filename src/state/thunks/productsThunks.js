@@ -70,9 +70,14 @@ export const fetchMultipleProductsByIds = (productIds) => async (dispatch) => {
 //PROVISORIO, A LA ESPERA DE DEFINIR POSIBLE RUTA ALL PRODUCTS UNIFICADA PARA CATEGORÍAS Y TAGS
 export const fetchProductsByCategory = (categoryId) => async (dispatch) => {
   try {
-    dispatch(setLoading(true));
+    // dispatch(setLoading(true));
+    console.log("SOY LA CATEGORIA QUE LLEGA A PR THUN", categoryId);
 
-    ///const response = await axios.get(`${import.meta.env.VITE_API_URL}/XXXX/${categoryId});
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/products/bycategory/${categoryId}`
+    );
+
+    console.log("SOY LA RESPUESTA DEL BACK PARA PRO BY CAT", response);
 
     dispatch(setProducts(response.data));
 

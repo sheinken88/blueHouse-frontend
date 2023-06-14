@@ -1,15 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { fetchAllCategories } from "../state/thunks/categoriesThunks";
 import { CategoryCard } from "../common/CategoryCard";
-import { Box, Text, Wrap } from "@chakra-ui/react";
+import { Box, Stack, Text, Wrap } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { fetchProductsByCategory } from "../state/thunks/productsThunks";
 
 export const ShopByCategory = () => {
-  const [selectedCategory, setSelectedCategory] = useState();
-
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories.categories);
 
@@ -17,9 +16,10 @@ export const ShopByCategory = () => {
     dispatch(fetchAllCategories());
   }, [dispatch]);
 
-  const handleClick = (e) => {
-    console.log("SOY LA CATEGORIA SELECCIONADA", e);
-  };
+  // const handleClick = (e) => {
+  //   console.log("SOY LA CATEGORIA SELECCIONADA", e);
+  //   dispatch(fetchProductsByCategory(e));
+  // };
 
   const responsive = {
     desktop: {
@@ -57,9 +57,16 @@ export const ShopByCategory = () => {
         infinite="true"
       >
         {categories.map((category) => (
-          <Wrap onClick={handleClick} key={category.id}>
-            <CategoryCard key={category.id} category={category} />
-          </Wrap>
+          // <Wrap
+          //   onClick={() => {
+          //     handleClick(category.id);
+          //   }}
+          //   key={category.id}
+          //   as={Link}
+          //   to={`/productdesk/`}
+          // >
+          <CategoryCard key={category.id} category={category} />
+          //</Wrap>
         ))}
       </Carousel>
     </Box>
