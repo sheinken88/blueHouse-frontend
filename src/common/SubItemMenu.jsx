@@ -12,26 +12,23 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchSubCategories } from "../state/thunks/categoriesThunks";
 
-export const SubItemMenu = (category) => {
+export const SubItemMenu = ({category}) => {
   const dispatch = useDispatch();
   const subCategories = useSelector((state) => state.categories.subCategories);
 
   useEffect(() => {
-    dispatch(fetchSubCategories(category.category.id));
+    dispatch(fetchSubCategories(category.id));
   }, [dispatch]);
 
-  let categoryName = category.category.name.split("amp;");
+  let categoryName = category.name.split("amp;");
   categoryName = categoryName.join("");
 
   let subCat = [];
     subCategories.map((subcategory) => {
-      if ((!subCat.includes(subcategory)) && (subcategory.parent === category.category.id)) {
+      if ((!subCat.includes(subcategory)) && (subcategory.parent === category.id)) {
         subCat.push(subcategory);
       }
     });
-
-
-export const SubItemMenu = ({ category }) => {
 
   return (
     <Accordion

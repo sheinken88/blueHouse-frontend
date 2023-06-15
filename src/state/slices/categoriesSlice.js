@@ -20,7 +20,6 @@ const categoriesSlice = createSlice({
     },
     setSubCategories: (state, action) => {
       action.payload.map((subcategory) => {
-        console.log("INCLUYE?:", state.subCategories.includes(subcategory))
         if (!state.subCategories.includes(subcategory)) {
           state.subCategories.push(subcategory);
         }
