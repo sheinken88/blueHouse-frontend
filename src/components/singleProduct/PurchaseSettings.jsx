@@ -54,6 +54,20 @@ export const PurchaseSettings = ({ product }) => {
   const blueLabels = blueLabelData ? blueLabelData.value : [];
 
   const isMobile = useBreakpointValue({ base: true, md: false });
+  const breakpoint = useBreakpointValue({
+    base: "full",
+    sm: "full",
+    md: "full",
+    lg: "50%",
+    xl: "50%",
+  });
+  const buttonAlignment = useBreakpointValue({
+    base: "center",
+    sm: "center",
+    md: "center",
+    lg: "flex-start",
+    xl: "flex-start",
+  });
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [count, setCount] = useState(1);
   const [selectedAttribute, setSelectedAttribute] = useState(null);
@@ -369,6 +383,7 @@ export const PurchaseSettings = ({ product }) => {
                   color="gray"
                   mt={8}
                   borderRadius={30}
+                  width={breakpoint}
                   onChange={(e) => {
                     console.log("e:", e.target.value);
                     setSelectedAttribute(e.target.value);
@@ -428,7 +443,7 @@ export const PurchaseSettings = ({ product }) => {
 
             <Flex
               display="flex"
-              justifyContent="center"
+              justifyContent={buttonAlignment}
               mt={10}
               ref={secondButtonRef}
             >

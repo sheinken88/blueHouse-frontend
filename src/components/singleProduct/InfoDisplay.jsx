@@ -9,6 +9,7 @@ import {
   HStack,
   Text,
   VStack,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -70,9 +71,17 @@ export const InfoDisplay = ({ product }) => {
     },
   };
 
+  const breakpoint = useBreakpointValue({
+    base: "full",
+    sm: "full",
+    md: "full",
+    lg: "50%",
+    xl: "50%",
+  });
+
   return (
     <>
-      <Accordion allowToggle>
+      <Accordion allowToggle width={breakpoint}>
         <AccordionItem>
           <h2>
             <AccordionButton>
