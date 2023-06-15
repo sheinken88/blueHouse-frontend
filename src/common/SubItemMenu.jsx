@@ -30,9 +30,6 @@ export const SubItemMenu = ({category}) => {
       }
     });
 
-
-export const SubItemMenu = ({ category }) => {
-
   return (
     <Accordion
       sx={{
