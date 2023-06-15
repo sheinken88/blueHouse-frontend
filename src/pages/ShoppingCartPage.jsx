@@ -19,7 +19,6 @@ export const ShoppingCartPage = () => {
   const cart = useSelector((state) => state.cart);
 
   const handleRemove = (id, attribute) => {
-    console.log("id:", id, "attribute:", attribute);
     dispatch(removeItemFromCart({ id, attribute: attribute ? attribute : "" }));
   };
 

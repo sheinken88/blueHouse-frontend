@@ -12,9 +12,9 @@ import { NewsLetter } from "./components/NewsLetter";
 import { useSelector } from "react-redux";
 import { Alert, AlertIcon } from "@chakra-ui/react";
 import { ProductDesk } from "./components/ProductDesk";
+import { ShoppingCartDrawer } from "./components/ShoppingCartDrawer";
 
 function App() {
-  // const isAuthenticated = useSelector((state) => state.user.isAuthenticated)
   const isAuthenticated = true;
 
   const alert = useSelector((state) => state.alerts);
@@ -35,6 +35,9 @@ function App() {
           </Alert>
         )}
         <Navbar />
+
+        <ShoppingCartDrawer />
+
         <Routes>
           <Route path="/productdesk" element={<ProductDesk />} />
           <Route path="/" element={<HomePage />} />
