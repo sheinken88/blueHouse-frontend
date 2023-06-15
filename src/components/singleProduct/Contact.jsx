@@ -1,7 +1,22 @@
-import { Heading, Box, Flex, Button, useTheme } from "@chakra-ui/react";
+import {
+  Heading,
+  Box,
+  Flex,
+  Button,
+  useTheme,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 // import { PrimaryButton } from "../../common/Buttons";
 
 export const Contact = () => {
+  const buttonDirection = useBreakpointValue({
+    base: "column",
+    sm: "column",
+    md: "column",
+    lg: "row",
+    xl: "row",
+  });
+
   const theme = useTheme();
   return (
     <Box p={4} mb={10}>
@@ -13,7 +28,7 @@ export const Contact = () => {
       </Heading>
       <Flex
         mt={10}
-        direction="column"
+        direction={buttonDirection}
         gap={4}
         justifyContent="center"
         alignContent="center"
