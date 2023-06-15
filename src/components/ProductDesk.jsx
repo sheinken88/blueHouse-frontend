@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ProductCard } from "../common/ProductCard";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -34,19 +34,33 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { SubItemMenu } from "../common/SubItemMenu";
 import blueLabels from "../utils/blue_labels";
+import { fetchFilteredProducts } from "../state/thunks/productsThunks";
 
 export const ProductDesk = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = React.useRef();
   const categories = useSelector((state) => state.categories.categories);
   const products = useSelector((state) => state.products.products);
+  const filterProducts = useSelector(
+    (state) => state.products.filteredProducts
+  );
 
-  console.log("SOY PRODUCT EN PRODUCT DESK", products);
-
+  const [isLoading, setIsLoading] = useState(true);
   const [id, setId] = useState();
   const [sliderValues, setSliderValues] = useState([150, 350]);
   const [showBluelabels, setShowBluelabels] = useState(false);
   const [showBrands, setShowBrands] = useState(false);
+  const [filters, setFilters] = useState({});
+  const [filteredProducts, setFilteredProducts] = useState(products);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = React.useRef();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log("HOLA", products);
+    dispatch(fetchFilteredProducts(filters))
+      .then(setFilteredProducts(filterProducts))
+      .then(setIsLoading(false));
+  }, [filters, products]);
 
   const AllBlueLabels = blueLabels;
 
@@ -75,8 +89,7 @@ export const ProductDesk = () => {
   };
 
   const handleCategorie = (e) => {
-    console.log("SOY LO QUE ELEGIS DE CATEGORIA", e);
-    // setId(e);
+    setFilters({ per_page: 4 });
   };
 
   const handleSliderChange = (newValues) => {
@@ -91,20 +104,13 @@ export const ProductDesk = () => {
     setShowBrands(!showBrands);
   };
 
-  useEffect(() => {
-    const obj = { store: 62 };
-
-    axios
-      .post(`http://localhost:8080/api/products/filtered`, obj)
-
-      .then((res) => console.log("SOY LO QUE LLEGA DEL BACK A PD", res.data));
-  }, [id]);
-
-  return (
+  return isLoading ? (
+    <h1>TOY CARGANDO</h1>
+  ) : (
     <div>
       <Box
         backgroundColor={"#F8F8F5"}
-        direction={{ base: "column", md: "row" }}
+        direction={{ xs: "column", md: "row" }}
         display={{ md: "flex" }}
         color={"#254787"}
         alignItems={"center"}
@@ -128,31 +134,29 @@ export const ProductDesk = () => {
           </Text>
         </Box>
         <Box w="75%" mx="auto" maxH={"auto"}>
-          <Center>
-            <Carousel
-              responsive={responsive}
-              removeArrowOnDeviceType={["tablet", "mobile"]}
-              keyBoardControl={true}
-              infinite="true"
-              focusOnSelect="true"
-            >
-              {categories.map((category) => (
-                <Center
-                  mt={{ md: 75 }}
-                  fontWeight={"normal"}
-                  h={{ base: "auto", md: "130px" }}
-                  w={{ base: "45px", md: "130px" }}
-                  backgroundColor="none"
-                  key={category.id}
-                  onClick={() => {
-                    handleCategorie(category.id);
-                  }}
-                >
-                  <CategoryCard category={category} />
-                </Center>
-              ))}
-            </Carousel>
-          </Center>
+          <Carousel
+            responsive={responsive}
+            removeArrowOnDeviceType={["tablet", "mobile"]}
+            keyBoardControl={true}
+            infinite="true"
+            focusOnSelect="true"
+          >
+            {categories.map((category) => (
+              <Center
+                mt={{ md: 75 }}
+                fontWeight={"normal"}
+                h={{ base: "auto", md: "130px" }}
+                w={{ base: "45px", md: "130px" }}
+                backgroundColor="none"
+                key={category.id}
+                onClick={() => {
+                  handleCategorie(category.id);
+                }}
+              >
+                <CategoryCard category={category} />
+              </Center>
+            ))}
+          </Carousel>
         </Box>
       </Box>
       <Text m={4} fontSize={{ md: "30px" }} color={"#254787"}>
@@ -325,6 +329,7 @@ export const ProductDesk = () => {
                 color={"#254787"}
                 borderRadius={"full"}
                 fontWeight={"normal"}
+                onClick={handleCategorie}
               >
                 Cancel
               </Button>
@@ -360,11 +365,13 @@ export const ProductDesk = () => {
         </Select>
       </Box>
       <Center>
-        <Wrap spacing={{ base: "50px", md: "200px" }} p={5}>
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </Wrap>
+        {!isLoading && (
+          <Wrap spacing={{ base: "50px", md: "200px" }} p={5}>
+            {filteredProducts?.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </Wrap>
+        )}
       </Center>
     </div>
   );

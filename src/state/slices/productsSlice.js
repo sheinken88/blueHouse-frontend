@@ -40,7 +40,7 @@ const productsSlice = createSlice({
       state.error = action.payload;
     },
     setFilteredProducts: (state, action) => {
-      state.error = action.payload;
+      state.filteredProducts = action.payload;
     },
   },
 });

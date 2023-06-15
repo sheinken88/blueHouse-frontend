@@ -4,6 +4,7 @@ import {
   setProducts,
   setLoading,
   setError,
+  setFilteredProducts,
 } from "../slices/productsSlice";
 
 axios.defaults.withCredentials = true;
@@ -108,13 +109,12 @@ export const fetchFilteredProducts = (obj) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
 
-    const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/products`
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL}/products/filtered`,
+      obj
     );
 
-    console.log("SOY LA RESPUESTA DE FILTERED", response);
-
-    dispatch(setProducts(response.data));
+    dispatch(setFilteredProducts(response.data));
 
     dispatch(setLoading(false));
   } catch (err) {

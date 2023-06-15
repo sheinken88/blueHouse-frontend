@@ -116,7 +116,7 @@ export const Navbar = () => {
                       borderColor: "#F5F5F5",
                     }}
                   >
-                    <Link to="/pd">SHOP ALL</Link>
+                    <Link to="/productdesk">SHOP ALL</Link>
                   </Box>
                   <Box
                     sx={{
@@ -127,7 +127,7 @@ export const Navbar = () => {
                       borderColor: "#F5F5F5",
                     }}
                   >
-                    <Link to="/pd">SALE</Link>
+                    <Link to="/productdesk">SALE</Link>
                   </Box>
                   <Box
                     sx={{
