@@ -16,10 +16,6 @@ import { Link } from "react-router-dom";
 import { PrimaryButton } from "../../common/Buttons";
 
 export const InfoDisplay = ({ product }) => {
-  const blueLabelData = product.meta_data.find(
-    (data) => data.key === "bluelabels"
-  );
-  const blueLabels = blueLabelData ? blueLabelData.value : [];
   const description = product.description;
   const howIsMadeData = product.meta_data.find(
     (data) => data.key.replace(/[^a-zA-Z]/g, "") === "howismade"
@@ -76,29 +72,6 @@ export const InfoDisplay = ({ product }) => {
 
   return (
     <>
-      <Text padding={4} color="primary" fontWeight="bold">
-        Blue Labels
-      </Text>
-      <Carousel responsive={responsive} arrows={false}>
-        {blueLabels.map((label, i) => (
-          <HStack key={i} spacing={0} padding={4}>
-            <Button
-              bgColor="primary"
-              color="white"
-              borderRadius="30px"
-              paddingRight="20"
-              paddingLeft="20"
-              fontSize="sm"
-              style={{ boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)" }}
-              w="fit-content"
-              maxW="100%"
-              overflowWrap="break-word"
-            >
-              {label}
-            </Button>
-          </HStack>
-        ))}
-      </Carousel>
       <Accordion allowToggle>
         <AccordionItem>
           <h2>

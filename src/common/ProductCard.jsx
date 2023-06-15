@@ -64,7 +64,7 @@ export const ProductCard = ({ product }) => {
       id: product.id,
       name: product.name,
       price: product.price,
-      image: product.images[0].src,
+      image: product.images[0]?.src,
       quantity: 1,
       attribute: option,
     };
@@ -171,7 +171,7 @@ export const ProductCard = ({ product }) => {
             // flex={{ base: "initial", md: 1 }}
             objectFit="cover"
             objectPosition="center"
-            src={product.images[0].src}
+            src={product?.images[0]?.src}
             alt={product.name}
           />
         </Box>
