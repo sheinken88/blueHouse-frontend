@@ -34,10 +34,6 @@ export const Navbar = () => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories.categories);
 
-  useEffect(() => {
-    dispatch(fetchAllCategories());
-  }, [dispatch]);
-
   return (
     <Box>
       <Flex bg={bgColor} justify="center" py={2}>
@@ -139,6 +135,17 @@ export const Navbar = () => {
                     }}
                   >
                     BLOG
+                  </Box>
+                  <Box
+                    sx={{
+                      color: "primary",
+                      pl: "2.5rem",
+                      py: "1rem",
+                      borderBottom: "1px",
+                      borderColor: "#F5F5F5",
+                    }}
+                  >
+                    <Link to="/aboutus">OUR VALUES</Link>
                   </Box>
                   <Accordion
                     sx={{

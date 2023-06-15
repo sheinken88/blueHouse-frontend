@@ -9,12 +9,49 @@ import { SingleProductPage } from "../src/pages/SingleProductPage";
 import { ShoppingCartPage } from "../src/pages/ShoppingCartPage";
 import { NotFoundPage } from "../src/pages/NotFoundPage";
 import { NewsLetter } from "./components/NewsLetter";
-import { useSelector } from "react-redux";
 import { Alert, AlertIcon } from "@chakra-ui/react";
 import { ProductDesk } from "./components/ProductDesk";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchAllProducts } from "./state/thunks/productsThunks";
+import { fetchAllReviews } from "./state/thunks/reviewsThunks";
+import { fetchAllCategories } from "./state/thunks/categoriesThunks";
+import { useEffect } from "react";
+import { fetchSubCategories } from "./state/thunks/categoriesThunks";
 
 function App() {
-  // const isAuthenticated = useSelector((state) => state.user.isAuthenticated)
+  const dispatch = useDispatch();
+  const categories = useSelector((state) => state.categories.categories);
+
+  async function setReduxState() {
+    try {
+      await dispatch(fetchAllProducts());
+      await dispatch(fetchAllReviews());
+      await dispatch(fetchAllCategories());
+    } catch (err) {
+      console.log("Error: ", err);
+    }
+  }
+
+  async function setSubCat() {
+    if (categories.length > 0) {
+      try {
+        categories.map((category) => {
+          dispatch(fetchSubCategories(category.id));
+        });
+      } catch (err) {
+        console.log("Error: ", err);
+      }
+    }
+    else {
+      return
+    }
+  }
+
+  useEffect(() => {
+    setReduxState();
+    setSubCat()
+  }, []);
+
   const isAuthenticated = true;
 
   const alert = useSelector((state) => state.alerts);

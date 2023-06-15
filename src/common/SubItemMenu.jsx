@@ -9,16 +9,9 @@ import {
 import { Link } from "react-router-dom";
 import { ImageMenuItem } from "./ImageMenuItem";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { fetchSubCategories } from "../state/thunks/categoriesThunks";
 
 export const SubItemMenu = ({category}) => {
-  const dispatch = useDispatch();
   const subCategories = useSelector((state) => state.categories.subCategories);
-
-  useEffect(() => {
-    dispatch(fetchSubCategories(category.id));
-  }, [dispatch]);
 
   let categoryName = category.name.split("amp;");
   categoryName = categoryName.join("");

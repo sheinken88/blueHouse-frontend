@@ -7,11 +7,11 @@ import { ChakraProvider } from "@chakra-ui/react";
 import theme from "../src/theme.js";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+ // <React.StrictMode>
     <ChakraProvider theme={theme}>  
     <Provider store={store}>
         <App />
     </Provider>
       </ChakraProvider>
-  </React.StrictMode>,
+ // </React.StrictMode>,
 )

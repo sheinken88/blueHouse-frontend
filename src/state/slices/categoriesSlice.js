@@ -20,9 +20,7 @@ const categoriesSlice = createSlice({
     },
     setSubCategories: (state, action) => {
       action.payload.map((subcategory) => {
-        if (!state.subCategories.includes(subcategory)) {
-          state.subCategories.push(subcategory);
-        }
+        state.subCategories.push(subcategory);
       });
     },
     setLoading: (state, action) => {
