@@ -14,7 +14,7 @@ import { HeroBanner } from "../components/HeroBanner";
 import { Image } from "@chakra-ui/react";
 
 import { Center, Spinner } from "@chakra-ui/react";
-
+import { ImageOffersCarousel } from "../components/ImageOffersCarousel";
 
 export const HomePage = () => {
   const dispatch = useDispatch();
@@ -47,7 +47,7 @@ export const HomePage = () => {
     <>
       <HeroBanner />
       <ShopByCategory />
-      <Image src="src/assets/BigCategory1.png" mt={10} mb={10} ml={2}></Image>
+      <ImageOffersCarousel />
       <FilterSection />
       <ProductGrid />
       <PeopleOpinions />
