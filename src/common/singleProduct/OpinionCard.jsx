@@ -19,7 +19,10 @@ export const OpinionCard = ({ reviews }) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/products/id/${reviews.product_id}`)
+      .get(
+        `${import.meta.env.VITE_API_URL}/products/id/${reviews.product_id}`,
+        { withCredentials: true, credentials: "include" }
+      )
       .then((res) => setProdURL(res.data.images[0].src));
   }, [prodURL]);
 

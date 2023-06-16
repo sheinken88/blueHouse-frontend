@@ -13,7 +13,8 @@ export const fetchAllCategories = () => async (dispatch) => {
     dispatch(setLoading(true));
 
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/categories/all-categories`
+      `${import.meta.env.VITE_API_URL}/categories/all-categories`,
+      { withCredentials: true, credentials: "include" }
     );
 
     dispatch(setCategories(response.data));
@@ -31,9 +32,12 @@ export const fetchSubCategories = (parentId) => async (dispatch) => {
     dispatch(setLoading(true));
 
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/categories/sub-categories?parent=${parentId}`
+      `${
+        import.meta.env.VITE_API_URL
+      }/categories/sub-categories?parent=${parentId}`,
+      { withCredentials: true, credentials: "include" }
     );
-  
+
     dispatch(setSubCategories(response.data));
 
     dispatch(setLoading(false));
@@ -44,13 +48,13 @@ export const fetchSubCategories = (parentId) => async (dispatch) => {
   }
 };
 
-
 export const fetchSingleCategory = (categoryId) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
 
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/categories/id/${categoryId}`
+      `${import.meta.env.VITE_API_URL}/categories/id/${categoryId}`,
+      { withCredentials: true, credentials: "include" }
     );
 
     dispatch(setCategory(response.data));
