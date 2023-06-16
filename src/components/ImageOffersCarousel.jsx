@@ -1,6 +1,8 @@
 import { Image, Flex, useBreakpointValue, Box } from "@chakra-ui/react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import BigCategory1 from "@/assets/BigCategory1.png";
+import BigCategory2 from "@/assets/BigCategory2.png";
 
 export const ImageOffersCarousel = () => {
   const responsive = {
@@ -20,7 +22,7 @@ export const ImageOffersCarousel = () => {
 
   const isMobile = useBreakpointValue({ base: true, md: false });
 
-  const images = ["src/assets/BigCategory1.png", "src/assets/BigCategory2.png"];
+  const images = [BigCategory1, BigCategory2];
 
   return (
     <>
@@ -34,8 +36,8 @@ export const ImageOffersCarousel = () => {
         </Box>
       ) : (
         <Flex justify="center" mt={10} mb={10}>
-          <Image src="src/assets/BigCategory1.png" boxSize="500px" mr={2} />
-          <Image src="src/assets/BigCategory2.png" boxSize="500px" ml={2} />
+          <Image src={BigCategory1} boxSize="500px" mr={2} />
+          <Image src={BigCategory2} boxSize="500px" ml={2} />
         </Flex>
       )}
     </>
