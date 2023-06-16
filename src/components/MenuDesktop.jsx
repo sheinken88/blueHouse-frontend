@@ -8,15 +8,15 @@ import {
   Spacer,
   Image,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const MenuDesktop = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleLinkToAbout = () => {
-    navigate("/aboutus")
-  }
-  
+    navigate("/aboutus");
+  };
+
   return (
     <Box maxW="1500px" mx="auto" p="4" display={{ base: "none", md: "block" }}>
       <Tabs position="relative" variant="unstyled">
@@ -34,7 +34,9 @@ export const MenuDesktop = () => {
           <Spacer />
           <Tab>Categories</Tab>
           <Spacer />
-          <Tab>Shop all</Tab>
+          <Tab as={Link} to={"/productdesk"}>
+            Shop all
+          </Tab>
           <Spacer />
           <Tab>Sale</Tab>
           <Spacer />

@@ -15,7 +15,8 @@ export const fetchAllProducts = () => async (dispatch) => {
   try {
     dispatch(setLoading(true));
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/products/allproducts`
+      `${import.meta.env.VITE_API_URL}/products/allproducts`,
+      { withCredentials: true, credentials: "include" }
     );
     dispatch(setProducts(response.data));
     dispatch(setLoading(false));
@@ -31,7 +32,8 @@ export const fetchSingleProduct = (productId) => async (dispatch) => {
     dispatch(setLoading(true));
 
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/products/id/${productId}`
+      `${import.meta.env.VITE_API_URL}/products/id/${productId}`,
+      { withCredentials: true, credentials: "include" }
     );
 
     dispatch(setProduct(response.data));
@@ -51,6 +53,7 @@ export const fetchMultipleProductsByIds = (productIds) => async (dispatch) => {
 
     const response = await axios.get(
       `${import.meta.env.VITE_API_URL}/products/ids`,
+      { withCredentials: true, credentials: "include" },
       {
         params: {
           include: productIds.join(","),
@@ -74,7 +77,8 @@ export const fetchProductsByCategory = (categoryId) => async (dispatch) => {
     // dispatch(setLoading(true));
 
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/products/bycategory/${categoryId}`
+      `${import.meta.env.VITE_API_URL}/products/bycategory/${categoryId}`,
+      { withCredentials: true, credentials: "include" }
     );
 
     dispatch(setProducts(response.data));
@@ -111,6 +115,7 @@ export const fetchFilteredProducts = (obj) => async (dispatch) => {
 
     const response = await axios.post(
       `${import.meta.env.VITE_API_URL}/products/filtered`,
+      { withCredentials: true, credentials: "include" },
       obj
     );
 

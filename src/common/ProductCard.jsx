@@ -89,8 +89,8 @@ export const ProductCard = ({ product }) => {
 
   return (
     <Box
-      maxW={{ base: "148px", md: "322px" }}
-      maxH={{ base: "230px", md: "490px" }}
+      maxW={{ base: "148px", md: "292px" }}
+      maxH={{ base: "230px", md: "450px" }}
       p={0}
       // borderRadius="lg"
       // overflow="hidden"

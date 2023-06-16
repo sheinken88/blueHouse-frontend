@@ -46,7 +46,10 @@ export const FilterSection = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/products/type/${selected}`)
+      .get(`${import.meta.env.VITE_API_URL}/products/type/${selected}`, {
+        withCredentials: true,
+        credentials: "include",
+      })
       .then((res) => {
         setProduct(res.data);
         setIsLoading(false);
