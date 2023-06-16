@@ -9,6 +9,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
+import NetherlandFlag from "../assets/language.png";
 
 export const MenuDesktop = () => {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ export const MenuDesktop = () => {
           <Tab>
             <Image
               w="100%"
-              src="src/assets/language.png"
+              src={NetherlandFlag}
               alt="netherlands_flag"
               mx="auto"
             />
