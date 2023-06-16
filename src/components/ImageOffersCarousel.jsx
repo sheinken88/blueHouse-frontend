@@ -1,8 +1,8 @@
 import { Image, Flex, useBreakpointValue, Box } from "@chakra-ui/react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import BigCategory1 from "@/assets/BigCategory1.png";
-import BigCategory2 from "@/assets/BigCategory2.png";
+import BigCategory1 from "../assets/BigCategory1.png";
+import BigCategory2 from "../assets/BigCategory2.png";
 
 export const ImageOffersCarousel = () => {
   const responsive = {
