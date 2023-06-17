@@ -4,6 +4,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { SearchIcon } from "@chakra-ui/icons";
 import {
+  Spinner,
   useDisclosure,
   Box,
   Center,
@@ -21,7 +22,6 @@ import {
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
-  DrawerCloseButton,
   Stack,
   RangeSliderThumb,
   Input,
@@ -44,19 +44,21 @@ export const ProductDesk = () => {
   );
 
   const [isLoading, setIsLoading] = useState(true);
-  const [id, setId] = useState();
   const [sliderValues, setSliderValues] = useState([150, 350]);
   const [showBluelabels, setShowBluelabels] = useState(false);
   const [showBrands, setShowBrands] = useState(false);
-  const [filters, setFilters] = useState({});
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [filters, setFilters] = useState({ per_page: 20 });
+  const [filteredProducts, setFilteredProducts] = useState();
+  const [id, setId] = useState([]);
+  const [freeShipping, setFreeShipping] = useState(false);
+  const [onSale, setOnSale] = useState(false);
+  const [blueLabel, setBlueLabels] = useState([]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("HOLA", products);
     dispatch(fetchFilteredProducts(filters))
       .then(setFilteredProducts(filterProducts))
       .then(setIsLoading(false));
@@ -89,7 +91,8 @@ export const ProductDesk = () => {
   };
 
   const handleCategorie = (e) => {
-    setFilters({ per_page: 4 });
+    setId(`categorie=${e}`);
+    console.log(id);
   };
 
   const handleSliderChange = (newValues) => {
@@ -104,9 +107,49 @@ export const ProductDesk = () => {
     setShowBrands(!showBrands);
   };
 
-  return isLoading ? (
-    <h1>TOY CARGANDO</h1>
-  ) : (
+  const handleFreeShipping = (e) => {
+    console.log("SOY FREE SHIPPING", e.target.checked);
+    setFreeShipping(e.target.checked);
+  };
+
+  const handleOnSale = (e) => {
+    console.log("SOY ON SALE", e.target.checked);
+    setOnSale(e.target.checked);
+  };
+
+  const handleBluelabel = (e) => {
+    const isChecked = e;
+    const value = e;
+
+    setBlueLabels((prevSelectedLabels) => {
+      if (isChecked) {
+        return [...prevSelectedLabels, value];
+      } else {
+        return prevSelectedLabels.filter((label) => label !== value);
+      }
+    });
+    console.log("SOY BLUELABEL", blueLabel);
+  };
+
+  if (isLoading === true) {
+    return (
+      <Center>
+        <Spinner
+          maxW="321.79px"
+          maxH="321.79px"
+          mb={10}
+          mt={10}
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="#D4D9FF"
+          color="#22488B"
+          size="xl"
+        />
+      </Center>
+    );
+  }
+
+  return (
     <div>
       <Box
         backgroundColor={"#F8F8F5"}
@@ -208,8 +251,10 @@ export const ProductDesk = () => {
               <Box>
                 <Text>Special offers</Text>
                 <Stack p={4} color="#254787">
-                  <Checkbox>Free shipping</Checkbox>
-                  <Checkbox defaultChecked color="#254787">
+                  <Checkbox onChange={handleFreeShipping}>
+                    Free shipping
+                  </Checkbox>
+                  <Checkbox onChange={handleOnSale} color="#254787">
                     On sale
                   </Checkbox>
                 </Stack>
@@ -221,7 +266,13 @@ export const ProductDesk = () => {
                   <Collapse startingHeight={100} in={showBluelabels}>
                     {AllBlueLabels.map((blueLabel) => (
                       <Stack key={blueLabel.id}>
-                        <Checkbox>{blueLabel.name}</Checkbox>
+                        <Checkbox
+                          onChange={() => {
+                            handleBluelabel(blueLabel.id);
+                          }}
+                        >
+                          {blueLabel.name}
+                        </Checkbox>
                       </Stack>
                     ))}
                   </Collapse>
@@ -302,7 +353,13 @@ export const ProductDesk = () => {
                   <Collapse startingHeight={100} in={showBrands}>
                     {AllBlueLabels.map((blueLabel) => (
                       <Stack key={blueLabel.id}>
-                        <Checkbox>{blueLabel.name}</Checkbox>
+                        <Checkbox
+                          isChecked={true}
+                          onChange={handleBluelabel}
+                          value={blueLabel.name}
+                        >
+                          {blueLabel.name}
+                        </Checkbox>
                       </Stack>
                     ))}
                   </Collapse>
@@ -329,7 +386,7 @@ export const ProductDesk = () => {
                 color={"#254787"}
                 borderRadius={"full"}
                 fontWeight={"normal"}
-                onClick={handleCategorie}
+                onClick={onClose}
               >
                 Cancel
               </Button>
@@ -340,6 +397,7 @@ export const ProductDesk = () => {
                 color={"#254787"}
                 borderRadius={"full"}
                 fontWeight={"normal"}
+                onClick={handleCategorie}
               >
                 Apply filter
               </Button>
@@ -365,13 +423,16 @@ export const ProductDesk = () => {
         </Select>
       </Box>
       <Center>
-        {!isLoading && (
-          <Wrap spacing={{ base: "50px", md: "200px" }} p={5}>
-            {filteredProducts?.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </Wrap>
-        )}
+        <Wrap spacing={{ base: "50px", md: "200px" }} p={5}>
+          {filteredProducts?.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onSale={onSale}
+              freeShipping={freeShipping}
+            />
+          ))}
+        </Wrap>
       </Center>
     </div>
   );
