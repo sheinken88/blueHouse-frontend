@@ -1,8 +1,8 @@
 import { Image } from "@chakra-ui/react";
 
-export const ImageMenuItem = (category) => {
-  const image = category.category.category.image
-    ? category.category.category.image.src
+export const ImageMenuItem = ({ category }) => {
+  const image = category.image
+    ? category.image.src
     : "src/assets/logo_blueHouse.svg";
 
   return (
@@ -12,7 +12,7 @@ export const ImageMenuItem = (category) => {
         borderRadius="full"
         boxSize="50px"
         src={image}
-        alt={category.category.category.name}
+        alt={category.name}
       />
     </>
   );

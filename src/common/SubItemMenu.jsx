@@ -9,7 +9,7 @@ import {
 import { Link } from "react-router-dom";
 import { ImageMenuItem } from "./ImageMenuItem";
 
-export const SubItemMenu = (category) => {
+export const SubItemMenu = ({ category }) => {
   return (
     <Accordion
       sx={{
@@ -25,7 +25,7 @@ export const SubItemMenu = (category) => {
           <AccordionButton>
             <ImageMenuItem category={category} />
             <Box pl={10} flex="1" textAlign="left">
-              {category.category.name}
+              {category.name}
             </Box>
             <AccordionIcon sx={{ w: "30%" }} />
           </AccordionButton>

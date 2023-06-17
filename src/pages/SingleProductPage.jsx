@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { fetchSingleProduct } from "../state/thunks/productsThunks";
 import { Center, Image, Spinner, Text } from "@chakra-ui/react";
 import { Review } from "../components/singleProduct/Review";
+import { setViews } from "../state/slices/viewsSlice";
 
 export const SingleProductPage = () => {
   const { id } = useParams();
@@ -13,6 +14,7 @@ export const SingleProductPage = () => {
 
   useEffect(() => {
     dispatch(fetchSingleProduct(id));
+    dispatch(setViews(id));
   }, [id]);
 
   if (

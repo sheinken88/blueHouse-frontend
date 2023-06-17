@@ -24,6 +24,7 @@ import { fetchAllCategories } from "../state/thunks/categoriesThunks";
 import logo_blueHouse from "../assets/logo_blueHouse.svg";
 import { ImageMenuItem } from "../common/ImageMenuItem";
 import { SubItemMenu } from "../common/SubItemMenu";
+import { clearViews } from "../state/slices/viewsSlice";
 
 export const Navbar = () => {
   const bgColor = useColorModeValue("secondary", "primary");
@@ -35,6 +36,11 @@ export const Navbar = () => {
     dispatch(fetchAllCategories());
   }, [dispatch]);
 
+  const handleClearViews = () => {
+    alert("jejej");
+    dispatch(clearViews(""));
+  };
+
   return (
     <Box>
       <Flex bg={bgColor} justify="center" py={2}>
@@ -42,11 +48,13 @@ export const Navbar = () => {
       </Flex>
 
       <Flex bg="white" justify="space-between" align="center" p={4}>
-        <a href="/" style={{ textDecoration: "none", cursor: "pointer" }}>
+        <Link to="/">
           <Image src={logo_blueHouse} alt="Logo" />
-        </a>
+        </Link>
+
         <Flex>
           <IconButton
+            onClick={handleClearViews}
             aria-label="Account"
             icon={<FaUser />}
             color="primary"
