@@ -111,17 +111,16 @@ export const fetchProductsByTag = (tagId) => async (dispatch) => {
 };
 
 //PROVISORIO, A LA ESPERA DE DEFINIR POSIBLE RUTA ALL PRODUCTS UNIFICADA PARA CATEGORÍAS Y TAGS
-export const fetchFilteredProducts = (obj) => async (dispatch) => {
+export const fetchFilteredProducts = (request) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
 
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/products/filtered`,
-      { withCredentials: true, credentials: "include" },
-      obj
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/products/filtered/${request}`,
+      { withCredentials: true, credentials: "include" }
     );
 
-    dispatch(setFilteredProducts(response.data));
+    dispatch(setProducts(response.data));
 
     dispatch(setLoading(false));
   } catch (err) {
