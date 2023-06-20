@@ -34,9 +34,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { SubItemMenu } from "../common/SubItemMenu";
 import blueLabels from "../utils/blue_labels";
-import { fetchFilteredProducts } from "../state/thunks/productsThunks";
+import {
+  fetchFilteredProducts,
+  fetchProductsByCategory,
+} from "../state/thunks/productsThunks";
 
 export const ProductDesk = () => {
+  // const isLoading = useSelector((state) => state.isLoading);
   const categories = useSelector((state) => state.categories.categories);
   const products = useSelector((state) => state.products.products);
   const filterProducts = useSelector(
@@ -47,9 +51,9 @@ export const ProductDesk = () => {
   const [sliderValues, setSliderValues] = useState([150, 350]);
   const [showBluelabels, setShowBluelabels] = useState(false);
   const [showBrands, setShowBrands] = useState(false);
-  const [filters, setFilters] = useState({ per_page: 20 });
+  const [filters, setFilters] = useState();
   const [filteredProducts, setFilteredProducts] = useState();
-  const [id, setId] = useState([]);
+  const [id, setId] = useState();
   const [freeShipping, setFreeShipping] = useState(false);
   const [onSale, setOnSale] = useState(false);
   const [blueLabel, setBlueLabels] = useState([]);
@@ -59,10 +63,22 @@ export const ProductDesk = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchFilteredProducts(filters))
-      .then(setFilteredProducts(filterProducts))
-      .then(setIsLoading(false));
-  }, [filters, products]);
+    setIsLoading(true);
+    if (id) {
+      dispatch(fetchProductsByCategory(id)).then(setIsLoading(false));
+    }
+    setIsLoading(false);
+  }, [id]);
+
+  // useEffect(() => {
+  //   filters
+  //     ? dispatch(fetchFilteredProducts(filters))
+  //         .then(setFilteredProducts(filterProducts))
+  //         .then(setIsLoading(false))
+  //     : dispatch(fetchProductsByCategory(category));
+
+  //   setIsLoading(false);
+  // }, [filters, products]);
 
   const AllBlueLabels = blueLabels;
 
@@ -91,8 +107,7 @@ export const ProductDesk = () => {
   };
 
   const handleCategorie = (e) => {
-    setId(`categorie=${e}`);
-    console.log(id);
+    setId(e);
   };
 
   const handleSliderChange = (newValues) => {
@@ -131,23 +146,24 @@ export const ProductDesk = () => {
     console.log("SOY BLUELABEL", blueLabel);
   };
 
-  if (isLoading === true) {
-    return (
-      <Center>
-        <Spinner
-          maxW="321.79px"
-          maxH="321.79px"
-          mb={10}
-          mt={10}
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="#D4D9FF"
-          color="#22488B"
-          size="xl"
-        />
-      </Center>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <Center>
+  //       <Spinner
+  //         maxW="321.79px"
+  //         maxH="321.79px"
+  //         mb={10}
+  //         mt={10}
+  //         thickness="4px"
+  //         speed="0.65s"
+  //         emptyColor="#D4D9FF"
+  //         color="#22488B"
+  //         size="xl"
+  //       />
+  //     </Center>
+  //   );
+  // }
+  console.log("SOY PRODUCTOS FILTRADOS POR CATEGORIA", products);
 
   return (
     <div>
@@ -422,18 +438,34 @@ export const ProductDesk = () => {
           <option value="option6">Date (Old)</option>
         </Select>
       </Box>
-      <Center>
-        <Wrap spacing={{ base: "50px", md: "200px" }} p={5}>
-          {filteredProducts?.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onSale={onSale}
-              freeShipping={freeShipping}
-            />
-          ))}
-        </Wrap>
-      </Center>
+      {isLoading ? (
+        <Center>
+          <Spinner
+            maxW="321.79px"
+            maxH="321.79px"
+            mb={10}
+            mt={10}
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="#D4D9FF"
+            color="#22488B"
+            size="xl"
+          />
+        </Center>
+      ) : (
+        <Center>
+          <Wrap spacing={{ base: "50px", md: "200px" }} p={5}>
+            {products?.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onSale={onSale}
+                freeShipping={freeShipping}
+              />
+            ))}
+          </Wrap>
+        </Center>
+      )}
     </div>
   );
 };
