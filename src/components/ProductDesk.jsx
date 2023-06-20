@@ -38,8 +38,9 @@ import {
   fetchFilteredProducts,
   fetchProductsByCategory,
 } from "../state/thunks/productsThunks";
+import { useParams } from "react-router-dom";
 
-export const ProductDesk = () => {
+export const ProductDesk = (category) => {
   // const isLoading = useSelector((state) => state.isLoading);
   const categories = useSelector((state) => state.categories.categories);
   const products = useSelector((state) => state.products.products);
@@ -135,16 +136,29 @@ export const ProductDesk = () => {
   const handleBluelabel = (e) => {
     const isChecked = e;
     const value = e;
-
-    setBlueLabels((prevSelectedLabels) => {
-      if (isChecked) {
-        return [...prevSelectedLabels, value];
-      } else {
-        return prevSelectedLabels.filter((label) => label !== value);
-      }
-    });
-    console.log("SOY BLUELABEL", blueLabel);
   };
+
+  const handleApplyFilter = () => {
+    // if (id) {
+    //   const catId = id;
+    // }
+    const catId = id;
+    const minPrice = sliderValues[0];
+    const maxPrice = sliderValues[1];
+
+    const request = `category=${catId}&min_price=${minPrice}&max_price=${maxPrice}`;
+    console.log("SOY EL PEDIDO QUE VOY A HACER CON LOS FILTROS", request);
+    dispatch(fetchFilteredProducts(request));
+  };
+
+  // setBlueLabels((prevSelectedLabels) => {
+  //   if (isChecked) {
+  //     return [...prevSelectedLabels, value];
+  //   } else {
+  //     return prevSelectedLabels.filter((label) => label !== value);
+  //   }
+  // });
+  // console.log("SOY BLUELABEL", blueLabel);
 
   // if (isLoading) {
   //   return (
@@ -253,7 +267,7 @@ export const ProductDesk = () => {
             <DrawerHeader mt={3}>FILTERS</DrawerHeader>
 
             <DrawerBody>
-              <Box>
+              {/* <Box>
                 <Text>CATEGORIES</Text>
                 {categories.map((category) => (
                   <SubItemMenu
@@ -262,7 +276,7 @@ export const ProductDesk = () => {
                     id={category.id}
                   />
                 ))}
-              </Box>
+              </Box> */}
 
               <Box>
                 <Text>Special offers</Text>
@@ -413,7 +427,7 @@ export const ProductDesk = () => {
                 color={"#254787"}
                 borderRadius={"full"}
                 fontWeight={"normal"}
-                onClick={handleCategorie}
+                onClick={handleApplyFilter}
               >
                 Apply filter
               </Button>

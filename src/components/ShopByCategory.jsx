@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { fetchAllCategories } from "../state/thunks/categoriesThunks";
 import { CategoryCard } from "../common/CategoryCard";
 import { Box, Stack, Text, Wrap } from "@chakra-ui/react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { fetchProductsByCategory } from "../state/thunks/productsThunks";
 
 export const ShopByCategory = () => {
@@ -20,7 +20,7 @@ export const ShopByCategory = () => {
   const handleClick = (e) => {
     dispatch(fetchProductsByCategory(e));
     console.log("SOY LA CATEGORIA SELECCIONADA", e);
-    navigate("/productdesk/");
+    navigate(`/productdesk/`);
   };
 
   const responsive = {
