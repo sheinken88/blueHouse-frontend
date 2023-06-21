@@ -2,7 +2,6 @@ import {
   Box,
   HStack,
 } from "@chakra-ui/react";
-import { ArrowForwardIcon } from "@chakra-ui/icons";
 import { ImageMenuItem } from "./ImageMenuItem";
 
 export const SubItemMenuDesktop = ({ category }) => {
@@ -22,7 +21,6 @@ export const SubItemMenuDesktop = ({ category }) => {
         <Box pl={"1rem"} flex="1" textAlign="left">
           {categoryName}
         </Box>
-        <ArrowForwardIcon sx={{ mr: "1rem" }} />
       </HStack>
     </Box>
   );
