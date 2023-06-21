@@ -12,6 +12,7 @@ export const ShopByCategory = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories.categories);
+  // const categoryFilter = useSelector((state) => state.categoryFilter);
 
   useEffect(() => {
     dispatch(fetchAllCategories());
@@ -19,7 +20,7 @@ export const ShopByCategory = () => {
 
   const handleClick = (e) => {
     dispatch(fetchProductsByCategory(e));
-    console.log("SOY LA CATEGORIA SELECCIONADA", e);
+
     navigate(`/productdesk/`);
   };
 

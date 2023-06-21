@@ -9,6 +9,11 @@ const initialState = {
   summerEssentials: [],
   isLoading: false,
   error: null,
+  categoryFilters: {
+    category: null,
+    min_price: 1,
+    max_price: 500,
+  },
 };
 
 const productsSlice = createSlice({
@@ -42,6 +47,9 @@ const productsSlice = createSlice({
     setFilteredProducts: (state, action) => {
       state.filteredProducts = action.payload;
     },
+    setCategoryFilters: (state, action) => {
+      state.categoryFilters = action.payload;
+    },
   },
 });
 
@@ -55,6 +63,7 @@ export const {
   setLoading,
   setError,
   setFilteredProducts,
+  setCategoryFilters,
 } = productsSlice.actions;
 
 export default productsSlice.reducer;

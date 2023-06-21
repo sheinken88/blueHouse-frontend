@@ -108,7 +108,7 @@ export const Navbar = () => {
             bg="secondary"
             _hover={{ bg: "primary" }}
           />
-          {mobileDesign ? (
+{mobileDesign ? (
             <Menu>
               {({ isOpen }) => (
                 <>
@@ -125,6 +125,7 @@ export const Navbar = () => {
                     {isOpen ? <CloseIcon /> : <HamburgerIcon />}
                   </MenuButton>
                   <MenuList>
+
                     <Flex justify="center" mx="2.5rem">
                       <InputGroup mt={2} w="83%" borderRadius="2rem">
                         <InputLeftElement>
@@ -141,6 +142,7 @@ export const Navbar = () => {
                         />
                       </InputGroup>
                     </Flex>
+
                     {categories.map((category) => (
                       <MenuItem
                         key={category.id}
@@ -223,6 +225,7 @@ export const Navbar = () => {
           ) : (
             <></>
           )}
+
         </Flex>
       </Flex>
       {mobileDesign ? (
@@ -245,7 +248,9 @@ export const Navbar = () => {
       ) : (
         <></>
       )}
+
       {mobileDesign ? <></> : <MenuDesktop categories={categories} />}
+
     </Box>
   );
 };

@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Box, HStack, Spacer, Image, Text } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
@@ -146,3 +147,4 @@ export const MenuDesktop = ({ categories }) => {
     </>
   );
 };
+

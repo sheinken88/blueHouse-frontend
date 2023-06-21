@@ -17,14 +17,14 @@ export const OpinionCard = ({ reviews }) => {
     "https://www.publicdomainpictures.net/pictures/280000/velka/not-found-image-15383864787lu.jpg";
   const [prodURL, setProdURL] = useState("");
 
-  useEffect(() => {
-    axios
-      .get(
-        `${import.meta.env.VITE_API_URL}/products/id/${reviews.product_id}`,
-        { withCredentials: true, credentials: "include" }
-      )
-      .then((res) => setProdURL(res.data.images[0].src));
-  }, [prodURL]);
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `${import.meta.env.VITE_API_URL}/products/id/${reviews.product_id}`,
+  //       { withCredentials: true, credentials: "include" }
+  //     )
+  //     .then((res) => setProdURL(res.data.images[0].src));
+  // }, [prodURL]);
 
   let date = new Date(reviews.date_created);
   let dateOptions = { month: "long" };

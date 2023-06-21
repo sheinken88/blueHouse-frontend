@@ -38,10 +38,12 @@ import {
   fetchFilteredProducts,
   fetchProductsByCategory,
 } from "../state/thunks/productsThunks";
-import { useParams } from "react-router-dom";
+import { setCategoryFilters } from "../state/slices/productsSlice";
 
 export const ProductDesk = (category) => {
-  // const isLoading = useSelector((state) => state.isLoading);
+  const categoryFilters = useSelector(
+    (state) => state.products.categoryFilters
+  );
   const categories = useSelector((state) => state.categories.categories);
   const products = useSelector((state) => state.products.products);
   const filterProducts = useSelector(
@@ -49,10 +51,10 @@ export const ProductDesk = (category) => {
   );
 
   const [isLoading, setIsLoading] = useState(true);
-  const [sliderValues, setSliderValues] = useState([150, 350]);
+  const [sliderValues, setSliderValues] = useState([1, 100]);
   const [showBluelabels, setShowBluelabels] = useState(false);
   const [showBrands, setShowBrands] = useState(false);
-  const [filters, setFilters] = useState();
+  const [request, setRequest] = useState("");
   const [filteredProducts, setFilteredProducts] = useState();
   const [id, setId] = useState();
   const [freeShipping, setFreeShipping] = useState(false);
@@ -70,16 +72,6 @@ export const ProductDesk = (category) => {
     }
     setIsLoading(false);
   }, [id]);
-
-  // useEffect(() => {
-  //   filters
-  //     ? dispatch(fetchFilteredProducts(filters))
-  //         .then(setFilteredProducts(filterProducts))
-  //         .then(setIsLoading(false))
-  //     : dispatch(fetchProductsByCategory(category));
-
-  //   setIsLoading(false);
-  // }, [filters, products]);
 
   const AllBlueLabels = blueLabels;
 
@@ -139,45 +131,41 @@ export const ProductDesk = (category) => {
   };
 
   const handleApplyFilter = () => {
-    // if (id) {
-    //   const catId = id;
-    // }
-    const catId = id;
-    const minPrice = sliderValues[0];
-    const maxPrice = sliderValues[1];
+    if (id) {
+      dispatch(
+        setCategoryFilters({
+          category: id,
+          min_price: sliderValues[0],
+          max_price: sliderValues[1],
+        })
+      );
+    } else {
+      dispatch(
+        setCategoryFilters({
+          category: categoryFilters.category,
+          min_price: sliderValues[0],
+          max_price: sliderValues[1],
+        })
+      );
+    }
 
-    const request = `category=${catId}&min_price=${minPrice}&max_price=${maxPrice}`;
-    console.log("SOY EL PEDIDO QUE VOY A HACER CON LOS FILTROS", request);
+    setRequest(
+      `category=${categoryFilters.category}&min_price=${categoryFilters.min_price}&max_price=${categoryFilters.max_price}`
+    );
+    // console.log("SOY EL PEDIDO QUE VOY A HACER CON LOS FILTROS", request);
     dispatch(fetchFilteredProducts(request));
+    onClose();
   };
 
-  // setBlueLabels((prevSelectedLabels) => {
-  //   if (isChecked) {
-  //     return [...prevSelectedLabels, value];
-  //   } else {
-  //     return prevSelectedLabels.filter((label) => label !== value);
-  //   }
-  // });
-  // console.log("SOY BLUELABEL", blueLabel);
+  const handleSort = (e) => {
+    console.log("SOY HANDLE SORT!!!", e.target.value);
 
-  // if (isLoading) {
-  //   return (
-  //     <Center>
-  //       <Spinner
-  //         maxW="321.79px"
-  //         maxH="321.79px"
-  //         mb={10}
-  //         mt={10}
-  //         thickness="4px"
-  //         speed="0.65s"
-  //         emptyColor="#D4D9FF"
-  //         color="#22488B"
-  //         size="xl"
-  //       />
-  //     </Center>
-  //   );
-  // }
-  console.log("SOY PRODUCTOS FILTRADOS POR CATEGORIA", products);
+    dispatch(fetchFilteredProducts(`${request}${e.target.value}`));
+  };
+
+  // console.log("SOY REQUEST!!!!!!!", request);
+  // console.log("SOY CATEGORY FILTERS PERO DESDE PD!!!!", categoryFilters);
+  // console.log("SOY PRODUCTOS FILTRADOS POR CATEGORIA y sin filtro", products);
 
   return (
     <div>
@@ -267,7 +255,7 @@ export const ProductDesk = (category) => {
             <DrawerHeader mt={3}>FILTERS</DrawerHeader>
 
             <DrawerBody>
-              {/* <Box>
+              <Box>
                 <Text>CATEGORIES</Text>
                 {categories.map((category) => (
                   <SubItemMenu
@@ -276,7 +264,7 @@ export const ProductDesk = (category) => {
                     id={category.id}
                   />
                 ))}
-              </Box> */}
+              </Box>
 
               <Box>
                 <Text>Special offers</Text>
@@ -443,13 +431,16 @@ export const ProductDesk = (category) => {
           color={"#254787"}
           size={"xs"}
           display={{ base: "none", md: "block" }}
+          onClick={handleSort}
         >
-          <option value="option1">Product Name (A - Z)</option>
-          <option value="option2">Product Name (Z - A)</option>
-          <option value="option3">Price (Lowest)</option>
-          <option value="option4">Price (Highest)</option>
-          <option value="option5">Date (New)</option>
-          <option value="option6">Date (Old)</option>
+          <option value="&orderby=title&order=asc">Product Name (A - Z)</option>
+          <option value="&orderby=title&order=desc">
+            Product Name (Z - A)
+          </option>
+          <option value="&orderby=price&order=asc">Price (Lowest)</option>
+          <option value="&orderby=price&order=desc">Price (Highest)</option>
+          <option value="&orderby=date&order=asc">Date (New)</option>
+          <option value="&orderby=date&order=desc">Date (Old)</option>
         </Select>
       </Box>
       {isLoading ? (
