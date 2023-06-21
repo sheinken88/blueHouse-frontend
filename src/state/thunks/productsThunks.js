@@ -127,8 +127,8 @@ export const fetchFilteredProducts = (filters) => async (dispatch) => {
       `${import.meta.env.VITE_API_URL}/products/filtered/${filters}`,
       { withCredentials: true, credentials: "include" }
     );
-    console.log("SOY FILTERED PRODUCTS", filteredProducts);
-    dispatch(setProducts(filteredProducts[0].data));
+    console.log("SOY FILTERED PRODUCTS", filteredProducts.data.filteredProduct);
+    dispatch(setProducts(filteredProducts.data.filteredProduct));
 
     dispatch(setLoading(false));
   } catch (err) {

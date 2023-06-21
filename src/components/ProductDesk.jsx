@@ -38,7 +38,7 @@ import {
   fetchFilteredProducts,
   fetchProductsByCategory,
 } from "../state/thunks/productsThunks";
-import { setCategoryFilters } from "../state/slices/productsSlice";
+import { setCategoryFilters, setProducts } from "../state/slices/productsSlice";
 import he from "he";
 import { FilterCheckbox } from "../common/FilterCheckbox";
 
@@ -62,7 +62,7 @@ export const ProductDesk = (category) => {
   const [freeShipping, setFreeShipping] = useState(false);
   const [onSale, setOnSale] = useState(false);
   const [blueLabel, setBlueLabels] = useState([]);
-
+  const [searchInput, setSearchInput] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   const dispatch = useDispatch();
@@ -157,12 +157,24 @@ export const ProductDesk = (category) => {
     onClose();
   };
 
+  const handleInput = (e) => {
+    setRequest(`search=${e.target.value}`);
+  };
+
+  const handleSearch = (e) => {
+    if (e.key === "Enter") {
+      dispatch(fetchFilteredProducts(request));
+      onClose();
+    }
+  };
+
   const handleSort = (e) => {
     console.log("SOY HANDLE SORT!!!", e.target.value);
 
     dispatch(fetchFilteredProducts(`${request}${e.target.value}`));
   };
 
+  // console.log("SOY SEARDCUJEHFIUA", searchInput);
   // console.log("SOY REQUEST!!!!!!!", request);
   // console.log("SOY CATEGORY FILTERS PERO DESDE PD!!!!", categoryFilters);
   console.log("SOY PRODUCTOS FILTRADOS POR CATEGORIA y sin filtro", products);
@@ -266,7 +278,7 @@ export const ProductDesk = (category) => {
                 ))}
               </Box> */}
 
-              {/* <Stack>
+              <Stack>
                 <Text>CATEGORIES</Text>
                 {categories.map((category) => (
                   <Checkbox
@@ -278,9 +290,9 @@ export const ProductDesk = (category) => {
                     <SubItemMenu category={category} />
                   </Checkbox>
                 ))}
-              </Stack> */}
+              </Stack>
 
-              <Box key={category.id}>
+              {/* <Box key={category.id}>
                 {categories.map((category) => (
                   <FilterCheckbox
                     ey={category.id}
@@ -288,7 +300,7 @@ export const ProductDesk = (category) => {
                     id={category.id}
                   />
                 ))}
-              </Box>
+              </Box> */}
 
               <Box>
                 <Text>Special offers</Text>
@@ -309,6 +321,7 @@ export const ProductDesk = (category) => {
                     {AllBlueLabels.map((blueLabel) => (
                       <Stack key={blueLabel.id}>
                         <Checkbox
+                          pl={3}
                           onChange={() => {
                             handleBluelabel(blueLabel.id);
                           }}
@@ -330,7 +343,7 @@ export const ProductDesk = (category) => {
                 </Stack>
               </Box>
 
-              <Box>
+              {/* <Box>
                 <Text>Price</Text>
                 <Box pt={6} pb={2}>
                   <RangeSlider
@@ -375,8 +388,8 @@ export const ProductDesk = (category) => {
                       500
                     </Text>
                   </Stack>
-                </Box>
-              </Box>
+                </Box> 
+              </Box>*/}
 
               <Box>
                 <Text>Brand</Text>
@@ -385,7 +398,12 @@ export const ProductDesk = (category) => {
                     <InputRightElement>
                       <SearchIcon />
                     </InputRightElement>
-                    <Input placeholder="Search" borderRadius={"full"}></Input>
+                    <Input
+                      placeholder="Search"
+                      borderRadius={"full"}
+                      onChange={handleInput}
+                      onKeyDown={handleSearch}
+                    ></Input>
                   </InputGroup>
                 </Stack>
               </Box>
@@ -396,7 +414,7 @@ export const ProductDesk = (category) => {
                     {AllBlueLabels.map((blueLabel) => (
                       <Stack key={blueLabel.id}>
                         <Checkbox
-                          isChecked={true}
+                          pl={3}
                           onChange={handleBluelabel}
                           value={blueLabel.name}
                         >
