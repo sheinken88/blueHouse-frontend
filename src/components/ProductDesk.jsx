@@ -39,6 +39,8 @@ import {
   fetchProductsByCategory,
 } from "../state/thunks/productsThunks";
 import { setCategoryFilters } from "../state/slices/productsSlice";
+import he from "he";
+import { FilterCheckbox } from "../common/FilterCheckbox";
 
 export const ProductDesk = (category) => {
   const categoryFilters = useSelector(
@@ -49,8 +51,8 @@ export const ProductDesk = (category) => {
   const filterProducts = useSelector(
     (state) => state.products.filteredProducts
   );
+  const isLoading = useSelector((state) => state.products.isLoading);
 
-  const [isLoading, setIsLoading] = useState(true);
   const [sliderValues, setSliderValues] = useState([1, 100]);
   const [showBluelabels, setShowBluelabels] = useState(false);
   const [showBrands, setShowBrands] = useState(false);
@@ -66,11 +68,9 @@ export const ProductDesk = (category) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setIsLoading(true);
     if (id) {
-      dispatch(fetchProductsByCategory(id)).then(setIsLoading(false));
+      dispatch(fetchProductsByCategory(id));
     }
-    setIsLoading(false);
   }, [id]);
 
   const AllBlueLabels = blueLabels;
@@ -152,7 +152,7 @@ export const ProductDesk = (category) => {
     setRequest(
       `category=${categoryFilters.category}&min_price=${categoryFilters.min_price}&max_price=${categoryFilters.max_price}`
     );
-    // console.log("SOY EL PEDIDO QUE VOY A HACER CON LOS FILTROS", request);
+    console.log("SOY EL PEDIDO QUE VOY A HACER CON LOS FILTROS", request);
     dispatch(fetchFilteredProducts(request));
     onClose();
   };
@@ -165,7 +165,7 @@ export const ProductDesk = (category) => {
 
   // console.log("SOY REQUEST!!!!!!!", request);
   // console.log("SOY CATEGORY FILTERS PERO DESDE PD!!!!", categoryFilters);
-  // console.log("SOY PRODUCTOS FILTRADOS POR CATEGORIA y sin filtro", products);
+  console.log("SOY PRODUCTOS FILTRADOS POR CATEGORIA y sin filtro", products);
 
   return (
     <div>
@@ -255,11 +255,35 @@ export const ProductDesk = (category) => {
             <DrawerHeader mt={3}>FILTERS</DrawerHeader>
 
             <DrawerBody>
-              <Box>
+              {/* <Box>
                 <Text>CATEGORIES</Text>
                 {categories.map((category) => (
                   <SubItemMenu
                     key={category.id}
+                    category={category}
+                    id={category.id}
+                  />
+                ))}
+              </Box> */}
+
+              {/* <Stack>
+                <Text>CATEGORIES</Text>
+                {categories.map((category) => (
+                  <Checkbox
+                    key={category.id}
+                    category={category}
+                    value={category.id}
+                    bgImg={category.image}
+                  >
+                    <SubItemMenu category={category} />
+                  </Checkbox>
+                ))}
+              </Stack> */}
+
+              <Box key={category.id}>
+                {categories.map((category) => (
+                  <FilterCheckbox
+                    ey={category.id}
                     category={category}
                     id={category.id}
                   />
