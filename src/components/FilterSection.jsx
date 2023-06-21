@@ -26,7 +26,7 @@ export const FilterSection = () => {
       items: 5,
     },
     laptop: {
-      breakpoint: { max: 769, min: 1440 },
+      breakpoint: { max: 1440, min: 769 },
       items: 3,
     },
     tablet: {
