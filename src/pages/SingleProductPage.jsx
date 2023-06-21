@@ -20,13 +20,18 @@ export const SingleProductPage = () => {
 
   useEffect(() => {
     dispatch(fetchSingleProduct(id));
+    if (product?.related_ids) {
+      dispatch(fetchMultipleProductsByIds(product.related_ids));
+    }
   }, [id]);
 
   useEffect(() => {
     if (product?.related_ids) {
       dispatch(fetchMultipleProductsByIds(product.related_ids));
     }
-  }, [product]);
+  }, [product, id]);
+
+  console.log("related prods: ", relatedProducts);
 
   if (
     !product ||
