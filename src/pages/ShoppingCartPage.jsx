@@ -52,6 +52,7 @@ export const ShoppingCartPage = () => {
     const url = `https://staging15.bluehouseworld.nl/?add-to-cart=${queryString}`;
 
     console.log(url);
+    window.location.href = url;
   };
 
   const boxSize = useBreakpointValue({ base: "full", md: "xl" });
@@ -160,8 +161,8 @@ export const ShoppingCartPage = () => {
           </HStack>
           <Center>
             <Button
-              as={Link}
-              to="/checkout"
+              // as={Link}
+              // to="/checkout"
               bg={btnBgColor}
               color={btnColor}
               w="80%"

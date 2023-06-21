@@ -53,8 +53,10 @@ export const fetchMultipleProductsByIds = (productIds) => async (dispatch) => {
 
     const response = await axios.get(
       `${import.meta.env.VITE_API_URL}/products/ids`,
-      { withCredentials: true, credentials: "include" },
+
       {
+        withCredentials: true,
+        credentials: "include",
         params: {
           include: productIds.join(","),
         },

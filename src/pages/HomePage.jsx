@@ -46,7 +46,7 @@ export const HomePage = () => {
       <LastViews />
       <ImageOffersCarousel />
       <FilterSection />
-      <ProductGrid />
+      <ProductGrid />>>>>>>> develop
       <PeopleOpinions />
       <BrandClaims />
       <About />
