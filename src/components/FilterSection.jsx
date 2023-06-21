@@ -3,7 +3,6 @@ import { ProductCard } from "../common/ProductCard";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import {
-  Button,
   Center,
   Stack,
   Text,
