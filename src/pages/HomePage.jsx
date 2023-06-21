@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAllProducts } from "../state/thunks/productsThunks";
 import { fetchAllReviews } from "../state/thunks/reviewsThunks";
@@ -19,11 +19,7 @@ import { ImageOffersCarousel } from "../components/ImageOffersCarousel";
 export const HomePage = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.products.isLoading);
-
-  useEffect(() => {
-    dispatch(fetchAllProducts());
-    dispatch(fetchAllReviews());
-  }, [dispatch]);
+  const products = useSelector((state) => state.products.products);
 
   if (isLoading) {
     return (

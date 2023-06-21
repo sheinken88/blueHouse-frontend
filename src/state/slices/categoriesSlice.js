@@ -19,13 +19,14 @@ const categoriesSlice = createSlice({
       state.categories = action.payload;
     },
     setSubCategories: (state, action) => {
-      let array=[]
-      if (state.subCategories.length>0) {
-      state.subCategories.map((subcategory) => {
-         array.push(subcategory.id)
-      })}
+      let array = [];
+      if (state.subCategories.length > 0) {
+        state.subCategories.map((subcategory) => {
+          array.push(subcategory.id);
+        });
+      }
       action.payload.map((subcategory) => {
-       if (!array.includes(subcategory.id)) {
+        if (!array.includes(subcategory.id)) {
           state.subCategories.push(subcategory);
         }
       });
@@ -33,6 +34,7 @@ const categoriesSlice = createSlice({
     setLoading: (state, action) => {
       state.isLoading = action.payload;
     },
+
     setError: (state, action) => {
       state.error = action.payload;
     },
