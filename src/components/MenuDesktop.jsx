@@ -1,11 +1,12 @@
-
 import React from "react";
-import { Box, HStack, Spacer, Image, Text } from "@chakra-ui/react";
+import { Box, HStack, Flex, Spacer, Image, Text } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { SubItemMenuDesktop } from "../common/SubItemMenuDesktop";
 import NetherlandsFlag from "../assets/language.png";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
+import he from "he"
 
 export const MenuDesktop = ({ categories }) => {
   const categoriesMap = categories;
@@ -30,14 +31,17 @@ export const MenuDesktop = ({ categories }) => {
     categories.map((category) => {
       if (category.name === event.target.innerHTML) {
         setChosenCategory(category);
+        subCategories.map((subcategory) => {
+          if (subcategory.parent === category.id) {
+            subCat.push(subcategory);
+          }
+        });
+        setChosenSubCategories(subCat);
       }
     });
-    subCategories.map((subcategory) => {
-      if (subcategory.parent === chosenCategory.id) {
-        subCat.push(subcategory);
-      }
-    });
-    setChosenSubCategories(subCat)
+  };
+
+  const handleSubCategorySelector = (event) => {
   };
 
   return (
@@ -99,14 +103,16 @@ export const MenuDesktop = ({ categories }) => {
                 All Categories
               </Text>
               {categoriesMap.map((category) => (
-                <Box key={category.id} onClick={handleCategorySelector}>
+                <Flex key={category.id} onClick={handleCategorySelector}>
                   <SubItemMenuDesktop category={category} />
-                </Box>
+                  <Spacer />
+                  <ArrowForwardIcon sx={{ m: "1rem" }} />
+                </Flex>
               ))}
             </Box>
           </Box>
         )}
-        {toggleCategories && chosenCategory && (
+        {toggleCategories && chosenCategory && chosenSubCategories && (
           <Box
             sx={{
               mt: "1rem",
@@ -123,10 +129,10 @@ export const MenuDesktop = ({ categories }) => {
                   fontWeight: "bold",
                 }}
               >
-                {chosenCategory.name}
+                {he.decode(chosenCategory.name)}
               </Text>
               {chosenSubCategories.map((subcategory) => (
-                <Box key={subcategory.id}>
+                <Box key={subcategory.id} onClick={handleSubCategorySelector}>
                   <SubItemMenuDesktop category={subcategory} />
                 </Box>
               ))}
@@ -134,17 +140,6 @@ export const MenuDesktop = ({ categories }) => {
           </Box>
         )}
       </HStack>
-      {/* {subCat.map((subCategory) => (
-          <Box
-            key={category.id}
-            as={Link}
-            to="/"
-            sx={{ fontSize: 12, pb: "2px", pl: 10 }}
-          >
-            {subCategory.name}
-          </Box>
-        ))} */}
     </>
   );
 };
-
