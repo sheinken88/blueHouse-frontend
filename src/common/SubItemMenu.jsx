@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchSubCategories } from "../state/thunks/categoriesThunks";
 
-export const SubItemMenu = ({category}) => {
+export const SubItemMenu = ({ category }) => {
   const dispatch = useDispatch();
   const subCategories = useSelector((state) => state.categories.subCategories);
 
@@ -24,11 +24,11 @@ export const SubItemMenu = ({category}) => {
   categoryName = categoryName.join("");
 
   let subCat = [];
-    subCategories.map((subcategory) => {
-      if ((!subCat.includes(subcategory)) && (subcategory.parent === category.id)) {
-        subCat.push(subcategory);
-      }
-    });
+  subCategories.map((subcategory) => {
+    if (!subCat.includes(subcategory) && subcategory.parent === category.id) {
+      subCat.push(subcategory);
+    }
+  });
 
   return (
     <Accordion
