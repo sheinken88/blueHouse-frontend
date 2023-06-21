@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAllProducts } from "../state/thunks/productsThunks";
 import { fetchAllReviews } from "../state/thunks/reviewsThunks";
@@ -19,13 +19,10 @@ export const HomePage = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.products.isLoading);
   const ids = JSON.parse(localStorage.getItem("lastViews"))?.lastViews;
-
   const views = useSelector((state) => state.views);
 
-  useEffect(() => {
-    dispatch(fetchAllProducts());
-    dispatch(fetchAllReviews());
-  }, [dispatch]);
+  const products = useSelector((state) => state.products.products);
+
 
   if (isLoading) {
     return (

@@ -9,14 +9,23 @@ import { SingleProductPage } from "../src/pages/SingleProductPage";
 import { ShoppingCartPage } from "../src/pages/ShoppingCartPage";
 import { NotFoundPage } from "../src/pages/NotFoundPage";
 import { NewsLetter } from "./components/NewsLetter";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 import { Alert, AlertIcon } from "@chakra-ui/react";
 import { ProductDesk } from "./components/ProductDesk";
 import { ShoppingCartDrawer } from "./components/ShoppingCartDrawer";
+import { fetchAllProducts } from "./state/thunks/productsThunks";
+import { fetchAllReviews } from "./state/thunks/reviewsThunks";
+import { useEffect } from "react";
 
 function App() {
   const isAuthenticated = true;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAllProducts());
+    dispatch(fetchAllReviews());
+  }, []);
 
   const alert = useSelector((state) => state.alerts);
 

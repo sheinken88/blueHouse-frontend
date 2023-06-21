@@ -21,13 +21,14 @@ import {
 import { CloseIcon, SearchIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllCategories } from "../state/thunks/categoriesThunks";
+import {
+  fetchAllCategories,
+  fetchSubCategories,
+} from "../state/thunks/categoriesThunks";
 import { MenuDesktop } from "./MenuDesktop";
-
 import logo_blueHouse from "../assets/logo_blueHouse.svg";
-import { ImageMenuItem } from "../common/ImageMenuItem";
 import { SubItemMenu } from "../common/SubItemMenu";
 
 export const Navbar = () => {
@@ -36,17 +37,32 @@ export const Navbar = () => {
 
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories.categories);
+  const [categoriesDispatched, setCategoriesDispatched] = useState(null);
+  const [subCategoriesDispatched, setSubCategoriesDispatched] = useState(null);
+
+  const runEffect = async () => {
+    const data = await dispatch(fetchAllCategories());
+    setCategoriesDispatched(true);
+  };
 
   useEffect(() => {
-    dispatch(fetchAllCategories());
-  }, [dispatch]);
+    runEffect();
+  }, []);
+  
+  useEffect(() => {
+    if (categoriesDispatched && !subCategoriesDispatched) {
+      categories.map((category) => {
+        dispatch(fetchSubCategories(category.id));
+      });
+      setSubCategoriesDispatched(true);
+    }
+  }, [categoriesDispatched]);
 
   return (
     <Box>
       <Flex bg={bgColor} justify="center" py={2}>
         <Text color="primary">Free Shipping over €35</Text>
       </Flex>
-
       <Flex bg="white" justify="space-between" align="center" p={4}>
         <a href="/" style={{ textDecoration: "none", cursor: "pointer" }}>
           <Image src={logo_blueHouse} alt="Logo" />
@@ -92,23 +108,24 @@ export const Navbar = () => {
             bg="secondary"
             _hover={{ bg: "primary" }}
           />
-          <Menu>
-            {({ isOpen }) => (
-              <>
-                <MenuButton
-                  as={IconButton}
-                  aria-label="Options"
-                  variant="outline"
-                  color="primary"
-                  mx={1}
-                  _before={{ bg: "primary" }}
-                  _after={{ bg: "primary" }}
-                  isActive={isOpen}
-                >
-                  {isOpen ? <CloseIcon /> : <HamburgerIcon />}
-                </MenuButton>
-                <MenuList>
-                  {mobileDesign ? (
+{mobileDesign ? (
+            <Menu>
+              {({ isOpen }) => (
+                <>
+                  <MenuButton
+                    as={IconButton}
+                    aria-label="Options"
+                    variant="outline"
+                    color="primary"
+                    mx={1}
+                    _before={{ bg: "primary" }}
+                    _after={{ bg: "primary" }}
+                    isActive={isOpen}
+                  >
+                    {isOpen ? <CloseIcon /> : <HamburgerIcon />}
+                  </MenuButton>
+                  <MenuList>
+
                     <Flex justify="center" mx="2.5rem">
                       <InputGroup mt={2} w="83%" borderRadius="2rem">
                         <InputLeftElement>
@@ -125,90 +142,90 @@ export const Navbar = () => {
                         />
                       </InputGroup>
                     </Flex>
-                  ) : (
-                    <></>
-                  )}
-                  {categories.map((category) => (
-                    <MenuItem key={category.id} w="400px" closeOnSelect={false}>
-                      <SubItemMenu category={category} />
-                    </MenuItem>
-                  ))}
-                  {mobileDesign ? (
-                    <>
-                      <Box
-                        sx={{
-                          color: "primary",
-                          pl: "2.5rem",
-                          py: "1rem",
-                          borderTop: "1px",
-                          borderBottom: "1px",
-                          borderColor: "#F5F5F5",
-                        }}
+
+                    {categories.map((category) => (
+                      <MenuItem
+                        key={category.id}
+                        w="400px"
+                        closeOnSelect={false}
                       >
-                        <Link to="/productdesk">SHOP ALL</Link>
-                      </Box>
-                      <Box
-                        sx={{
-                          color: "primary",
-                          pl: "2.5rem",
-                          py: "1rem",
-                          borderBottom: "1px",
-                          borderColor: "#F5F5F5",
-                        }}
-                      >
-                        <Link to="/productdesk">SALE</Link>
-                      </Box>
-                      <Box
-                        sx={{
-                          color: "primary",
-                          pl: "2.5rem",
-                          py: "1rem",
-                          borderBottom: "1px",
-                          borderColor: "#F5F5F5",
-                        }}
-                      >
-                        BLOG
-                      </Box>
-                      <Box
-                        sx={{
-                          color: "primary",
-                          pl: "2.5rem",
-                          py: "1rem",
-                          borderBottom: "1px",
-                          borderColor: "#F5F5F5",
-                        }}
-                      >
-                        <Link to="/aboutus">OUR VALUES</Link>
-                      </Box>
-                      <Accordion
-                        sx={{
-                          bg: "#D4D9FF",
-                          color: "primary",
-                        }}
-                        allowMultiple
-                      >
-                        <AccordionItem>
-                          <AccordionButton>
-                            <Box
-                              pl={"1.5rem"}
-                              py={"1rem"}
-                              flex="1"
-                              textAlign="left"
-                            >
-                              Customer Service
-                            </Box>
-                            <AccordionIcon sx={{ w: "30%" }} />
-                          </AccordionButton>
-                        </AccordionItem>
-                      </Accordion>
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                </MenuList>
-              </>
-            )}
-          </Menu>
+                        <SubItemMenu category={category} />
+                      </MenuItem>
+                    ))}
+                    <Box
+                      sx={{
+                        color: "primary",
+                        pl: "2.5rem",
+                        py: "1rem",
+                        borderTop: "1px",
+                        borderBottom: "1px",
+                        borderColor: "#F5F5F5",
+                      }}
+                    >
+                      <Link to="/productdesk">SHOP ALL</Link>
+                    </Box>
+                    <Box
+                      sx={{
+                        color: "primary",
+                        pl: "2.5rem",
+                        py: "1rem",
+                        borderBottom: "1px",
+                        borderColor: "#F5F5F5",
+                      }}
+                    >
+                      <Link to="/productdesk">SALE</Link>
+                    </Box>
+                    <Box
+                      sx={{
+                        color: "primary",
+                        pl: "2.5rem",
+                        py: "1rem",
+                        borderBottom: "1px",
+                        borderColor: "#F5F5F5",
+                      }}
+                    >
+                      BLOG
+                    </Box>
+                    <Box
+                      sx={{
+                        color: "primary",
+                        pl: "2.5rem",
+                        py: "1rem",
+                        borderBottom: "1px",
+                        borderColor: "#F5F5F5",
+                      }}
+                    >
+                      <Link to="/aboutus">OUR VALUES</Link>
+                    </Box>
+                    <Accordion
+                      sx={{
+                        bg: "#D4D9FF",
+                        color: "primary",
+                      }}
+                      allowMultiple
+                    >
+                      <AccordionItem>
+                        <AccordionButton>
+                          <Box
+                            pl={"1.5rem"}
+                            py={"1rem"}
+                            flex="1"
+                            textAlign="left"
+                          >
+                            Customer Service
+                          </Box>
+                          <AccordionIcon sx={{ w: "30%" }} />
+                        </AccordionButton>
+                      </AccordionItem>
+                    </Accordion>
+                  </MenuList>
+                </>
+              )}
+            </Menu>
+          ) : (
+            <></>
+          )}
+
         </Flex>
       </Flex>
       {mobileDesign ? (
@@ -231,7 +248,9 @@ export const Navbar = () => {
       ) : (
         <></>
       )}
-      {mobileDesign ? <></> : <MenuDesktop />}
+
+      {mobileDesign ? <></> : <MenuDesktop categories={categories} />}
+
     </Box>
   );
 };
