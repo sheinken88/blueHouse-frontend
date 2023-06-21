@@ -2,13 +2,15 @@ import React from "react";
 import { Box, HStack, Flex, Spacer, Image, Text } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { SubItemMenuDesktop } from "../common/SubItemMenuDesktop";
 import NetherlandsFlag from "../assets/language.png";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import he from "he"
+import { fetchProductsByCategory } from "../state/thunks/productsThunks";
 
 export const MenuDesktop = ({ categories }) => {
+  const dispatch = useDispatch()
   const categoriesMap = categories;
   const subCategories = useSelector((state) => state.categories.subCategories);
   const [toggleCategories, setToggleCategories] = useState(false);
@@ -41,7 +43,13 @@ export const MenuDesktop = ({ categories }) => {
     });
   };
 
-  const handleSubCategorySelector = (event) => {
+  const handleSubCategorySelector = (event) => {  
+    chosenSubCategories.map((subcategory)=>{
+      if (event.target.innerHTML === subcategory.name) {
+        dispatch(fetchProductsByCategory(subcategory.id));
+        navigate(`/productdesk/`);
+      }
+    })
   };
 
   return (
