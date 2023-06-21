@@ -122,13 +122,13 @@ export const fetchFilteredProducts = (filters) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
     // dispatch(setCategoryFilters())
-
+    console.log("SOPY EL EPDIDO DE FILTERS", filters);
     const filteredProducts = await axios.get(
       `${import.meta.env.VITE_API_URL}/products/filtered/${filters}`,
       { withCredentials: true, credentials: "include" }
     );
-    console.log("SOY FILTERED PRODUCTS", filteredProducts.data);
-    dispatch(setProducts(filteredProducts.data));
+    console.log("SOY FILTERED PRODUCTS", filteredProducts);
+    dispatch(setProducts(filteredProducts[0].data));
 
     dispatch(setLoading(false));
   } catch (err) {

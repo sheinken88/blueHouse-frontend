@@ -24,6 +24,10 @@ import { setAlert, clearAlert } from "../state/slices/alertSlice";
 import { Link } from "react-router-dom";
 
 export const ProductCard = ({ product }) => {
+  const image = product?.images[0]?.src
+    ? product.images[0].src
+    : "src/assets/logo_blueHouse.svg";
+
   const cartItems = useSelector((state) => state.cart.items);
   const isAuthenticated = true;
 
@@ -171,7 +175,7 @@ export const ProductCard = ({ product }) => {
             // flex={{ base: "initial", md: 1 }}
             objectFit="cover"
             objectPosition="center"
-            src={product?.images[0]?.src}
+            src={image}
             alt={product.name}
           />
         </Box>
