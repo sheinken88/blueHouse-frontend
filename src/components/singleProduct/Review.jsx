@@ -25,11 +25,6 @@ export const Review = () => {
   const twoReviews = reviews.slice(0, 2);
   const moreReviews = reviews.slice(0, 5);
 
-  const isLoading = useSelector((state) => state.products.isLoading);
-  if (isLoading) {
-    return <div>Loading reviews...</div>;
-  }
-
   const [clickMore, setClickMore] = useState(false);
   const handleClickMore = () => {
     setClickMore(true);
@@ -64,6 +59,10 @@ export const Review = () => {
 
     //PENDIENTE RESOLVER SI CLIENTE QUIERE DARLE FUNCIONALIDAD AL BOTÓN
   };
+  const isLoading = useSelector((state) => state.products.isLoading);
+  if (isLoading) {
+    return <div>Loading reviews...</div>;
+  }
 
   return (
     <Box sx={{ bg: "#F8F8F5", p: 5 }}>

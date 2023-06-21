@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setLastViewProducts } from "../state/slices/lastViewsProdSlice";
-import { Box, Center, Heading, Text, Wrap } from "@chakra-ui/react";
+import { Box, Center, Text } from "@chakra-ui/react";
 import Carousel from "react-multi-carousel";
 import { ProductCard } from "../common/ProductCard";
 
 export const LastViews = () => {
-  const ids = JSON.parse(localStorage.getItem("lastViews")).lastViews;
+  const ids = JSON.parse(localStorage.getItem("lastViews"))?.lastViews;
 
   const dispatch = useDispatch();
 
@@ -25,22 +25,17 @@ export const LastViews = () => {
 
   const responsive = {
     desktop: {
-      breakpoint: { max: 2560, min: 1920 },
-      items: 10,
+      breakpoint: { max: 3500, min: 1441 },
+      items: ids.length,
     },
-    medial: {
-      breakpoint: { max: 1920, min: 990 },
-      items: 7,
+    laptop: {
+      breakpoint: { max: 1440, min: 769 },
+      items: ids.length,
     },
     tablet: {
-      breakpoint: { max: 990, min: 600 },
-      items: 5,
+      breakpoint: { max: 768, min: 426 },
+      items: 2,
     },
-    smartphone: {
-      breakpoint: { max: 600, min: 425 },
-      items: 3,
-    },
-
     mobile: {
       breakpoint: { max: 425, min: 0 },
       items: 2,
@@ -52,22 +47,23 @@ export const LastViews = () => {
   }
 
   return (
-    <Box maxW="1500px" mx="auto" p="4">
+    <>
       <Text p="4" sx={{ fontSize: 25, fontWeight: 700, color: "#254787" }}>
         Last Views
       </Text>
+
       <Carousel
         responsive={responsive}
         removeArrowOnDeviceType={["tablet", "mobile"]}
         keyBoardControl={true}
-        infinite="true"
+        infinite={true}
       >
         {lastProducts.map((views) => (
-          <Wrap key={views.id}>
+          <Center>
             <ProductCard key={views.id} product={views} />
-          </Wrap>
+          </Center>
         ))}
       </Carousel>
-    </Box>
+    </>
   );
 };

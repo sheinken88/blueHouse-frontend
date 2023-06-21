@@ -12,21 +12,26 @@ import {
   MenuList,
   MenuItem,
   useColorModeValue,
+  useMediaQuery,
   Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionIcon,
 } from "@chakra-ui/react";
-import { SearchIcon, HamburgerIcon } from "@chakra-ui/icons";
+import { CloseIcon, SearchIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCategories } from "../state/thunks/categoriesThunks";
+import { MenuDesktop } from "./MenuDesktop";
 
 import logo_blueHouse from "../assets/logo_blueHouse.svg";
 import { ImageMenuItem } from "../common/ImageMenuItem";
 import { SubItemMenu } from "../common/SubItemMenu";
-import { clearViews } from "../state/slices/viewsSlice";
 
 export const Navbar = () => {
+  const [mobileDesign] = useMediaQuery("(max-width: 425px)");
   const bgColor = useColorModeValue("secondary", "primary");
 
   const dispatch = useDispatch();
@@ -36,11 +41,6 @@ export const Navbar = () => {
     dispatch(fetchAllCategories());
   }, [dispatch]);
 
-  const handleClearViews = () => {
-    alert("jejej");
-    dispatch(clearViews(""));
-  };
-
   return (
     <Box>
       <Flex bg={bgColor} justify="center" py={2}>
@@ -48,13 +48,31 @@ export const Navbar = () => {
       </Flex>
 
       <Flex bg="white" justify="space-between" align="center" p={4}>
-        <Link to="/">
+        <a href="/" style={{ textDecoration: "none", cursor: "pointer" }}>
           <Image src={logo_blueHouse} alt="Logo" />
-        </Link>
-
+        </a>
+        {mobileDesign ? (
+          <></>
+        ) : (
+          <Flex>
+            <InputGroup>
+              <InputLeftElement>
+                <SearchIcon color="gray.300" />
+              </InputLeftElement>
+              <Input
+                type="search"
+                placeholder="What are you looking for?"
+                px={"14rem"}
+                borderRadius="2rem"
+                border="1px"
+                borderColor="white"
+                boxShadow="inset 0 0 3px gray"
+              />
+            </InputGroup>
+          </Flex>
+        )}
         <Flex>
           <IconButton
-            onClick={handleClearViews}
             aria-label="Account"
             icon={<FaUser />}
             color="primary"
@@ -75,43 +93,145 @@ export const Navbar = () => {
             _hover={{ bg: "primary" }}
           />
           <Menu>
-            <MenuButton
-              as={IconButton}
-              aria-label="Options"
-              icon={<HamburgerIcon />}
-              variant="outline"
-              color="primary"
-              mx={1}
-              _before={{ bg: "primary" }}
-              _after={{ bg: "primary" }}
-            />
-            <MenuList>
-              {categories.map((category) => (
-                <MenuItem key={category.id} w="400px" closeOnSelect={false}>
-                  <SubItemMenu category={category} />
-                </MenuItem>
-              ))}
-            </MenuList>
+            {({ isOpen }) => (
+              <>
+                <MenuButton
+                  as={IconButton}
+                  aria-label="Options"
+                  variant="outline"
+                  color="primary"
+                  mx={1}
+                  _before={{ bg: "primary" }}
+                  _after={{ bg: "primary" }}
+                  isActive={isOpen}
+                >
+                  {isOpen ? <CloseIcon /> : <HamburgerIcon />}
+                </MenuButton>
+                <MenuList>
+                  {mobileDesign ? (
+                    <Flex justify="center" mx="2.5rem">
+                      <InputGroup mt={2} w="83%" borderRadius="2rem">
+                        <InputLeftElement>
+                          <SearchIcon color="gray.300" />
+                        </InputLeftElement>
+                        <Input
+                          type="search"
+                          placeholder="What are you looking for?"
+                          borderRadius="2rem"
+                          border="1px"
+                          borderColor="white"
+                          boxShadow="inset 0 0 3px gray"
+                          mb="1rem"
+                        />
+                      </InputGroup>
+                    </Flex>
+                  ) : (
+                    <></>
+                  )}
+                  {categories.map((category) => (
+                    <MenuItem key={category.id} w="400px" closeOnSelect={false}>
+                      <SubItemMenu category={category} />
+                    </MenuItem>
+                  ))}
+                  {mobileDesign ? (
+                    <>
+                      <Box
+                        sx={{
+                          color: "primary",
+                          pl: "2.5rem",
+                          py: "1rem",
+                          borderTop: "1px",
+                          borderBottom: "1px",
+                          borderColor: "#F5F5F5",
+                        }}
+                      >
+                        <Link to="/productdesk">SHOP ALL</Link>
+                      </Box>
+                      <Box
+                        sx={{
+                          color: "primary",
+                          pl: "2.5rem",
+                          py: "1rem",
+                          borderBottom: "1px",
+                          borderColor: "#F5F5F5",
+                        }}
+                      >
+                        <Link to="/productdesk">SALE</Link>
+                      </Box>
+                      <Box
+                        sx={{
+                          color: "primary",
+                          pl: "2.5rem",
+                          py: "1rem",
+                          borderBottom: "1px",
+                          borderColor: "#F5F5F5",
+                        }}
+                      >
+                        BLOG
+                      </Box>
+                      <Box
+                        sx={{
+                          color: "primary",
+                          pl: "2.5rem",
+                          py: "1rem",
+                          borderBottom: "1px",
+                          borderColor: "#F5F5F5",
+                        }}
+                      >
+                        <Link to="/aboutus">OUR VALUES</Link>
+                      </Box>
+                      <Accordion
+                        sx={{
+                          bg: "#D4D9FF",
+                          color: "primary",
+                        }}
+                        allowMultiple
+                      >
+                        <AccordionItem>
+                          <AccordionButton>
+                            <Box
+                              pl={"1.5rem"}
+                              py={"1rem"}
+                              flex="1"
+                              textAlign="left"
+                            >
+                              Customer Service
+                            </Box>
+                            <AccordionIcon sx={{ w: "30%" }} />
+                          </AccordionButton>
+                        </AccordionItem>
+                      </Accordion>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </MenuList>
+              </>
+            )}
           </Menu>
         </Flex>
       </Flex>
-
-      <Flex justify="center" mx="2.5rem">
-        <InputGroup mt={2} w="80%" borderRadius="2rem">
-          <InputLeftElement>
-            <SearchIcon color="gray.300" />
-          </InputLeftElement>
-          <Input
-            type="search"
-            placeholder="What are you looking for?"
-            borderRadius="2rem"
-            border="1px"
-            borderColor="white"
-            boxShadow="inset 0 0 3px gray"
-            pl="2.5rem"
-          />
-        </InputGroup>
-      </Flex>
+      {mobileDesign ? (
+        <Flex justify="center" mx="2.5rem">
+          <InputGroup mt={2} w="80%" borderRadius="2rem">
+            <InputLeftElement>
+              <SearchIcon color="gray.300" />
+            </InputLeftElement>
+            <Input
+              type="search"
+              placeholder="What are you looking for?"
+              borderRadius="2rem"
+              border="1px"
+              borderColor="white"
+              boxShadow="inset 0 0 3px gray"
+              pl="2.5rem"
+            />
+          </InputGroup>
+        </Flex>
+      ) : (
+        <></>
+      )}
+      {mobileDesign ? <></> : <MenuDesktop />}
     </Box>
   );
 };

@@ -1,4 +1,5 @@
 import { Box, Image, useMediaQuery } from "@chakra-ui/react";
+import HeroBannerImage from "../assets/hero_banner.png";
 
 export const HeroBanner = () => {
   const [isSmallerScreen] = useMediaQuery("(max-width: 800px)");
@@ -8,18 +9,13 @@ export const HeroBanner = () => {
       {isSmallerScreen ? (
         <Image
           w="100%" // Adjust the size for smaller screens
-          src="src/assets/hero bannermovil.png"
-          alt="Hero_Banner.jpg"
+          src={HeroBannerImage}
+          alt="Hero Banner"
           mx="auto"
           py="2"
         />
       ) : (
-        <Image
-          w="80%"
-          src="src/assets/hero_banner.png"
-          alt="Hero_Banner.jpg"
-          mx="auto"
-        />
+        <Image w="80%" src={HeroBannerImage} alt="Hero Banner" mx="auto" />
       )}
     </Box>
   );

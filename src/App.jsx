@@ -10,10 +10,12 @@ import { ShoppingCartPage } from "../src/pages/ShoppingCartPage";
 import { NotFoundPage } from "../src/pages/NotFoundPage";
 import { NewsLetter } from "./components/NewsLetter";
 import { useSelector } from "react-redux";
-import { Alert, AlertIcon, Menu } from "@chakra-ui/react";
+
+import { Alert, AlertIcon } from "@chakra-ui/react";
+import { ProductDesk } from "./components/ProductDesk";
+import { ShoppingCartDrawer } from "./components/ShoppingCartDrawer";
 
 function App() {
-  // const isAuthenticated = useSelector((state) => state.user.isAuthenticated)
   const isAuthenticated = true;
 
   const alert = useSelector((state) => state.alerts);
@@ -33,8 +35,13 @@ function App() {
             {alert.message}
           </Alert>
         )}
-        <Navbar />{" "}
+
+        <Navbar />
+
+        <ShoppingCartDrawer />
+
         <Routes>
+          <Route path="/productdesk" element={<ProductDesk />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/aboutus" element={<AboutUsPage />} />
           <Route path="/signup" element={<SignUpPage />} />

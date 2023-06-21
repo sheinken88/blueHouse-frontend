@@ -10,16 +10,15 @@ import { BrandClaims } from "../components/BrandClaims";
 import { ShopByCategory } from "../components/ShopByCategory";
 import { HeroBanner } from "../components/HeroBanner";
 import { LastViews } from "../components/LastViews";
-
 import { Image } from "@chakra-ui/react";
-
 import { Center, Spinner } from "@chakra-ui/react";
-
 import { MenuDesktop } from "../components/MenuDesktop";
+import { ImageOffersCarousel } from "../components/ImageOffersCarousel";
 
 export const HomePage = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.products.isLoading);
+  const ids = JSON.parse(localStorage.getItem("lastViews"))?.lastViews;
 
   const views = useSelector((state) => state.views);
 
@@ -48,11 +47,10 @@ export const HomePage = () => {
 
   return (
     <>
-      <MenuDesktop />
       <HeroBanner />
       <ShopByCategory />
-      <LastViews />
-      <Image src="src/assets/BigCategory1.png" mt={10} mb={10} ml={2}></Image>
+      {ids.length && <LastViews />}
+      <ImageOffersCarousel />
       <FilterSection />
       <ProductGrid />
       <PeopleOpinions />

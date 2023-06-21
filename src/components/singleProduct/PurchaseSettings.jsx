@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Box,
   Text,
@@ -19,6 +19,10 @@ import {
   Select,
   Center,
   Divider,
+  useBreakpointValue,
+  SimpleGrid,
+  Wrap,
+  WrapItem,
 } from "@chakra-ui/react";
 import { GrFavorite } from "react-icons/gr";
 import { FaShoppingCart } from "react-icons/fa";
@@ -32,20 +36,57 @@ import { useDisclosure } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { addItemToCart, updateQuantity } from "../../state/slices/cartSlice";
 import { setAlert, clearAlert } from "../../state/slices/alertSlice";
+import { useMediaQuery } from "react-responsive";
+
+import blueLabels from "../../utils/blue_labels";
+
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import { all } from "axios";
 
 export const PurchaseSettings = ({ product }) => {
+  const isDesktop = useMediaQuery({ minWidth: 1024 });
+  const [mainImgSrc, setMainImgSrc] = useState(product.images[0]?.src);
+
+  const blueLabelData = product.meta_data.find(
+    (data) => data.key === "bluelabels"
+  );
+  const blueLabels = blueLabelData ? blueLabelData.value : [];
+
+  const isMobile = useBreakpointValue({ base: true, md: false });
+  const breakpoint = useBreakpointValue({
+    base: "full",
+    sm: "full",
+    md: "full",
+    lg: "50%",
+    xl: "50%",
+  });
+  const buttonAlignment = useBreakpointValue({
+    base: "center",
+    sm: "center",
+    md: "center",
+    lg: "flex-start",
+    xl: "flex-start",
+  });
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isScrolled, setIsScrolled] = useState(false);
   const [count, setCount] = useState(1);
   const [selectedAttribute, setSelectedAttribute] = useState(null);
 
-  // const [showAlert, setShowAlert] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const secondButtonRef = useRef(null);
+
   const reviews = useSelector((state) => state.reviews.reviews);
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
 
   const checkScroll = () => {
-    setIsScrolled(window.scrollY > 0);
+    const secondButtonPosition =
+      secondButtonRef.current.getBoundingClientRect().top;
+    setIsVisible(secondButtonPosition > window.innerHeight);
+  };
+
+  const handleImageClick = (src) => {
+    setMainImgSrc(src);
   };
 
   const increment = () => {
@@ -107,46 +148,138 @@ export const PurchaseSettings = ({ product }) => {
     }, 3000);
   };
 
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 1,
+      slidesToSlide: 1,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 1,
+      slidesToSlide: 1,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+      slidesToSlide: 1,
+    },
+  };
+
+  const responsiveMultipleItems = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3,
+      slidesToSlide: 1,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
+      slidesToSlide: 1,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 2,
+      slidesToSlide: 1,
+    },
+  };
+
   return (
     <>
-      <Box position="relative" mt={6} mb={40}>
-        <IconButton
-          icon={<GrFavorite size="24px" />}
-          borderRadius="full"
-          position="absolute"
-          bgColor="white"
-          top={8}
-          right={2}
-          zIndex={1}
-        />
-        <Image
-          w="100%"
-          h="300px"
-          src={product.images[0].src}
-          alt={product.name}
-        />
-        <Text color="primary" fontSize="xx-large" textAlign="center" mt={6}>
-          {product.name}
-        </Text>
-        <AddToCartButton
-          style={{
-            position: isScrolled ? "static" : "fixed",
-            bottom: isScrolled ? undefined : 0,
-            width: isScrolled ? undefined : "100%",
-            display: isScrolled ? "none" : "flex",
-            cursor: "pointer",
-            borderRadius: "0",
-            height: "70px",
+      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
+        <Box position="relative" mt={6} mb={10}>
+          <IconButton
+            icon={<GrFavorite size="24px" />}
+            borderRadius="full"
+            position="absolute"
+            bgColor="white"
+            top={8}
+            right={2}
+            zIndex={1}
+          />
 
-            alignItems: "center",
-          }}
-          onClick={handleAddToCart}
-        >
-          <FaShoppingCart style={{ marginRight: "10px" }} /> add to cart
-        </AddToCartButton>
+          {isMobile ? (
+            <Carousel
+              removeArrowOnDeviceType={["tablet", "mobile"]}
+              swipeable={true}
+              draggable={false}
+              showDots={true}
+              responsive={responsive}
+              ssr={true}
+              infinite={true}
+              autoPlay={true}
+              autoPlaySpeed={2000}
+              keyBoardControl={true}
+              customTransition="all .5"
+              transitionDuration={500}
+              containerClass="carousel-container"
+              dotListClass="custom-dot-list-style"
+              itemClass="carousel-item-padding-40-px"
+            >
+              {product.images.map((image, index) => (
+                <Image
+                  key={index}
+                  w="100%"
+                  h="300px"
+                  src={image.src}
+                  alt={product.name}
+                />
+              ))}
+            </Carousel>
+          ) : (
+            <Flex direction={["column", "row"]} p={10}>
+              {" "}
+              <VStack spacing={4}>
+                {" "}
+                {product.images.map((image, index) => (
+                  <Image
+                    key={index}
+                    w="100%"
+                    h="70px"
+                    src={image.src}
+                    alt={product.name}
+                    onClick={() => handleImageClick(image.src)}
+                    cursor="pointer"
+                  />
+                ))}
+              </VStack>
+              <Box flex="1" alignSelf="center" ml={10}>
+                {" "}
+                <Image
+                  w="70%"
+                  h="400px"
+                  display="block"
+                  margin="0 auto"
+                  src={mainImgSrc}
+                  alt={product.name}
+                />
+              </Box>
+            </Flex>
+          )}
+        </Box>
+        <Box>
+          <Text color="primary" fontSize="xx-large" textAlign="center" mt={6}>
+            {product.name}
+          </Text>
+          {isVisible && isMobile && (
+            <AddToCartButton
+              style={{
+                position: "fixed",
+                bottom: 0,
+                width: "100%",
+                cursor: "pointer",
+                borderRadius: "0",
+                height: "70px",
+                zIndex: 8888,
+                alignItems: "center",
+              }}
+              onClick={handleAddToCart}
+            >
+              <FaShoppingCart style={{ marginRight: "10px" }} /> add to cart
+            </AddToCartButton>
+          )}
 
-        {isScrolled &&
-          (product.on_sale === true ? (
+          {product.on_sale === true ? (
             <HStack padding={4}>
               <HStack gap={6}>
                 <Text color="red" fontSize="x-large" fontWeight="bold">
@@ -167,8 +300,8 @@ export const PurchaseSettings = ({ product }) => {
                 € {product.price}
               </Text>
             </>
-          ))}
-        {isScrolled && (
+          )}
+
           <Box padding={4}>
             <Box as="span" color="primary" marginRight={2}>
               Sold by
@@ -197,7 +330,7 @@ export const PurchaseSettings = ({ product }) => {
                   >
                     {reviews.length} customer reviews
                   </Text>
-                  <Modal isOpen={isOpen} onClose={onClose}>
+                  <Modal isOpen={isOpen} onClose={onClose} zIndex="9999">
                     <ModalOverlay />
                     <ModalContent>
                       <ModalHeader color="primary">
@@ -215,7 +348,12 @@ export const PurchaseSettings = ({ product }) => {
                               >
                                 {review.reviewer}
                               </Text>
-                              <Text color="primary">{review.review}</Text>
+                              <Text
+                                color="primary"
+                                dangerouslySetInnerHTML={{
+                                  __html: review.review,
+                                }}
+                              />
                             </VStack>
                           );
                         })}
@@ -245,6 +383,7 @@ export const PurchaseSettings = ({ product }) => {
                   color="gray"
                   mt={8}
                   borderRadius={30}
+                  width={breakpoint}
                   onChange={(e) => {
                     console.log("e:", e.target.value);
                     setSelectedAttribute(e.target.value);
@@ -254,15 +393,6 @@ export const PurchaseSettings = ({ product }) => {
                     <option key={option} value={option}>
                       {option}
                     </option>
-                    // <option
-                    //   key={option}
-                    //   value={{
-                    //     name: product.attributes[0].name,
-                    //     option: option,
-                    //   }}
-                    // >
-                    //   {option}
-                    // </option>
                   ))}
                 </Select>
               ) : (
@@ -311,7 +441,12 @@ export const PurchaseSettings = ({ product }) => {
               GIFT WRAPPING???
             </Box> */}
 
-            <Flex display="flex" justifyContent="center" mt={10}>
+            <Flex
+              display="flex"
+              justifyContent={buttonAlignment}
+              mt={10}
+              ref={secondButtonRef}
+            >
               <AddToCartButton
                 style={{
                   cursor: "pointer",
@@ -361,10 +496,66 @@ export const PurchaseSettings = ({ product }) => {
                 This store offers Free Shipping for orders over{" "}
                 <strong>€35</strong>
               </Text>
+              <Divider
+                borderColor="gray.300"
+                w="95%"
+                alignSelf="center"
+                mt={2}
+                mb={5}
+              />
+
+              <Text padding={4} color="primary" fontWeight="bold">
+                Blue Labels
+              </Text>
+              {isDesktop ? (
+                <Wrap justifyContent="center" gap={2}>
+                  {blueLabels.map((label, i) => (
+                    <Button
+                      key={i}
+                      bgColor="white"
+                      color="primary"
+                      borderRadius="30px"
+                      paddingRight="20"
+                      paddingLeft="20"
+                      fontSize="sm"
+                      style={{
+                        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+                        width: "15%",
+                        marginBottom: "1em",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {label}
+                    </Button>
+                  ))}
+                </Wrap>
+              ) : (
+                <Carousel responsive={responsiveMultipleItems} arrows={false}>
+                  {blueLabels.map((label, i) => (
+                    <HStack key={i} spacing={0} padding={4}>
+                      <Button
+                        bgColor="primary"
+                        color="white"
+                        borderRadius="30px"
+                        paddingLeft={12}
+                        paddingRight={12}
+                        fontSize="10px"
+                        style={{ boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)" }}
+                        w="fit-content"
+                        overflowWrap="break-word"
+                      >
+                        {label}
+                      </Button>
+                    </HStack>
+                  ))}
+                </Carousel>
+              )}
             </Flex>
           </Box>
-        )}
-      </Box>
+        </Box>
+      </SimpleGrid>
     </>
   );
 };

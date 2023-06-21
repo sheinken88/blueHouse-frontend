@@ -11,7 +11,7 @@ export const ProductGrid = () => {
       items: 5,
     },
     laptop: {
-      breakpoint: { max: 769, min: 1440 },
+      breakpoint: { max: 1440, min: 769 },
       items: 3,
     },
     tablet: {
@@ -28,7 +28,21 @@ export const ProductGrid = () => {
   const isLoading = useSelector((state) => state.products.isLoading);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <Center>
+        <Spinner
+          maxW="321.79px"
+          maxH="321.79px"
+          mb={10}
+          mt={10}
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="#D4D9FF"
+          color="#22488B"
+          size="xl"
+        />
+      </Center>
+    );
   }
 
   return (

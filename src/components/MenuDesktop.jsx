@@ -8,8 +8,16 @@ import {
   Spacer,
   Image,
 } from "@chakra-ui/react";
+import { Link, useNavigate } from "react-router-dom";
+import NetherlandFlag from "../assets/language.png";
 
 export const MenuDesktop = () => {
+  const navigate = useNavigate();
+
+  const handleLinkToAbout = () => {
+    navigate("/aboutus");
+  };
+
   return (
     <Box maxW="1500px" mx="auto" p="4" display={{ base: "none", md: "block" }}>
       <Tabs position="relative" variant="unstyled">
@@ -27,7 +35,9 @@ export const MenuDesktop = () => {
           <Spacer />
           <Tab>Categories</Tab>
           <Spacer />
-          <Tab>Shop all</Tab>
+          <Tab as={Link} to={"/productdesk"}>
+            Shop all
+          </Tab>
           <Spacer />
           <Tab>Sale</Tab>
           <Spacer />
@@ -35,13 +45,13 @@ export const MenuDesktop = () => {
           <Spacer />
           <Tab>Blog</Tab>
           <Spacer />
-          <Tab>Our Values</Tab>
+          <Tab onClick={handleLinkToAbout}>Our Values</Tab>
           <Spacer />
           <Tab>
             <Image
               w="100%"
-              src="src/assets/language.png"
-              alt="Hero_Banner.jpg"
+              src={NetherlandFlag}
+              alt="netherlands_flag"
               mx="auto"
             />
           </Tab>

@@ -3,7 +3,6 @@ import { ProductCard } from "../common/ProductCard";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import {
-  Button,
   Center,
   Stack,
   Text,
@@ -26,7 +25,7 @@ export const FilterSection = () => {
       items: 5,
     },
     laptop: {
-      breakpoint: { max: 769, min: 1440 },
+      breakpoint: { max: 1440, min: 769 },
       items: 3,
     },
     tablet: {
@@ -46,7 +45,10 @@ export const FilterSection = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/products/type/${selected}`)
+      .get(`${import.meta.env.VITE_API_URL}/products/type/${selected}`, {
+        withCredentials: true,
+        credentials: "include",
+      })
       .then((res) => {
         setProduct(res.data);
         setIsLoading(false);

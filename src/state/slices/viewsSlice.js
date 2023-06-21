@@ -4,7 +4,7 @@ const persistedState = localStorage.getItem("lastViews")
   ? JSON.parse(localStorage.getItem("lastViews"))
   : { lastViews: [] };
 
-const lastViews = JSON.parse(localStorage.getItem("lastViews")).lastViews;
+const lastViews = persistedState.lastViews;
 
 const viewsSlice = createSlice({
   name: "views",
@@ -18,7 +18,7 @@ const viewsSlice = createSlice({
           ? state.lastViews.shift()
           : state.lastViews.push(action.payload);
       } else {
-        console.log("no se agrega");
+        console.log("no se agregar");
       }
     },
     clearViews: (state) => {

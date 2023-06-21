@@ -2,20 +2,33 @@ import { PurchaseSettings } from "../components/singleProduct/PurchaseSettings";
 import { useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { fetchSingleProduct } from "../state/thunks/productsThunks";
+import {
+  fetchMultipleProductsByIds,
+  fetchSingleProduct,
+} from "../state/thunks/productsThunks";
 import { Center, Image, Spinner, Text } from "@chakra-ui/react";
 import { Review } from "../components/singleProduct/Review";
 import { setViews } from "../state/slices/viewsSlice";
+import { InfoDisplay } from "../components/singleProduct/InfoDisplay";
+import { RelatedProducts } from "../components/singleProduct/RelatedProducts";
+import { Contact } from "../components/singleProduct/Contact";
 
 export const SingleProductPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const product = useSelector((state) => state.products.product);
+  const relatedProducts = useSelector((state) => state.products.products);
 
   useEffect(() => {
     dispatch(fetchSingleProduct(id));
     dispatch(setViews(id));
   }, [id]);
+
+  useEffect(() => {
+    if (product?.related_ids) {
+      dispatch(fetchMultipleProductsByIds(product.related_ids));
+    }
+  }, [product]);
 
   if (
     !product ||
@@ -39,7 +52,10 @@ export const SingleProductPage = () => {
   return (
     <>
       <PurchaseSettings product={product} />
+      <InfoDisplay product={product} />
       <Review />
+      <RelatedProducts relatedProducts={relatedProducts} />
+      <Contact />
     </>
   );
 };

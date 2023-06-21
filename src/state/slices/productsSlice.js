@@ -9,38 +9,41 @@ const initialState = {
   summerEssentials: [],
   isLoading: false,
   error: null,
-}
+};
 
 const productsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
     setProduct: (state, action) => {
-      state.product = action.payload
+      state.product = action.payload;
     },
     setProducts: (state, action) => {
-      state.products = action.payload
+      state.products = action.payload;
     },
     setTopSellers: (state, action) => {
-      state.topSellers = action.payload
+      state.topSellers = action.payload;
     },
     setNewArrivals: (state, action) => {
-      state.newArrivals = action.payload
+      state.newArrivals = action.payload;
     },
     setOnSale: (state, action) => {
-      state.onSale = action.payload
+      state.onSale = action.payload;
     },
     setSummerEssentials: (state, action) => {
-      state.summerEssentials = action.payload
+      state.summerEssentials = action.payload;
     },
     setLoading: (state, action) => {
-      state.isLoading = action.payload
+      state.isLoading = action.payload;
     },
     setError: (state, action) => {
-      state.error = action.payload
-    }
-  }
-}) 
+      state.error = action.payload;
+    },
+    setFilteredProducts: (state, action) => {
+      state.filteredProducts = action.payload;
+    },
+  },
+});
 
 export const {
   setProduct,
@@ -50,14 +53,8 @@ export const {
   setOnSale,
   setSummerEssentials,
   setLoading,
-  setError
-} = productsSlice.actions
+  setError,
+  setFilteredProducts,
+} = productsSlice.actions;
 
-export default productsSlice.reducer
-
-
-
-
-
-
-
+export default productsSlice.reducer;
