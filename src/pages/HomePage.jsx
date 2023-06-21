@@ -23,7 +23,6 @@ export const HomePage = () => {
 
   const products = useSelector((state) => state.products.products);
 
-
   if (isLoading) {
     return (
       <Center>
@@ -46,7 +45,7 @@ export const HomePage = () => {
     <>
       <HeroBanner />
       <ShopByCategory />
-      {ids.length && <LastViews />}
+      {/* <LastViews /> */}
       <ImageOffersCarousel />
       <FilterSection />
       <ProductGrid />
