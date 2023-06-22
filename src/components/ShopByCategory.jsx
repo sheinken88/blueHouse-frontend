@@ -55,7 +55,14 @@ export const ShopByCategory = () => {
       </Text>
       <Carousel
         responsive={responsive}
-        removeArrowOnDeviceType={["tablet", "mobile"]}
+        removeArrowOnDeviceType={[
+          "tablet",
+          "mobile",
+          "smartphone",
+          "tablet",
+          "medial",
+          "desktop",
+        ]}
         keyBoardControl={true}
         infinite="true"
       >
