@@ -114,6 +114,10 @@ export const PurchaseSettings = ({ product }) => {
     };
   }, []);
 
+  useEffect(() => {
+    setMainImgSrc(product.images[0].src);
+  }, [product]);
+
   const handleAddToCart = () => {
     console.log("selectedAttribute:", selectedAttribute);
     if (product.attributes.length > 0 && !selectedAttribute) {

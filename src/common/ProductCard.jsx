@@ -123,7 +123,7 @@ export const ProductCard = ({ product }) => {
             zIndex={1}
             onClick={handleAddToFavorite}
           />
-          <Tooltip
+          {/* <Tooltip
             label="Add to cart"
             placement="top"
             hasArrow
@@ -143,7 +143,7 @@ export const ProductCard = ({ product }) => {
               _hover={{ bg: "primary" }}
               onClick={handleAddToCart}
             />
-          </Tooltip>
+          </Tooltip> */}
           {
             //EN CASO DE TENER DESCUENTO SE APLICA ESTE TERNARIO:
             product.on_sale == true ? (
