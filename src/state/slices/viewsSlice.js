@@ -14,11 +14,11 @@ const viewsSlice = createSlice({
       const id = action.payload;
 
       if (!state.lastViews.includes(id)) {
-        lastViews.length > 5
-          ? state.lastViews.shift()
-          : state.lastViews.push(action.payload);
-      } else {
-        console.log("no se agregar");
+        if (lastViews.length == 10) {
+          state.lastViews.shift();
+        }
+
+        state.lastViews.push(action.payload);
       }
     },
     clearViews: (state) => {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setLastViewProducts } from "../state/slices/lastViewsProdSlice";
-import { Box, Center, Text } from "@chakra-ui/react";
+import { Box, Center, Text, Flex } from "@chakra-ui/react";
 import Carousel from "react-multi-carousel";
 import { ProductCard } from "../common/ProductCard";
 
@@ -29,17 +29,16 @@ export const LastViews = () => {
       items: ids.length,
     },
     SmallDesktop: {
-      breakpoint: { max: 1500, min: 1441 },
-      items: ids.length >= 2 ? 5 : 1,
+      breakpoint: { max: 1500, min: 1041 },
+      items: ids.length > 2 ? 3 : ids.length,
     },
-
     laptop: {
-      breakpoint: { max: 1440, min: 769 },
-      items: ids.length > 2 ? 3 : 2,
+      breakpoint: { max: 1040, min: 769 },
+      items: ids.length > 2 ? 3 : ids.length,
     },
     tablet: {
       breakpoint: { max: 768, min: 426 },
-      items: ids.length >= 2 ? 2 : 1,
+      items: ids.length >= 2 ? 2 : ids.length,
     },
     mobile: {
       breakpoint: { max: 425, min: 0 },
@@ -53,7 +52,7 @@ export const LastViews = () => {
 
   return (
     !(ids == 0) && (
-      <>
+      <Box maxW="95%" mx="auto" p="4">
         <Text p="4" sx={{ fontSize: 25, fontWeight: 700, color: "#254787" }}>
           Last Views
         </Text>
@@ -64,12 +63,12 @@ export const LastViews = () => {
           infinite={true}
         >
           {lastProducts.map((views) => (
-            <Center>
+            <Flex justifyContent="center" alignItems="center">
               <ProductCard key={views.id} product={views} />
-            </Center>
+            </Flex>
           ))}
         </Carousel>
-      </>
+      </Box>
     )
   );
 };

@@ -15,6 +15,7 @@ import {
   Alert,
   AlertIcon,
   Toast,
+  Wrap,
 } from "@chakra-ui/react";
 import { FaShoppingCart } from "react-icons/fa";
 import { useState } from "react";
@@ -171,8 +172,8 @@ export const ProductCard = ({ product }) => {
           }
 
           <Image
-            w={{ base: "148px", md: "322px" }}
-            h={{ base: "148px", md: "322px" }}
+            w={{ base: "160px", md: "234px" }}
+            h={{ base: "160px", md: "234px" }}
             // flex={{ base: "initial", md: 1 }}
             objectFit="cover"
             objectPosition="center"
@@ -184,10 +185,10 @@ export const ProductCard = ({ product }) => {
           <Heading
             fontWeight="normal"
             color="#254788"
-            fontSize={{ base: "7px", md: "20px" }}
+            fontSize={{ base: "10px", md: "20px" }}
             textAlign={"justify"}
             h={{ base: "27px", md: "80px" }}
-            maxH={{ base: "27px", md: "80px" }}
+            maxH={{ base: "40px", md: "80px" }}
             maxW={{ base: "148px", md: "322px" }}
             overflow="hidden"
             lineHeight={"shorter"}

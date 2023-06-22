@@ -11,8 +11,8 @@ export const CategoryCard = (category) => {
       <Center>
         <Image
           borderRadius="full"
-          h={{ base: "45px", md: "130px" }}
-          w={{ base: "45px", md: "130px" }}
+          h={{ base: "90px", md: "130px" }}
+          w={{ base: "90px", md: "130px" }}
           src={image}
           alt={category.category.name}
         />
