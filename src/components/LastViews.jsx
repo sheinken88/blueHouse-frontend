@@ -26,7 +26,7 @@ export const LastViews = () => {
   const responsive = {
     LargeDesktop: {
       breakpoint: { max: 3500, min: 1501 },
-      items: ids.length,
+      items: ids.length > 6 ? 7 : ids.length,
     },
     SmallDesktop: {
       breakpoint: { max: 1500, min: 1041 },
@@ -58,7 +58,13 @@ export const LastViews = () => {
         </Text>
         <Carousel
           responsive={responsive}
-          removeArrowOnDeviceType={["tablet", "mobile"]}
+          removeArrowOnDeviceType={[
+            "mobile",
+            "tablet",
+            "laptop",
+            "SmallDesktop",
+            "LargeDesktop",
+          ]}
           keyBoardControl={true}
           infinite={true}
         >
