@@ -41,7 +41,7 @@ import {
 import { setCategoryFilters, setProducts } from "../state/slices/productsSlice";
 import he from "he";
 import { FilterCheckbox } from "../common/FilterCheckbox";
-import { redirect } from "react-router-dom";
+
 
 export const ProductDesk = () => {
   const categoryFilters = useSelector(
@@ -49,9 +49,6 @@ export const ProductDesk = () => {
   );
   const categories = useSelector((state) => state.categories.categories);
   const products = useSelector((state) => state.products.products);
-  // const filterProducts = useSelector(
-  //   (state) => state.products.filteredProducts
-  // );
   const isLoading = useSelector((state) => state.products.isLoading);
 
   const [sliderValues, setSliderValues] = useState([1, 100]);
@@ -60,7 +57,9 @@ export const ProductDesk = () => {
   const [request, setRequest] = useState(
     `category=${categoryFilters.category}`
   );
-  const [filteredProducts, setFilteredProducts] = useState();
+  const [filteredProducts, setFilteredProducts] = useState(
+    `category=${categoryFilters.category}`
+  );
   const [id, setId] = useState();
   const [freeShipping, setFreeShipping] = useState(false);
   const [onSale, setOnSale] = useState(false);
@@ -73,11 +72,11 @@ export const ProductDesk = () => {
   console.log("SOY EL FILTRO QUE SELECCIONO DE NAV", categoryFilters);
 
   useEffect(() => {
-    console.log("SOY LA CATEGORIA", request);
     if (request != "category=null") {
       dispatch(fetchFilteredProducts(request));
     }
-  }, [id]);
+    setRequest(`category=${categoryFilters.category}`);
+  }, [id, categoryFilters]);
 
   const AllBlueLabels = blueLabels;
 
@@ -128,8 +127,8 @@ export const ProductDesk = () => {
   };
 
   const handleOnSale = (e) => {
-    console.log("SOY ON SALE", e.target.checked);
-    setOnSale(e.target.checked);
+    // console.log("SOY ON SALE", e.target.checked);
+    setOnSale(`&on_sale=${e.target.checked}`);
   };
 
   const handleBluelabel = (e) => {
@@ -138,23 +137,13 @@ export const ProductDesk = () => {
   };
 
   const handleApplyFilter = () => {
-    if (id) {
-      dispatch(
-        setCategoryFilters({
-          category: id,
-        })
-      );
-    } else {
-      dispatch(
-        setCategoryFilters({
-          category: categoryFilters.category,
-        })
-      );
-    }
+    setRequest(`category=${categoryFilters.category}${onSale}`);
 
-    setRequest(`category=${categoryFilters.category}`);
-    console.log("SOY EL PEDIDO QUE VOY A HACER CON LOS FILTROS", request);
-    dispatch(fetchFilteredProducts(request));
+    dispatch(
+      fetchFilteredProducts(`category=${categoryFilters.category}${onSale}`)
+    );
+
+    // dispatch(fetchFilteredProducts(request));
     onClose();
   };
 
@@ -170,14 +159,11 @@ export const ProductDesk = () => {
   };
 
   const handleSort = (e) => {
-    dispatch(
-      fetchFilteredProducts(`${categoryFilters.category}${e.target.value}`)
-    );
-    console.log("SOY EL SORT", categoryFilters.category);
+    dispatch(fetchFilteredProducts(`${request}${e.target.value}`));
   };
 
   // console.log("SOY SEARDCUJEHFIUA", searchInput);
-  // console.log("SOY REQUEST!!!!!!!", request);
+  console.log("SOY REQUEST!!!!!!!", request);
   // console.log("SOY CATEGORY FILTERS PERO DESDE PD!!!!", categoryFilters);
   // console.log("SOY PRODUCTOS FILTRADOS POR CATEGORIA y sin filtro", products);
 
@@ -271,8 +257,7 @@ export const ProductDesk = () => {
           size={{ base: "full", md: "sm" }}
         >
           <DrawerOverlay
-            bg="blackAlpha.300"
-            backdropFilter="blur(10px) hue-rotate(90deg)"
+            bg="blackAlpha.500"
             backdropInvert="40%"
             backdropBlur="2px"
           />

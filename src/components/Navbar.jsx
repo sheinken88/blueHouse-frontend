@@ -150,7 +150,7 @@ export const Navbar = () => {
                   >
                     {isOpen ? <CloseIcon /> : <HamburgerIcon />}
                   </MenuButton>
-                  <MenuList>
+                  <MenuList zIndex={"overlay"}>
                     <Flex justify="center" mx="2.5rem">
                       <InputGroup mt={2} w="83%" borderRadius="2rem">
                         <InputLeftElement>

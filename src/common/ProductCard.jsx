@@ -16,18 +16,21 @@ import {
   AlertIcon,
   Toast,
   Wrap,
+  Flex,
 } from "@chakra-ui/react";
 import { FaShoppingCart } from "react-icons/fa";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addItemToCart } from "../state/slices/cartSlice";
 import { setAlert, clearAlert } from "../state/slices/alertSlice";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export const ProductCard = ({ product }) => {
   const image = product.images[0]
     ? product.images[0].src
     : "src/assets/logo_blueHouse.svg";
+
+  const location = useLocation();
 
   const cartItems = useSelector((state) => state.cart.items);
   const isAuthenticated = true;
@@ -106,12 +109,12 @@ export const ProductCard = ({ product }) => {
       as={Link}
       to={`/product/${product.id}`}
     >
-      {/* {showAlert && (
+      {showAlert && (
         <Alert status="success">
           <AlertIcon />
           Product successfully added!
         </Alert>
-      )} */}
+      )}
       <Card boxShadow="none">
         <Box position="relative">
           <IconButton
@@ -123,27 +126,7 @@ export const ProductCard = ({ product }) => {
             zIndex={1}
             onClick={handleAddToFavorite}
           />
-          {/* <Tooltip
-            label="Add to cart"
-            placement="top"
-            hasArrow
-            bg={mode("gray.800", "white")}
-            color={mode("white", "gray.800")}
-          >
-            <IconButton
-              icon={<FaShoppingCart />}
-              aria-label="Add to cart"
-              borderRadius="full"
-              position="absolute"
-              bottom={0}
-              left={0}
-              zIndex={1}
-              color="primary"
-              bg="secondary"
-              _hover={{ bg: "primary" }}
-              onClick={handleAddToCart}
-            />
-          </Tooltip> */}
+
           {
             //EN CASO DE TENER DESCUENTO SE APLICA ESTE TERNARIO:
             product.on_sale == true ? (
@@ -198,13 +181,35 @@ export const ProductCard = ({ product }) => {
           {
             //EN CASO DE TENER DESCUENTO SE APLICA ESTE TERNARIO:
             product.on_sale == false ? (
-              <Stack
-                direction={"row"}
+              <Flex
+                direction={{ base: "column", md: "row-reverse" }}
                 justifyContent="space-between"
                 alignItems="center"
                 spacing={2}
                 mt={5}
               >
+                {location.pathname === "/productdesk/" && (
+                  <Tooltip
+                    label="Add to cart"
+                    placement="top"
+                    hasArrow
+                    bg={mode("gray.800", "white")}
+                    color={mode("white", "gray.800")}
+                  >
+                    <IconButton
+                      pr={12}
+                      pl={12}
+                      p={8}
+                      icon={<FaShoppingCart />}
+                      backgroundColor="#FDB32B"
+                      aria-label="Add to cart"
+                      borderRadius="full"
+                      color="white"
+                      _hover={{ bg: "#F79E1B" }}
+                      onClick={handleAddToCart}
+                    />
+                  </Tooltip>
+                )}
                 <Text
                   color="#254787"
                   fontSize={{ base: "9px", md: "25px" }}
@@ -213,34 +218,36 @@ export const ProductCard = ({ product }) => {
                 >
                   € {product.price}
                 </Text>
-              </Stack>
+              </Flex>
             ) : (
-              <Stack
-                direction={"row"}
+              <Flex
+                direction={{ base: "column", md: "row-reverse" }}
                 justifyContent="space-between"
                 alignItems="center"
                 spacing={2}
                 mt={5}
               >
-                <Text
-                  color="lightgrey"
-                  fontSize={{ base: "9px", md: "25px" }}
-                  fontWeight="semibold"
-                  position="relative"
-                  h={5}
+                <Tooltip
+                  label="Add to cart"
+                  placement="top"
+                  hasArrow
+                  bg={mode("gray.800", "white")}
+                  color={mode("white", "gray.800")}
                 >
-                  € {product.regular_price}
-                  <Box
-                    position="absolute"
-                    top={{ base: "7px", md: "20px" }}
-                    left={{ base: 0, md: -1 }}
-                    right={{ base: 0, md: -1 }}
-                    height={{ base: "1px", md: "5px" }}
-                    backgroundColor="#254787"
-                    transform="rotate(20deg)"
-                    transformOrigin="center"
+                  <IconButton
+                    pr={12}
+                    pl={12}
+                    p={8}
+                    icon={<FaShoppingCart />}
+                    backgroundColor="#EA6244"
+                    aria-label="Add to cart"
+                    borderRadius="full"
+                    color="white"
+                    _hover={{ bg: "#EA6244" }}
+                    onClick={handleAddToCart}
                   />
-                </Text>
+                </Tooltip>
+
                 <Text
                   color="#254787"
                   fontSize={{ base: "9px", md: "25px" }}
@@ -250,15 +257,7 @@ export const ProductCard = ({ product }) => {
                 >
                   € {product.sale_price}
                 </Text>
-                <Text
-                  h={5}
-                  color="rgba(234, 98, 68, 1)"
-                  fontWeight="bold"
-                  fontSize={{ base: "10px", md: "25px" }}
-                >
-                  Sale
-                </Text>
-              </Stack>
+              </Flex>
             )
           }
         </CardBody>
