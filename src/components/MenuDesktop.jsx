@@ -1,16 +1,27 @@
 import React from "react";
-import { Box, HStack, Flex, Spacer, Image, Text } from "@chakra-ui/react";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Box,
+  HStack,
+  Flex,
+  Spacer,
+  Image,
+  Text,
+  Button,
+} from "@chakra-ui/react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { SubItemMenuDesktop } from "../common/SubItemMenuDesktop";
 import NetherlandsFlag from "../assets/language.png";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
-import he from "he"
-import { fetchProductsByCategory } from "../state/thunks/productsThunks";
+import he from "he";
+import {
+  fetchProductsByCategory,
+  fetchProductsByType,
+} from "../state/thunks/productsThunks";
 
 export const MenuDesktop = ({ categories }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const categoriesMap = categories;
   const subCategories = useSelector((state) => state.categories.subCategories);
   const [toggleCategories, setToggleCategories] = useState(false);
@@ -22,9 +33,17 @@ export const MenuDesktop = ({ categories }) => {
   };
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLinkToAbout = () => {
     navigate("/aboutus");
+  };
+
+  const handleOnSale = () => {
+    dispatch(fetchProductsByType("on_sale"));
+    if (location != "/productdesk") {
+      navigate("/productdesk");
+    }
   };
 
   const subCat = [];
@@ -43,13 +62,13 @@ export const MenuDesktop = ({ categories }) => {
     });
   };
 
-  const handleSubCategorySelector = (event) => {  
-    chosenSubCategories.map((subcategory)=>{
+  const handleSubCategorySelector = (event) => {
+    chosenSubCategories.map((subcategory) => {
       if (event.target.innerHTML === subcategory.name) {
         dispatch(fetchProductsByCategory(subcategory.id));
         navigate(`/productdesk/`);
       }
-    })
+    });
   };
 
   return (
@@ -67,11 +86,18 @@ export const MenuDesktop = ({ categories }) => {
         <Spacer />
         <Box onClick={handleClickCategories}>Categories</Box>
         <Spacer />
-        <Box as={Link} to={"/productdesk"}>
-          Shop all
-        </Box>
+        <Box>Shop all</Box>
         <Spacer />
-        <Box>Sale</Box>
+        <Box>
+          <Button
+            onClick={handleOnSale}
+            variant="unstyled"
+            fontWeight="normal"
+            colorScheme="#22488B"
+          >
+            Sale
+          </Button>
+        </Box>
         <Spacer />
         <Box>Mother's Day</Box>
         <Spacer />

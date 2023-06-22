@@ -56,7 +56,9 @@ export const ProductDesk = (category) => {
   const [sliderValues, setSliderValues] = useState([1, 100]);
   const [showBluelabels, setShowBluelabels] = useState(false);
   const [showBrands, setShowBrands] = useState(false);
-  const [request, setRequest] = useState("");
+  const [request, setRequest] = useState(
+    `category=${categoryFilters.category}`
+  );
   const [filteredProducts, setFilteredProducts] = useState();
   const [id, setId] = useState();
   const [freeShipping, setFreeShipping] = useState(false);
@@ -68,9 +70,7 @@ export const ProductDesk = (category) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (id) {
-      dispatch(fetchProductsByCategory(id));
-    }
+    dispatch(fetchFilteredProducts(request));
   }, [id]);
 
   const AllBlueLabels = blueLabels;
@@ -101,6 +101,7 @@ export const ProductDesk = (category) => {
 
   const handleCategorie = (e) => {
     setId(e);
+    setRequest(`category=${e}`);
   };
 
   const handleSliderChange = (newValues) => {
@@ -135,23 +136,17 @@ export const ProductDesk = (category) => {
       dispatch(
         setCategoryFilters({
           category: id,
-          min_price: sliderValues[0],
-          max_price: sliderValues[1],
         })
       );
     } else {
       dispatch(
         setCategoryFilters({
           category: categoryFilters.category,
-          min_price: sliderValues[0],
-          max_price: sliderValues[1],
         })
       );
     }
 
-    setRequest(
-      `category=${categoryFilters.category}&min_price=${categoryFilters.min_price}&max_price=${categoryFilters.max_price}`
-    );
+    setRequest(`category=${categoryFilters.category}`);
     console.log("SOY EL PEDIDO QUE VOY A HACER CON LOS FILTROS", request);
     dispatch(fetchFilteredProducts(request));
     onClose();
@@ -169,15 +164,13 @@ export const ProductDesk = (category) => {
   };
 
   const handleSort = (e) => {
-    console.log("SOY HANDLE SORT!!!", e.target.value);
-
     dispatch(fetchFilteredProducts(`${request}${e.target.value}`));
   };
 
   // console.log("SOY SEARDCUJEHFIUA", searchInput);
-  // console.log("SOY REQUEST!!!!!!!", request);
+  console.log("SOY REQUEST!!!!!!!", request);
   // console.log("SOY CATEGORY FILTERS PERO DESDE PD!!!!", categoryFilters);
-  console.log("SOY PRODUCTOS FILTRADOS POR CATEGORIA y sin filtro", products);
+  // console.log("SOY PRODUCTOS FILTRADOS POR CATEGORIA y sin filtro", products);
 
   return (
     <div>
@@ -262,7 +255,12 @@ export const ProductDesk = (category) => {
           finalFocusRef={btnRef}
           size={{ base: "full", md: "sm" }}
         >
-          <DrawerOverlay />
+          <DrawerOverlay
+            bg="blackAlpha.300"
+            backdropFilter="blur(10px) hue-rotate(90deg)"
+            backdropInvert="40%"
+            backdropBlur="2px"
+          />
           <DrawerContent color={"#254787"}>
             <DrawerHeader mt={3}>FILTERS</DrawerHeader>
 
@@ -465,25 +463,30 @@ export const ProductDesk = (category) => {
           </DrawerContent>
         </Drawer>
 
-        <Select
-          w={"298px"}
-          h={"50px"}
-          borderRadius={"full"}
-          placeholder="Sort by"
-          color={"#254787"}
-          size={"xs"}
-          display={{ base: "none", md: "block" }}
-          onClick={handleSort}
-        >
-          <option value="&orderby=title&order=asc">Product Name (A - Z)</option>
-          <option value="&orderby=title&order=desc">
-            Product Name (Z - A)
-          </option>
-          <option value="&orderby=price&order=asc">Price (Lowest)</option>
-          <option value="&orderby=price&order=desc">Price (Highest)</option>
-          <option value="&orderby=date&order=asc">Date (New)</option>
-          <option value="&orderby=date&order=desc">Date (Old)</option>
-        </Select>
+        <Stack direction={"row"} alignItems={"center"}>
+          <Text color={"#22488B"}>Sort by</Text>
+          <Select
+            w={"298px"}
+            h={"50px"}
+            borderRadius={"full"}
+            color={"#254787"}
+            size={"xs"}
+            display={{ base: "none", md: "block" }}
+            onClick={handleSort}
+            defaultValue={"&orderby=title&order=asc"}
+          >
+            <option value="&orderby=title&order=asc">
+              Product Name (A - Z)
+            </option>
+            <option value="&orderby=title&order=desc">
+              Product Name (Z - A)
+            </option>
+            <option value="&orderby=price&order=asc">Price (Lowest)</option>
+            <option value="&orderby=price&order=desc">Price (Highest)</option>
+            <option value="&orderby=date&order=asc">Date (New)</option>
+            <option value="&orderby=date&order=desc">Date (Old)</option>
+          </Select>
+        </Stack>
       </Box>
       {isLoading ? (
         <Center>

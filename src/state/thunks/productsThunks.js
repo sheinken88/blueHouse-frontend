@@ -117,22 +117,40 @@ export const fetchProductsByTag = (tagId) => async (dispatch) => {
   }
 };
 
-//PROVISORIO, A LA ESPERA DE DEFINIR POSIBLE RUTA ALL PRODUCTS UNIFICADA PARA CATEGORÍAS Y TAGS
 export const fetchFilteredProducts = (filters) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
     // dispatch(setCategoryFilters())
-    console.log("SOPY EL EPDIDO DE FILTERS", filters);
+
     const filteredProducts = await axios.get(
       `${import.meta.env.VITE_API_URL}/products/filtered/${filters}`,
       { withCredentials: true, credentials: "include" }
     );
-    console.log("SOY FILTERED PRODUCTS", filteredProducts.data.filteredProduct);
+
     dispatch(setProducts(filteredProducts.data.filteredProduct));
 
     dispatch(setLoading(false));
   } catch (err) {
     console.error("Fetch filtered categories error: ", err);
+    dispatch(setError(err));
+    dispatch(setLoading(false));
+  }
+};
+
+export const fetchProductsByType = (type) => async (dispatch) => {
+  try {
+    dispatch(setLoading(true));
+
+    const productsByType = await axios.get(
+      `${import.meta.env.VITE_API_URL}/products/type/${type}`,
+      { withCredentials: true, credentials: "include" }
+    );
+
+    dispatch(setProducts(productsByType.data));
+
+    dispatch(setLoading(false));
+  } catch (err) {
+    console.error("fetchProductsByType error: ", err);
     dispatch(setError(err));
     dispatch(setLoading(false));
   }
