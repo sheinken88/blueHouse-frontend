@@ -46,7 +46,7 @@ export const ProductGrid = () => {
   }
 
   return (
-    <Box mt={"50px"} color={"#254787"}>
+    <Box maxW="95%" mx="auto" p="4" mt={"50px"} color={"#254787"}>
       <Heading fontSize={{ base: "18px", md: "40px" }} fontWeight={"semibold"}>
         Summer Essentials
       </Heading>
