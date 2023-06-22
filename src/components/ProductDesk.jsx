@@ -69,7 +69,7 @@ export const ProductDesk = () => {
   const btnRef = React.useRef();
   const dispatch = useDispatch();
 
-  console.log("SOY EL FILTRO QUE SELECCIONO DE NAV", categoryFilters);
+  console.log("SOY EL FILTRO QUE SELECCIONO DE NAV", categoryFilters.category);
 
   useEffect(() => {
     if (request != "category=null") {
@@ -137,10 +137,14 @@ export const ProductDesk = () => {
   };
 
   const handleApplyFilter = () => {
-    setRequest(`category=${categoryFilters.category}${onSale}`);
+    setRequest(
+      `category=${categoryFilters.category}&min_price=${sliderValues[0]}&max_price=${sliderValues[1]}${onSale}`
+    );
 
     dispatch(
-      fetchFilteredProducts(`category=${categoryFilters.category}${onSale}`)
+      fetchFilteredProducts(
+        `category=${categoryFilters.category}&min_price=${sliderValues[0]}&max_price=${sliderValues[1]}${onSale}`
+      )
     );
 
     // dispatch(fetchFilteredProducts(request));
@@ -259,18 +263,23 @@ export const ProductDesk = () => {
             <DrawerHeader mt={3}>FILTERS</DrawerHeader>
 
             <DrawerBody>
-              {/* <Box>
+              <Box>
                 <Text>CATEGORIES</Text>
                 {categories.map((category) => (
-                  <SubItemMenu
+                  // <SubItemMenu
+                  //   key={category.id}
+                  //   category={category}
+                  //   id={category.id}
+                  // />
+                  <FilterCheckbox
                     key={category.id}
                     category={category}
                     id={category.id}
                   />
                 ))}
-              </Box> */}
+              </Box>
 
-              <Stack>
+              {/* <Stack>
                 <Text>CATEGORIES</Text>
                 {categories.map((category) => (
                   <Checkbox
@@ -282,7 +291,7 @@ export const ProductDesk = () => {
                     <SubItemMenu category={category} />
                   </Checkbox>
                 ))}
-              </Stack>
+              </Stack> */}
 
               {/* <Box key={category.id}>
                 {categories.map((category) => (
@@ -335,7 +344,7 @@ export const ProductDesk = () => {
                 </Stack>
               </Box>
 
-              {/* <Box>
+              <Box>
                 <Text>Price</Text>
                 <Box pt={6} pb={2}>
                   <RangeSlider
@@ -355,33 +364,29 @@ export const ProductDesk = () => {
                       backgroundColor={"#0068FF"}
                       value={sliderValues[0]}
                       textAlign="center"
-                      w="35px"
-                      h="35px"
-                    >
-                      {sliderValues[0]}
-                    </RangeSliderThumb>
+                      w="15px"
+                      h="15px"
+                    ></RangeSliderThumb>
                     <RangeSliderThumb
                       color={"white"}
                       index={1}
                       backgroundColor={"#0068FF"}
                       value={sliderValues[1]}
                       textAlign="center"
-                      w="35px"
-                      h="35px"
-                    >
-                      {sliderValues[1]}
-                    </RangeSliderThumb>
+                      w="15px"
+                      h="15px"
+                    ></RangeSliderThumb>
                   </RangeSlider>
-                  <Stack direction={"row"} justifyContent={"space-around"}>
+                  <Stack direction={"row"} justifyContent={"space-between"}>
                     <Text left={0} top={-4}>
-                      1
+                      {sliderValues[0]}
                     </Text>
                     <Text right={0} top={-4}>
-                      500
+                      {sliderValues[1]}
                     </Text>
                   </Stack>
-                </Box> 
-              </Box>*/}
+                </Box>
+              </Box>
 
               <Box>
                 <Text>Brand</Text>
