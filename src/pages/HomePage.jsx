@@ -18,11 +18,8 @@ import { ImageOffersCarousel } from "../components/ImageOffersCarousel";
 export const HomePage = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.products.isLoading);
-  const ids = JSON.parse(localStorage.getItem("lastViews"))?.lastViews;
   const views = useSelector((state) => state.views);
-
   const products = useSelector((state) => state.products.products);
-
 
   if (isLoading) {
     return (
@@ -46,7 +43,7 @@ export const HomePage = () => {
     <>
       <HeroBanner />
       <ShopByCategory />
-      {ids.length && <LastViews />}
+      <LastViews />
       <ImageOffersCarousel />
       <FilterSection />
       <ProductGrid />

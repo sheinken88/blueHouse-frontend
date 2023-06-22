@@ -4,7 +4,7 @@ import "react-multi-carousel/lib/styles.css";
 import { useEffect } from "react";
 import { fetchAllCategories } from "../state/thunks/categoriesThunks";
 import { CategoryCard } from "../common/CategoryCard";
-import { Box, Stack, Text, Wrap } from "@chakra-ui/react";
+import { Box, Stack, Text, Wrap, Flex } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { fetchProductsByCategory } from "../state/thunks/productsThunks";
 
@@ -44,32 +44,41 @@ export const ShopByCategory = () => {
 
     mobile: {
       breakpoint: { max: 425, min: 0 },
-      items: 2,
+      items: 3,
     },
   };
 
   return (
-    <Box maxW="1500px" mx="auto" p="4">
+    <Box maxW="95%" mx="auto" p="4">
       <Text p="4" sx={{ fontSize: 25, fontWeight: 700, color: "#254787" }}>
         Shop By Top Categories
       </Text>
       <Carousel
         responsive={responsive}
-        removeArrowOnDeviceType={["tablet", "mobile"]}
+        removeArrowOnDeviceType={[
+          "tablet",
+          "mobile",
+          "smartphone",
+          "tablet",
+          "medial",
+          "desktop",
+        ]}
         keyBoardControl={true}
         infinite="true"
       >
         {categories.map((category) => (
-          <Wrap
-            onClick={() => {
-              handleClick(category.id);
-            }}
-            key={category.id}
-            // as={Link}
-            // to={`/productdesk/`}
-          >
-            <CategoryCard key={category.id} category={category} />
-          </Wrap>
+          <Flex justifyContent="center" alignItems="center">
+            <Wrap
+              onClick={() => {
+                handleClick(category.id);
+              }}
+              key={category.id}
+              // as={Link}
+              // to={`/productdesk/`}
+            >
+              <CategoryCard key={category.id} category={category} />
+            </Wrap>
+          </Flex>
         ))}
       </Carousel>
     </Box>

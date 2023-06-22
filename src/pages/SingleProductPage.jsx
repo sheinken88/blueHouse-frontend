@@ -27,6 +27,7 @@ export const SingleProductPage = () => {
   useEffect(() => {
     if (product?.related_ids) {
       dispatch(fetchMultipleProductsByIds(product.related_ids));
+      console.log("related products: ", relatedProducts);
     }
   }, [product, id]);
 

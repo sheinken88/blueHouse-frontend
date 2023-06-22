@@ -38,40 +38,45 @@ import {
   fetchFilteredProducts,
   fetchProductsByCategory,
 } from "../state/thunks/productsThunks";
-import { setCategoryFilters } from "../state/slices/productsSlice";
+import { setCategoryFilters, setProducts } from "../state/slices/productsSlice";
+import he from "he";
+import { FilterCheckbox } from "../common/FilterCheckbox";
 
-export const ProductDesk = (category) => {
+
+export const ProductDesk = () => {
   const categoryFilters = useSelector(
     (state) => state.products.categoryFilters
   );
   const categories = useSelector((state) => state.categories.categories);
   const products = useSelector((state) => state.products.products);
-  const filterProducts = useSelector(
-    (state) => state.products.filteredProducts
-  );
+  const isLoading = useSelector((state) => state.products.isLoading);
 
-  const [isLoading, setIsLoading] = useState(true);
   const [sliderValues, setSliderValues] = useState([1, 100]);
   const [showBluelabels, setShowBluelabels] = useState(false);
   const [showBrands, setShowBrands] = useState(false);
-  const [request, setRequest] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState();
+  const [request, setRequest] = useState(
+    `category=${categoryFilters.category}`
+  );
+  const [filteredProducts, setFilteredProducts] = useState(
+    `category=${categoryFilters.category}`
+  );
   const [id, setId] = useState();
   const [freeShipping, setFreeShipping] = useState(false);
   const [onSale, setOnSale] = useState(false);
   const [blueLabel, setBlueLabels] = useState([]);
-
+  const [searchInput, setSearchInput] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   const dispatch = useDispatch();
 
+  console.log("SOY EL FILTRO QUE SELECCIONO DE NAV", categoryFilters);
+
   useEffect(() => {
-    setIsLoading(true);
-    if (id) {
-      dispatch(fetchProductsByCategory(id)).then(setIsLoading(false));
+    if (request != "category=null") {
+      dispatch(fetchFilteredProducts(request));
     }
-    setIsLoading(false);
-  }, [id]);
+    setRequest(`category=${categoryFilters.category}`);
+  }, [id, categoryFilters]);
 
   const AllBlueLabels = blueLabels;
 
@@ -100,6 +105,7 @@ export const ProductDesk = (category) => {
   };
 
   const handleCategorie = (e) => {
+    dispatch(setCategoryFilters({ category: e })), setRequest(`category=${e}`);
     setId(e);
   };
 
@@ -121,8 +127,8 @@ export const ProductDesk = (category) => {
   };
 
   const handleOnSale = (e) => {
-    console.log("SOY ON SALE", e.target.checked);
-    setOnSale(e.target.checked);
+    // console.log("SOY ON SALE", e.target.checked);
+    setOnSale(`&on_sale=${e.target.checked}`);
   };
 
   const handleBluelabel = (e) => {
@@ -131,39 +137,33 @@ export const ProductDesk = (category) => {
   };
 
   const handleApplyFilter = () => {
-    if (id) {
-      dispatch(
-        setCategoryFilters({
-          category: id,
-          min_price: sliderValues[0],
-          max_price: sliderValues[1],
-        })
-      );
-    } else {
-      dispatch(
-        setCategoryFilters({
-          category: categoryFilters.category,
-          min_price: sliderValues[0],
-          max_price: sliderValues[1],
-        })
-      );
-    }
+    setRequest(`category=${categoryFilters.category}${onSale}`);
 
-    setRequest(
-      `category=${categoryFilters.category}&min_price=${categoryFilters.min_price}&max_price=${categoryFilters.max_price}`
+    dispatch(
+      fetchFilteredProducts(`category=${categoryFilters.category}${onSale}`)
     );
-    // console.log("SOY EL PEDIDO QUE VOY A HACER CON LOS FILTROS", request);
-    dispatch(fetchFilteredProducts(request));
+
+    // dispatch(fetchFilteredProducts(request));
     onClose();
   };
 
-  const handleSort = (e) => {
-    console.log("SOY HANDLE SORT!!!", e.target.value);
+  const handleInput = (e) => {
+    setRequest(`search=${e.target.value}`);
+  };
 
+  const handleSearch = (e) => {
+    if (e.key === "Enter") {
+      dispatch(fetchFilteredProducts(request));
+      onClose();
+    }
+  };
+
+  const handleSort = (e) => {
     dispatch(fetchFilteredProducts(`${request}${e.target.value}`));
   };
 
-  // console.log("SOY REQUEST!!!!!!!", request);
+  // console.log("SOY SEARDCUJEHFIUA", searchInput);
+  console.log("SOY REQUEST!!!!!!!", request);
   // console.log("SOY CATEGORY FILTERS PERO DESDE PD!!!!", categoryFilters);
   // console.log("SOY PRODUCTOS FILTRADOS POR CATEGORIA y sin filtro", products);
 
@@ -197,7 +197,13 @@ export const ProductDesk = (category) => {
         <Box w="75%" mx="auto" maxH={"auto"}>
           <Carousel
             responsive={responsive}
-            removeArrowOnDeviceType={["tablet", "mobile"]}
+            removeArrowOnDeviceType={[
+              "desktop",
+              "mobile",
+              "smartphone",
+              "tablet",
+              "medial",
+            ]}
             keyBoardControl={true}
             infinite="true"
             focusOnSelect="true"
@@ -250,12 +256,16 @@ export const ProductDesk = (category) => {
           finalFocusRef={btnRef}
           size={{ base: "full", md: "sm" }}
         >
-          <DrawerOverlay />
+          <DrawerOverlay
+            bg="blackAlpha.500"
+            backdropInvert="40%"
+            backdropBlur="2px"
+          />
           <DrawerContent color={"#254787"}>
             <DrawerHeader mt={3}>FILTERS</DrawerHeader>
 
             <DrawerBody>
-              <Box>
+              {/* <Box>
                 <Text>CATEGORIES</Text>
                 {categories.map((category) => (
                   <SubItemMenu
@@ -264,7 +274,31 @@ export const ProductDesk = (category) => {
                     id={category.id}
                   />
                 ))}
-              </Box>
+              </Box> */}
+
+              <Stack>
+                <Text>CATEGORIES</Text>
+                {categories.map((category) => (
+                  <Checkbox
+                    key={category.id}
+                    category={category}
+                    value={category.id}
+                    bgImg={category.image}
+                  >
+                    <SubItemMenu category={category} />
+                  </Checkbox>
+                ))}
+              </Stack>
+
+              {/* <Box key={category.id}>
+                {categories.map((category) => (
+                  <FilterCheckbox
+                    ey={category.id}
+                    category={category}
+                    id={category.id}
+                  />
+                ))}
+              </Box> */}
 
               <Box>
                 <Text>Special offers</Text>
@@ -285,6 +319,7 @@ export const ProductDesk = (category) => {
                     {AllBlueLabels.map((blueLabel) => (
                       <Stack key={blueLabel.id}>
                         <Checkbox
+                          pl={3}
                           onChange={() => {
                             handleBluelabel(blueLabel.id);
                           }}
@@ -306,7 +341,7 @@ export const ProductDesk = (category) => {
                 </Stack>
               </Box>
 
-              <Box>
+              {/* <Box>
                 <Text>Price</Text>
                 <Box pt={6} pb={2}>
                   <RangeSlider
@@ -351,8 +386,8 @@ export const ProductDesk = (category) => {
                       500
                     </Text>
                   </Stack>
-                </Box>
-              </Box>
+                </Box> 
+              </Box>*/}
 
               <Box>
                 <Text>Brand</Text>
@@ -361,7 +396,12 @@ export const ProductDesk = (category) => {
                     <InputRightElement>
                       <SearchIcon />
                     </InputRightElement>
-                    <Input placeholder="Search" borderRadius={"full"}></Input>
+                    <Input
+                      placeholder="Search"
+                      borderRadius={"full"}
+                      onChange={handleInput}
+                      onKeyDown={handleSearch}
+                    ></Input>
                   </InputGroup>
                 </Stack>
               </Box>
@@ -372,7 +412,7 @@ export const ProductDesk = (category) => {
                     {AllBlueLabels.map((blueLabel) => (
                       <Stack key={blueLabel.id}>
                         <Checkbox
-                          isChecked={true}
+                          pl={3}
                           onChange={handleBluelabel}
                           value={blueLabel.name}
                         >
@@ -423,26 +463,32 @@ export const ProductDesk = (category) => {
           </DrawerContent>
         </Drawer>
 
-        <Select
-          w={"298px"}
-          h={"50px"}
-          borderRadius={"full"}
-          placeholder="Sort by"
-          color={"#254787"}
-          size={"xs"}
-          display={{ base: "none", md: "block" }}
-          onClick={handleSort}
-        >
-          <option value="&orderby=title&order=asc">Product Name (A - Z)</option>
-          <option value="&orderby=title&order=desc">
-            Product Name (Z - A)
-          </option>
-          <option value="&orderby=price&order=asc">Price (Lowest)</option>
-          <option value="&orderby=price&order=desc">Price (Highest)</option>
-          <option value="&orderby=date&order=asc">Date (New)</option>
-          <option value="&orderby=date&order=desc">Date (Old)</option>
-        </Select>
+        <Stack direction={"row"} alignItems={"center"}>
+          <Text color={"#22488B"}>Sort by</Text>
+          <Select
+            w={"298px"}
+            h={"50px"}
+            borderRadius={"full"}
+            color={"#254787"}
+            size={"xs"}
+            display={{ base: "none", md: "block" }}
+            onClick={handleSort}
+            defaultValue={"&orderby=title&order=asc"}
+          >
+            <option value="&orderby=title&order=asc">
+              Product Name (A - Z)
+            </option>
+            <option value="&orderby=title&order=desc">
+              Product Name (Z - A)
+            </option>
+            <option value="&orderby=price&order=asc">Price (Lowest)</option>
+            <option value="&orderby=price&order=desc">Price (Highest)</option>
+            <option value="&orderby=date&order=asc">Date (New)</option>
+            <option value="&orderby=date&order=desc">Date (Old)</option>
+          </Select>
+        </Stack>
       </Box>
+
       {isLoading ? (
         <Center>
           <Spinner
@@ -458,18 +504,16 @@ export const ProductDesk = (category) => {
           />
         </Center>
       ) : (
-        <Center>
-          <Wrap spacing={{ base: "50px", md: "200px" }} p={5}>
-            {products?.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onSale={onSale}
-                freeShipping={freeShipping}
-              />
-            ))}
-          </Wrap>
-        </Center>
+        <Wrap spacing="30px" justify="center" width="95%" mx="auto">
+          {products?.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onSale={onSale}
+              freeShipping={freeShipping}
+            />
+          ))}
+        </Wrap>
       )}
     </div>
   );

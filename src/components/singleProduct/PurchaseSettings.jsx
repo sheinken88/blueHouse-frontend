@@ -68,6 +68,14 @@ export const PurchaseSettings = ({ product }) => {
     lg: "flex-start",
     xl: "flex-start",
   });
+
+  const textAlignment = useBreakpointValue({
+    base: "center",
+    sm: "center",
+    md: "center",
+    lg: "flex-start",
+    xl: "flex-start",
+  });
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [count, setCount] = useState(1);
   const [selectedAttribute, setSelectedAttribute] = useState(null);
@@ -105,6 +113,10 @@ export const PurchaseSettings = ({ product }) => {
       window.removeEventListener("scroll", checkScroll);
     };
   }, []);
+
+  useEffect(() => {
+    setMainImgSrc(product.images[0].src);
+  }, [product]);
 
   const handleAddToCart = () => {
     console.log("selectedAttribute:", selectedAttribute);
@@ -196,6 +208,9 @@ export const PurchaseSettings = ({ product }) => {
             top={8}
             right={2}
             zIndex={1}
+            style={{
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.4)",
+            }}
           />
 
           {isMobile ? (
@@ -227,38 +242,47 @@ export const PurchaseSettings = ({ product }) => {
               ))}
             </Carousel>
           ) : (
-            <Flex direction={["column", "row"]} p={10}>
-              {" "}
-              <VStack spacing={4}>
-                {" "}
+            <Flex direction="column" p={10} alignItems={"center"}>
+              <Box flex="1" alignSelf="center" mb={10}>
+                <Image
+                  w="90%"
+                  h="600px"
+                  display="block"
+                  margin="0 auto"
+                  src={mainImgSrc}
+                  alt={product.name}
+                  borderRadius={"12px"}
+                />
+              </Box>
+              <HStack spacing={4} overflow={"hidden"}>
                 {product.images.map((image, index) => (
                   <Image
                     key={index}
-                    w="100%"
+                    w="70px"
                     h="70px"
                     src={image.src}
                     alt={product.name}
                     onClick={() => handleImageClick(image.src)}
                     cursor="pointer"
+                    borderRadius={"12px"}
+                    border={
+                      image.src === mainImgSrc ? "2px solid #333" : "none"
+                    }
+                    opacity={image.src === mainImgSrc ? "1" : "0.4"}
                   />
                 ))}
-              </VStack>
-              <Box flex="1" alignSelf="center" ml={10}>
-                {" "}
-                <Image
-                  w="70%"
-                  h="400px"
-                  display="block"
-                  margin="0 auto"
-                  src={mainImgSrc}
-                  alt={product.name}
-                />
-              </Box>
+              </HStack>
             </Flex>
           )}
         </Box>
-        <Box>
-          <Text color="primary" fontSize="xx-large" textAlign="center" mt={6}>
+
+        <Flex direction={"column"} gap={20}>
+          <Text
+            color="primary"
+            fontSize="xx-large"
+            textAlign={textAlignment}
+            mt={6}
+          >
             {product.name}
           </Text>
           {isVisible && isMobile && (
@@ -554,7 +578,7 @@ export const PurchaseSettings = ({ product }) => {
               )}
             </Flex>
           </Box>
-        </Box>
+        </Flex>
       </SimpleGrid>
     </>
   );
