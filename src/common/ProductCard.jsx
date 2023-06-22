@@ -25,7 +25,6 @@ import { setAlert, clearAlert } from "../state/slices/alertSlice";
 import { Link } from "react-router-dom";
 
 export const ProductCard = ({ product }) => {
-  console.log("SOY PRODUC en Card", product);
   const image = product.images[0]
     ? product.images[0].src
     : "src/assets/logo_blueHouse.svg";

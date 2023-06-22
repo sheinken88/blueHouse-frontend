@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { CloseIcon, SearchIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -30,15 +30,22 @@ import {
 import { MenuDesktop } from "./MenuDesktop";
 import logo_blueHouse from "../assets/logo_blueHouse.svg";
 import { SubItemMenu } from "../common/SubItemMenu";
+import {
+  fetchFilteredProducts,
+  fetchProductsByType,
+} from "../state/thunks/productsThunks";
 
 export const Navbar = () => {
   const [mobileDesign] = useMediaQuery("(max-width: 425px)");
   const bgColor = useColorModeValue("secondary", "primary");
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories.categories);
   const [categoriesDispatched, setCategoriesDispatched] = useState(null);
   const [subCategoriesDispatched, setSubCategoriesDispatched] = useState(null);
+  const [request, setRequest] = useState("");
 
   const runEffect = async () => {
     const data = await dispatch(fetchAllCategories());
@@ -57,6 +64,23 @@ export const Navbar = () => {
       setSubCategoriesDispatched(true);
     }
   }, [categoriesDispatched]);
+
+  const handleInput = (e) => {
+    setRequest(`search=${e.target.value}`);
+  };
+
+  const handleSearch = (e) => {
+    if (e.key === "Enter") {
+      dispatch(fetchFilteredProducts(request));
+      if (location != "/productdesk") {
+        navigate("/productdesk");
+      }
+    }
+  };
+
+  const handleOnSale = () => {
+    dispatch(fetchProductsByType("on_sale"));
+  };
 
   return (
     <Box>
@@ -83,6 +107,8 @@ export const Navbar = () => {
                 border="1px"
                 borderColor="white"
                 boxShadow="inset 0 0 3px gray"
+                onChange={handleInput}
+                onKeyDown={handleSearch}
               />
             </InputGroup>
           </Flex>
@@ -172,7 +198,9 @@ export const Navbar = () => {
                         borderColor: "#F5F5F5",
                       }}
                     >
-                      <Link to="/productdesk">SALE</Link>
+                      <Link onClick={handleOnSale} to={"/productdesk"}>
+                        SALE
+                      </Link>
                     </Box>
                     <Box
                       sx={{
@@ -240,6 +268,8 @@ export const Navbar = () => {
               borderColor="white"
               boxShadow="inset 0 0 3px gray"
               pl="2.5rem"
+              onChange={handleInput}
+              onKeyDown={handleSearch}
             />
           </InputGroup>
         </Flex>
