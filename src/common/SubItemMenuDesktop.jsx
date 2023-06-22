@@ -17,7 +17,7 @@ export const SubItemMenuDesktop = ({ category }) => {
     >
       <HStack>
         <ImageMenuItem pl={"1rem"} category={category} />
-        <Box pl={"1rem"} flex="1" textAlign="left">
+        <Box pl={"1rem"} flex="1" textAlign="left" cursor={"pointer"}>
           {he.decode(category.name)}
         </Box>
       </HStack>

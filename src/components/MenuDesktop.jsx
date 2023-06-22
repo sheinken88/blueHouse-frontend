@@ -25,6 +25,7 @@ export const MenuDesktop = ({ categories }) => {
 
   const handleLinkToAbout = () => {
     navigate("/aboutus");
+    setToggleCategories(false)
   };
 
   const subCat = [];
@@ -48,6 +49,7 @@ export const MenuDesktop = ({ categories }) => {
       if (event.target.innerHTML === subcategory.name) {
         dispatch(fetchProductsByCategory(subcategory.id));
         navigate(`/productdesk/`);
+        setToggleCategories(false)
       }
     })
   };
@@ -65,7 +67,7 @@ export const MenuDesktop = ({ categories }) => {
           Store
         </Box>
         <Spacer />
-        <Box onClick={handleClickCategories}>Categories</Box>
+        <Box onClick={handleClickCategories} cursor={"pointer"}>Categories</Box>
         <Spacer />
         <Box as={Link} to={"/productdesk"}>
           Shop all
@@ -79,7 +81,7 @@ export const MenuDesktop = ({ categories }) => {
         <Spacer />
         <Box>Blog</Box>
         <Spacer />
-        <Box onClick={handleLinkToAbout}>Our Values</Box>
+        <Box onClick={handleLinkToAbout} cursor={"pointer"}>Our Values</Box>
         <Spacer />
         <Box>
           <Image
