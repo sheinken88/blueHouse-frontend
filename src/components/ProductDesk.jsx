@@ -42,15 +42,15 @@ import { setCategoryFilters, setProducts } from "../state/slices/productsSlice";
 import he from "he";
 import { FilterCheckbox } from "../common/FilterCheckbox";
 
-export const ProductDesk = (category) => {
+export const ProductDesk = () => {
   const categoryFilters = useSelector(
     (state) => state.products.categoryFilters
   );
   const categories = useSelector((state) => state.categories.categories);
   const products = useSelector((state) => state.products.products);
-  const filterProducts = useSelector(
-    (state) => state.products.filteredProducts
-  );
+  // const filterProducts = useSelector(
+  //   (state) => state.products.filteredProducts
+  // );
   const isLoading = useSelector((state) => state.products.isLoading);
 
   const [sliderValues, setSliderValues] = useState([1, 100]);
@@ -69,7 +69,10 @@ export const ProductDesk = (category) => {
   const btnRef = React.useRef();
   const dispatch = useDispatch();
 
+  console.log("SOY EL FILTRO QUE SELECCIONO DE NAV", categoryFilters);
+
   useEffect(() => {
+    console.log("SOY LA CATEGORIA", request);
     if (request != "category=null") {
       dispatch(fetchFilteredProducts(request));
     }
@@ -102,8 +105,8 @@ export const ProductDesk = (category) => {
   };
 
   const handleCategorie = (e) => {
+    dispatch(setCategoryFilters({ category: e })), setRequest(`category=${e}`);
     setId(e);
-    setRequest(`category=${e}`);
   };
 
   const handleSliderChange = (newValues) => {
@@ -166,7 +169,10 @@ export const ProductDesk = (category) => {
   };
 
   const handleSort = (e) => {
-    dispatch(fetchFilteredProducts(`${request}${e.target.value}`));
+    dispatch(
+      fetchFilteredProducts(`${categoryFilters.category}${e.target.value}`)
+    );
+    console.log("SOY EL SORT", categoryFilters.category);
   };
 
   // console.log("SOY SEARDCUJEHFIUA", searchInput);

@@ -11,8 +11,6 @@ const initialState = {
   error: null,
   categoryFilters: {
     category: null,
-    min_price: 1,
-    max_price: 500,
   },
 };
 
