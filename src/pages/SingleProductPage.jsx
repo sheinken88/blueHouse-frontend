@@ -21,7 +21,7 @@ export const SingleProductPage = () => {
 
   useEffect(() => {
     dispatch(fetchSingleProduct(id));
-    dispatch(setViews(id));
+
   }, [id]);
 
   useEffect(() => {
@@ -29,7 +29,9 @@ export const SingleProductPage = () => {
       dispatch(fetchMultipleProductsByIds(product.related_ids));
       console.log("related products: ", relatedProducts);
     }
-  }, [product]);
+  }, [product, id]);
+
+  console.log("related prods: ", relatedProducts);
 
   if (
     !product ||
