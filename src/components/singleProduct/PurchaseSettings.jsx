@@ -254,7 +254,7 @@ export const PurchaseSettings = ({ product }) => {
                   borderRadius={"12px"}
                 />
               </Box>
-              <HStack spacing={4}>
+              <HStack spacing={4} overflow={"hidden"}>
                 {product.images.map((image, index) => (
                   <Image
                     key={index}
