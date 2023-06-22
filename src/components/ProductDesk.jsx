@@ -41,6 +41,7 @@ import {
 import { setCategoryFilters, setProducts } from "../state/slices/productsSlice";
 import he from "he";
 import { FilterCheckbox } from "../common/FilterCheckbox";
+import { redirect } from "react-router-dom";
 
 export const ProductDesk = (category) => {
   const categoryFilters = useSelector(
@@ -204,7 +205,13 @@ export const ProductDesk = (category) => {
         <Box w="75%" mx="auto" maxH={"auto"}>
           <Carousel
             responsive={responsive}
-            removeArrowOnDeviceType={["tablet", "mobile"]}
+            removeArrowOnDeviceType={[
+              "desktop",
+              "mobile",
+              "smartphone",
+              "tablet",
+              "medial",
+            ]}
             keyBoardControl={true}
             infinite="true"
             focusOnSelect="true"
@@ -506,18 +513,16 @@ export const ProductDesk = (category) => {
           />
         </Center>
       ) : (
-        <Center>
-          <Wrap spacing={{ base: "50px", md: "200px" }} p={5}>
-            {products?.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onSale={onSale}
-                freeShipping={freeShipping}
-              />
-            ))}
-          </Wrap>
-        </Center>
+        <Wrap spacing="30px" justify="center" width="95%" mx="auto">
+          {products?.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onSale={onSale}
+              freeShipping={freeShipping}
+            />
+          ))}
+        </Wrap>
       )}
     </div>
   );

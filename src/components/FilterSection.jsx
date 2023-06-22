@@ -9,6 +9,7 @@ import {
   Tabs,
   TabList,
   Tab,
+  Box,
   Spinner,
 } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
@@ -16,6 +17,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { fetchProductsByType } from "../state/thunks/productsThunks";
 import { Link } from "react-router-dom";
+import { text } from "@fortawesome/fontawesome-svg-core";
 
 export const FilterSection = () => {
   const isLoading = useSelector((state) => state.products.isLoading);
@@ -179,39 +181,43 @@ export const FilterSection = () => {
           align="center"
           ml={[0, 20]}
         ></Stack>
-        <Carousel
-          responsive={responsive}
-          removeArrowOnDeviceType={["tablet", "mobile"]}
-          keyBoardControl={true}
-          infinite={true}
-          focusOnSelect={true}
-        >
-          {!selected
-            ? products.map((product) => (
-                <Center key={product.id}>
-                  <ProductCard key={product.id} product={product} />
-                </Center>
-              ))
-            : product.map((product) =>
-                isLoading ? (
-                  <Spinner
-                    maxW="321.79px"
-                    maxH="321.79px"
-                    mb={10}
-                    mt={10}
-                    thickness="4px"
-                    speed="0.65s"
-                    emptyColor="#D4D9FF"
-                    color="#22488B"
-                    size="xl"
-                  />
-                ) : (
+
+        <Box maxW="95%" mx="auto" p="4">
+          <Carousel
+            responsive={responsive}
+            removeArrowOnDeviceType={["tablet", "mobile", "laptop", "desktop"]}
+            keyBoardControl={true}
+            infinite={true}
+            focusOnSelect={true}
+          >
+            {!selected
+              ? products.map((product) => (
                   <Center key={product.id}>
                     <ProductCard key={product.id} product={product} />
                   </Center>
-                )
-              )}
-        </Carousel>
+                ))
+              : product.map((product) =>
+                  isLoading ? (
+                    <Spinner
+                      maxW="321.79px"
+                      maxH="321.79px"
+                      mb={10}
+                      mt={10}
+                      thickness="4px"
+                      speed="0.65s"
+                      emptyColor="#D4D9FF"
+                      color="#22488B"
+                      size="xl"
+                    />
+                  ) : (
+                    <Center key={product.id}>
+                      <ProductCard key={product.id} product={product} />
+                    </Center>
+                  )
+                )}
+          </Carousel>
+        </Box>
+
         <Link to={"/productdesk"}>
           <Text
             color="#22488B"

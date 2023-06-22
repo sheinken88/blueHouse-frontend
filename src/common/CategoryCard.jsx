@@ -11,16 +11,16 @@ export const CategoryCard = (category) => {
       <Center>
         <Image
           borderRadius="full"
-          h={{ base: "90px", md: "130px" }}
-          w={{ base: "90px", md: "130px" }}
+          h={{ base: "42px", md: "130px" }}
+          w={{ base: "42px", md: "130px" }}
           src={image}
           alt={category.category.name}
         />
       </Center>
       <Center>
         <Text
-          h={{ base: "45px", md: "130px" }}
-          w={{ base: "45px", md: "130px" }}
+          h={{ base: "40px", md: "130px" }}
+          w={{ base: "40px", md: "130px" }}
           color={"#254787"}
           textAlign={"center"}
           // maxW={{ base: "auto", md: "132px" }}
