@@ -188,7 +188,7 @@ export const ProductCard = ({ product }) => {
                 spacing={2}
                 mt={5}
               >
-                {location.pathname === "/productdesk/" && (
+                {location.pathname == "/productdesk/" && (
                   <Tooltip
                     label="Add to cart"
                     placement="top"
@@ -197,6 +197,7 @@ export const ProductCard = ({ product }) => {
                     color={mode("white", "gray.800")}
                   >
                     <IconButton
+                      display={{ base: "none", md: "flex" }}
                       pr={12}
                       pl={12}
                       p={8}
@@ -227,7 +228,9 @@ export const ProductCard = ({ product }) => {
                 spacing={2}
                 mt={5}
               >
+
                 {location.pathname === "/productdesk/" && (
+
                   <Tooltip
                     label="Add to cart"
                     placement="top"
@@ -236,6 +239,9 @@ export const ProductCard = ({ product }) => {
                     color={mode("white", "gray.800")}
                   >
                     <IconButton
+
+                      display={{ base: "none", md: "flex" }}
+
                       pr={12}
                       pl={12}
                       p={8}
