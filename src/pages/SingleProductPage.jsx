@@ -8,6 +8,7 @@ import {
 } from "../state/thunks/productsThunks";
 import { Center, Image, Spinner, Text } from "@chakra-ui/react";
 import { Review } from "../components/singleProduct/Review";
+import { setViews } from "../state/slices/viewsSlice";
 import { InfoDisplay } from "../components/singleProduct/InfoDisplay";
 import { RelatedProducts } from "../components/singleProduct/RelatedProducts";
 import { Contact } from "../components/singleProduct/Contact";
@@ -20,11 +21,13 @@ export const SingleProductPage = () => {
 
   useEffect(() => {
     dispatch(fetchSingleProduct(id));
+    dispatch(setViews(id));
   }, [id]);
 
   useEffect(() => {
     if (product?.related_ids) {
       dispatch(fetchMultipleProductsByIds(product.related_ids));
+      console.log("related products: ", relatedProducts);
     }
   }, [product]);
 

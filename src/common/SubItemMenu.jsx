@@ -9,33 +9,43 @@ import {
 import { Link } from "react-router-dom";
 import { ImageMenuItem } from "./ImageMenuItem";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { fetchSubCategories } from "../state/thunks/categoriesThunks";
+import { fetchProductsByCategory } from "../state/thunks/productsThunks";
+import he from "he"
 
-export const SubItemMenu = ({category}) => {
+export const SubItemMenu = ({ category }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const subCategories = useSelector((state) => state.categories.subCategories);
 
   useEffect(() => {
     dispatch(fetchSubCategories(category.id));
   }, [dispatch]);
 
-  let categoryName = category.name.split("amp;");
-  categoryName = categoryName.join("");
-
   let subCat = [];
-    subCategories.map((subcategory) => {
-      if ((!subCat.includes(subcategory)) && (subcategory.parent === category.id)) {
-        subCat.push(subcategory);
+  subCategories.map((subcategory) => {
+    if (!subCat.includes(subcategory) && subcategory.parent === category.id) {
+      subCat.push(subcategory);
+    }
+  });
+
+  const handleSubCategorySelector = (event) => {  
+    subCategories.map((subcategory)=>{
+      if (event.target.innerHTML === subcategory.name) {
+        dispatch(fetchProductsByCategory(subcategory.id));
+        navigate(`/productdesk/`);
       }
-    });
+    })
+  };
 
   return (
     <Accordion
       sx={{
         mt: 1,
         w: "100%",
-        borderColor: "white" /*COLOR DE FONDO DEL FIGMA: "#F8F8F5"*/,
+        borderColor: "white",
         color: "primary",
       }}
       allowMultiple
@@ -45,19 +55,18 @@ export const SubItemMenu = ({category}) => {
           <AccordionButton>
             <ImageMenuItem category={category} />
             <Box pl={10} flex="1" textAlign="left">
-              {categoryName}
+              {he.decode(category.name)}
             </Box>
             <AccordionIcon sx={{ w: "30%" }} />
           </AccordionButton>
         </h2>
-        {subCat.map((subCategory) => (
+        {subCat.map((subcategory) => (
           <AccordionPanel
             key={category.id}
-            as={Link}
-            to="/"
+            onClick={handleSubCategorySelector}
             sx={{ fontSize: 12, pb: "2px", pl: 10 }}
           >
-            {subCategory.name}
+            {subcategory.name}
           </AccordionPanel>
         ))}
       </AccordionItem>

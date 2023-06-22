@@ -52,16 +52,26 @@ export const ShoppingCartPage = () => {
     const url = `https://staging15.bluehouseworld.nl/?add-to-cart=${queryString}`;
 
     console.log(url);
+    window.location.href = url;
   };
 
   const boxSize = useBreakpointValue({ base: "full", md: "xl" });
   const shadowStyle = useBreakpointValue({ base: "none", md: "md" });
   const btnBgColor = useBreakpointValue({ base: "#FDB32C", md: "primary" });
+  const btnSize = useBreakpointValue({ base: "80%", md: "30%" });
   const btnColor = "white";
 
   return (
     <Center>
-      <Box bg="white" p={5} mb={40} mt={10} w={boxSize} shadow={shadowStyle}>
+      <Box
+        bg="white"
+        p={5}
+        mb={40}
+        mt={10}
+        w={boxSize}
+        shadow={shadowStyle}
+        width={"80%"}
+      >
         <Flex justify="space-between" mb={5}>
           <Text fontSize="xl" fontWeight="bold" color="primary">
             SHOPPING CART
@@ -160,11 +170,11 @@ export const ShoppingCartPage = () => {
           </HStack>
           <Center>
             <Button
-              as={Link}
-              to="/checkout"
+              // as={Link}
+              // to="/checkout"
               bg={btnBgColor}
               color={btnColor}
-              w="80%"
+              w={btnSize}
               mt="8"
               onClick={handleCheckout}
             >

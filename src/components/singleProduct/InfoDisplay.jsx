@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import { PrimaryButton } from "../../common/Buttons";
 
 export const InfoDisplay = ({ product }) => {
+  console.log("product: ", product);
   const description = product.description;
   const howIsMadeData = product.meta_data.find(
     (data) => data.key.replace(/[^a-zA-Z]/g, "") === "howismade"
@@ -47,9 +48,9 @@ export const InfoDisplay = ({ product }) => {
   );
   const returnAndRefund = returnAndRefundData ? returnAndRefundData.value : "";
 
-  const storeName = product.store.name;
-  const storeCity = product.store.city;
-  const storeCountry = product.store.country;
+  const storeName = product.store.shop_name;
+  const storeCity = product.store.address.city;
+  const storeCountry = product.store.address.country;
   const storeURL = product.store.url;
 
   const responsive = {
@@ -82,216 +83,232 @@ export const InfoDisplay = ({ product }) => {
   return (
     <>
       <Accordion allowToggle width={breakpoint}>
-        <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box
-                as="span"
-                flex="1"
-                textAlign="left"
-                color="primary"
-                fontWeight="bold"
-              >
-                DESCRIPTION
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel
-            color="primary"
-            p={4}
-            dangerouslySetInnerHTML={{
-              __html: description,
-            }}
-          ></AccordionPanel>
-        </AccordionItem>
+        {description && (
+          <AccordionItem>
+            <h2>
+              <AccordionButton>
+                <Box
+                  as="span"
+                  flex="1"
+                  textAlign="left"
+                  color="primary"
+                  fontWeight="bold"
+                >
+                  DESCRIPTION
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel
+              color="primary"
+              p={4}
+              dangerouslySetInnerHTML={{
+                __html: description,
+              }}
+            ></AccordionPanel>
+          </AccordionItem>
+        )}
 
-        <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box
-                as="span"
-                flex="1"
-                textAlign="left"
-                color="primary"
-                fontWeight="bold"
-              >
-                HOW PRODUCT IS MADE
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel
-            pb={4}
-            color="primary"
-            p={4}
-            dangerouslySetInnerHTML={{
-              __html: howIsMade,
-            }}
-          ></AccordionPanel>
-        </AccordionItem>
-        <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box
-                as="span"
-                flex="1"
-                textAlign="left"
-                color="primary"
-                fontWeight="bold"
-              >
-                PRODUCT CARE
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel
-            pb={4}
-            color="primary"
-            p={4}
-            dangerouslySetInnerHTML={{
-              __html: productCare,
-            }}
-          ></AccordionPanel>
-        </AccordionItem>
-        <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box
-                as="span"
-                flex="1"
-                textAlign="left"
-                color="primary"
-                fontWeight="bold"
-              >
-                HOW TO USE
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel
-            pb={4}
-            color="primary"
-            p={4}
-            dangerouslySetInnerHTML={{
-              __html: howToUse,
-            }}
-          ></AccordionPanel>
-        </AccordionItem>
-        <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box
-                as="span"
-                flex="1"
-                textAlign="left"
-                color="primary"
-                fontWeight="bold"
-              >
-                SUSTAINABILITY
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel
-            pb={4}
-            color="primary"
-            p={4}
-            dangerouslySetInnerHTML={{
-              __html: sustainability,
-            }}
-          ></AccordionPanel>
-        </AccordionItem>
-        <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box
-                as="span"
-                flex="1"
-                textAlign="left"
-                color="primary"
-                fontWeight="bold"
-              >
-                SIZE CHART
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel
-            pb={4}
-            color="primary"
-            p={4}
-            dangerouslySetInnerHTML={{
-              __html: sizeChart,
-            }}
-          ></AccordionPanel>
-        </AccordionItem>
-        <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box
-                as="span"
-                flex="1"
-                textAlign="left"
-                color="primary"
-                fontWeight="bold"
-              >
-                RETURN & REFUND
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel
-            pb={4}
-            color="primary"
-            p={4}
-            dangerouslySetInnerHTML={{
-              __html: returnAndRefund,
-            }}
-          ></AccordionPanel>
-        </AccordionItem>
-        <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box
-                as="span"
-                flex="1"
-                textAlign="left"
-                color="primary"
-                fontWeight="bold"
-              >
-                MEET THE STORE
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel
-            pb={4}
-            color="primary"
-            p={4}
-            // dangerouslySetInnerHTML={{
-            //   __html: returnAndRefund,
-            // }}
-          >
-            <VStack>
-              <Text color="primary" fontWeight="bold">
-                {storeName}
-              </Text>
-              <Text>
-                {storeCity}, {storeCountry}
-              </Text>
-              <Text
-                textDecoration="underline"
-                color="primary"
-                as={Link}
-                to={storeURL}
-              >
-                See store
-              </Text>
-              <PrimaryButton>Contact Store</PrimaryButton>
-            </VStack>
-          </AccordionPanel>
-        </AccordionItem>
+        {howIsMade && (
+          <AccordionItem>
+            <h2>
+              <AccordionButton>
+                <Box
+                  as="span"
+                  flex="1"
+                  textAlign="left"
+                  color="primary"
+                  fontWeight="bold"
+                >
+                  HOW PRODUCT IS MADE
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel
+              pb={4}
+              color="primary"
+              p={4}
+              dangerouslySetInnerHTML={{
+                __html: howIsMade,
+              }}
+            ></AccordionPanel>
+          </AccordionItem>
+        )}
+        {productCare && (
+          <AccordionItem>
+            <h2>
+              <AccordionButton>
+                <Box
+                  as="span"
+                  flex="1"
+                  textAlign="left"
+                  color="primary"
+                  fontWeight="bold"
+                >
+                  PRODUCT CARE
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel
+              pb={4}
+              color="primary"
+              p={4}
+              dangerouslySetInnerHTML={{
+                __html: productCare,
+              }}
+            ></AccordionPanel>
+          </AccordionItem>
+        )}
+        {howToUse && (
+          <AccordionItem>
+            <h2>
+              <AccordionButton>
+                <Box
+                  as="span"
+                  flex="1"
+                  textAlign="left"
+                  color="primary"
+                  fontWeight="bold"
+                >
+                  HOW TO USE
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel
+              pb={4}
+              color="primary"
+              p={4}
+              dangerouslySetInnerHTML={{
+                __html: howToUse,
+              }}
+            ></AccordionPanel>
+          </AccordionItem>
+        )}
+        {sustainability && (
+          <AccordionItem>
+            <h2>
+              <AccordionButton>
+                <Box
+                  as="span"
+                  flex="1"
+                  textAlign="left"
+                  color="primary"
+                  fontWeight="bold"
+                >
+                  SUSTAINABILITY
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel
+              pb={4}
+              color="primary"
+              p={4}
+              dangerouslySetInnerHTML={{
+                __html: sustainability,
+              }}
+            ></AccordionPanel>
+          </AccordionItem>
+        )}
+        {sizeChart && (
+          <AccordionItem>
+            <h2>
+              <AccordionButton>
+                <Box
+                  as="span"
+                  flex="1"
+                  textAlign="left"
+                  color="primary"
+                  fontWeight="bold"
+                >
+                  SIZE CHART
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel
+              pb={4}
+              color="primary"
+              p={4}
+              dangerouslySetInnerHTML={{
+                __html: sizeChart,
+              }}
+            ></AccordionPanel>
+          </AccordionItem>
+        )}
+        {returnAndRefund && (
+          <AccordionItem>
+            <h2>
+              <AccordionButton>
+                <Box
+                  as="span"
+                  flex="1"
+                  textAlign="left"
+                  color="primary"
+                  fontWeight="bold"
+                >
+                  RETURN & REFUND
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel
+              pb={4}
+              color="primary"
+              p={4}
+              dangerouslySetInnerHTML={{
+                __html: returnAndRefund,
+              }}
+            ></AccordionPanel>
+          </AccordionItem>
+        )}
+        {storeName && (
+          <AccordionItem>
+            <h2>
+              <AccordionButton>
+                <Box
+                  as="span"
+                  flex="1"
+                  textAlign="left"
+                  color="primary"
+                  fontWeight="bold"
+                >
+                  MEET THE STORE
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel
+              pb={4}
+              color="primary"
+              p={4}
+              // dangerouslySetInnerHTML={{
+              //   __html: returnAndRefund,
+              // }}
+            >
+              <VStack>
+                <Text color="primary" fontWeight="bold">
+                  {storeName}
+                </Text>
+                <Text>
+                  {storeCity}, {storeCountry}
+                </Text>
+                <Text
+                  textDecoration="underline"
+                  color="primary"
+                  as={Link}
+                  to={storeURL}
+                >
+                  See store
+                </Text>
+                <PrimaryButton>Contact Store</PrimaryButton>
+              </VStack>
+            </AccordionPanel>
+          </AccordionItem>
+        )}
       </Accordion>
     </>
   );

@@ -44,6 +44,7 @@ function App() {
             {alert.message}
           </Alert>
         )}
+
         <Navbar />
 
         <ShoppingCartDrawer />

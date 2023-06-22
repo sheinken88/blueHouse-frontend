@@ -1,25 +1,30 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ProductCard } from "../common/ProductCard";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import {
-  Button,
   Center,
   Stack,
   Text,
   Tabs,
   TabList,
   Tab,
+  Box,
   Spinner,
 } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { fetchProductsByType } from "../state/thunks/productsThunks";
+import { Link } from "react-router-dom";
+import { text } from "@fortawesome/fontawesome-svg-core";
 
 export const FilterSection = () => {
-  const [selected, setSelected] = useState("top_sellers");
+  const isLoading = useSelector((state) => state.products.isLoading);
+  const products = useSelector((state) => state.products.products);
+  const dispatch = useDispatch();
+  const [selected, setSelected] = useState("");
   const [product, setProduct] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const responsive = {
     desktop: {
       breakpoint: { max: 3500, min: 1441 },
@@ -41,7 +46,6 @@ export const FilterSection = () => {
 
   const handleClick = (e) => {
     setSelected(e.target.value);
-    setIsLoading(true);
   };
 
   useEffect(() => {
@@ -52,7 +56,6 @@ export const FilterSection = () => {
       })
       .then((res) => {
         setProduct(res.data);
-        setIsLoading(false);
       });
   }, [selected]);
 
@@ -178,41 +181,52 @@ export const FilterSection = () => {
           align="center"
           ml={[0, 20]}
         ></Stack>
-        <Carousel
-          responsive={responsive}
-          removeArrowOnDeviceType={["tablet", "mobile"]}
-          keyBoardControl={true}
-          infinite={true}
-          focusOnSelect={true}
-        >
-          {product.map((product) => (
-            <Center key={product.id}>
-              {isLoading ? (
-                <Spinner
-                  maxW="321.79px"
-                  maxH="321.79px"
-                  mb={10}
-                  mt={10}
-                  thickness="4px"
-                  speed="0.65s"
-                  emptyColor="#D4D9FF"
-                  color="#22488B"
-                  size="xl"
-                />
-              ) : (
-                <ProductCard key={product.id} product={product} />
-              )}
-            </Center>
-          ))}
-        </Carousel>
 
-        <Text
-          color="#22488B"
-          textAlign={"center"}
-          fontSize={{ base: "18px", md: "22px" }}
-        >
-          Shop More {selected}
-        </Text>
+        <Box maxW="95%" mx="auto" p="4">
+          <Carousel
+            responsive={responsive}
+            removeArrowOnDeviceType={["tablet", "mobile", "laptop", "desktop"]}
+            keyBoardControl={true}
+            infinite={true}
+            focusOnSelect={true}
+          >
+            {!selected
+              ? products.map((product) => (
+                  <Center key={product.id}>
+                    <ProductCard key={product.id} product={product} />
+                  </Center>
+                ))
+              : product.map((product) =>
+                  isLoading ? (
+                    <Spinner
+                      maxW="321.79px"
+                      maxH="321.79px"
+                      mb={10}
+                      mt={10}
+                      thickness="4px"
+                      speed="0.65s"
+                      emptyColor="#D4D9FF"
+                      color="#22488B"
+                      size="xl"
+                    />
+                  ) : (
+                    <Center key={product.id}>
+                      <ProductCard key={product.id} product={product} />
+                    </Center>
+                  )
+                )}
+          </Carousel>
+        </Box>
+
+        <Link to={"/productdesk"}>
+          <Text
+            color="#22488B"
+            textAlign={"center"}
+            fontSize={{ base: "18px", md: "22px" }}
+          >
+            Shop More
+          </Text>
+        </Link>
       </Tabs>
     </div>
   );

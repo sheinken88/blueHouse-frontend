@@ -1,12 +1,27 @@
 import React from "react";
-import { Box, HStack, Spacer, Image, Text } from "@chakra-ui/react";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Box,
+  HStack,
+  Flex,
+  Spacer,
+  Image,
+  Text,
+  Button,
+} from "@chakra-ui/react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { SubItemMenuDesktop } from "../common/SubItemMenuDesktop";
 import NetherlandsFlag from "../assets/language.png";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
+import he from "he";
+import {
+  fetchProductsByCategory,
+  fetchProductsByType,
+} from "../state/thunks/productsThunks";
 
 export const MenuDesktop = ({ categories }) => {
+  const dispatch = useDispatch();
   const categoriesMap = categories;
   const subCategories = useSelector((state) => state.categories.subCategories);
   const [toggleCategories, setToggleCategories] = useState(false);
@@ -18,9 +33,18 @@ export const MenuDesktop = ({ categories }) => {
   };
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLinkToAbout = () => {
     navigate("/aboutus");
+    setToggleCategories(false)
+  };
+
+  const handleOnSale = () => {
+    dispatch(fetchProductsByType("on_sale"));
+    if (location != "/productdesk") {
+      navigate("/productdesk");
+    }
   };
 
   const subCat = [];
@@ -29,14 +53,24 @@ export const MenuDesktop = ({ categories }) => {
     categories.map((category) => {
       if (category.name === event.target.innerHTML) {
         setChosenCategory(category);
+        subCategories.map((subcategory) => {
+          if (subcategory.parent === category.id) {
+            subCat.push(subcategory);
+          }
+        });
+        setChosenSubCategories(subCat);
       }
     });
-    subCategories.map((subcategory) => {
-      if (subcategory.parent === chosenCategory.id) {
-        subCat.push(subcategory);
+  };
+
+  const handleSubCategorySelector = (event) => {
+    chosenSubCategories.map((subcategory) => {
+      if (event.target.innerHTML === subcategory.name) {
+        dispatch(fetchProductsByCategory(subcategory.id));
+        navigate(`/productdesk/`);
+        setToggleCategories(false)
       }
     });
-    setChosenSubCategories(subCat)
   };
 
   return (
@@ -52,13 +86,20 @@ export const MenuDesktop = ({ categories }) => {
           Store
         </Box>
         <Spacer />
-        <Box onClick={handleClickCategories}>Categories</Box>
+        <Box onClick={handleClickCategories} cursor={"pointer"}>Categories</Box>
         <Spacer />
-        <Box as={Link} to={"/productdesk"}>
-          Shop all
+        <Box>Shop all</Box>
+        <Spacer />
+        <Box>
+          <Button
+            onClick={handleOnSale}
+            variant="unstyled"
+            fontWeight="normal"
+            colorScheme="#22488B"
+          >
+            Sale
+          </Button>
         </Box>
-        <Spacer />
-        <Box>Sale</Box>
         <Spacer />
         <Box>Mother's Day</Box>
         <Spacer />
@@ -66,7 +107,7 @@ export const MenuDesktop = ({ categories }) => {
         <Spacer />
         <Box>Blog</Box>
         <Spacer />
-        <Box onClick={handleLinkToAbout}>Our Values</Box>
+        <Box onClick={handleLinkToAbout} cursor={"pointer"}>Our Values</Box>
         <Spacer />
         <Box>
           <Image
@@ -98,14 +139,16 @@ export const MenuDesktop = ({ categories }) => {
                 All Categories
               </Text>
               {categoriesMap.map((category) => (
-                <Box key={category.id} onClick={handleCategorySelector}>
+                <Flex key={category.id} onClick={handleCategorySelector}>
                   <SubItemMenuDesktop category={category} />
-                </Box>
+                  <Spacer />
+                  <ArrowForwardIcon sx={{ m: "1rem" }} />
+                </Flex>
               ))}
             </Box>
           </Box>
         )}
-        {toggleCategories && chosenCategory && (
+        {toggleCategories && chosenCategory && chosenSubCategories && (
           <Box
             sx={{
               mt: "1rem",
@@ -122,10 +165,10 @@ export const MenuDesktop = ({ categories }) => {
                   fontWeight: "bold",
                 }}
               >
-                {chosenCategory.name}
+                {he.decode(chosenCategory.name)}
               </Text>
               {chosenSubCategories.map((subcategory) => (
-                <Box key={subcategory.id}>
+                <Box key={subcategory.id} onClick={handleSubCategorySelector}>
                   <SubItemMenuDesktop category={subcategory} />
                 </Box>
               ))}
@@ -133,16 +176,6 @@ export const MenuDesktop = ({ categories }) => {
           </Box>
         )}
       </HStack>
-      {/* {subCat.map((subCategory) => (
-          <Box
-            key={category.id}
-            as={Link}
-            to="/"
-            sx={{ fontSize: 12, pb: "2px", pl: 10 }}
-          >
-            {subCategory.name}
-          </Box>
-        ))} */}
     </>
   );
 };

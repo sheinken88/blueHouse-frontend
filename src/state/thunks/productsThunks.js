@@ -53,8 +53,10 @@ export const fetchMultipleProductsByIds = (productIds) => async (dispatch) => {
 
     const response = await axios.get(
       `${import.meta.env.VITE_API_URL}/products/ids`,
-      { withCredentials: true, credentials: "include" },
+
       {
+        withCredentials: true,
+        credentials: "include",
         params: {
           include: productIds.join(","),
         },
@@ -78,8 +80,6 @@ export const fetchProductsByCategory = (categoryId) => async (dispatch) => {
     dispatch(
       setCategoryFilters({
         category: categoryId,
-        min_price: 1,
-        max_price: 100,
       })
     );
 
@@ -115,22 +115,40 @@ export const fetchProductsByTag = (tagId) => async (dispatch) => {
   }
 };
 
-//PROVISORIO, A LA ESPERA DE DEFINIR POSIBLE RUTA ALL PRODUCTS UNIFICADA PARA CATEGORÍAS Y TAGS
 export const fetchFilteredProducts = (filters) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
     // dispatch(setCategoryFilters())
-
+    console.log("SOY LO QUE RECIBO DEL FRONTO PARA FILTRAR", filters);
     const filteredProducts = await axios.get(
       `${import.meta.env.VITE_API_URL}/products/filtered/${filters}`,
       { withCredentials: true, credentials: "include" }
     );
-    console.log("SOY FILTERED PRODUCTS", filteredProducts.data);
-    dispatch(setProducts(filteredProducts.data));
+
+    dispatch(setProducts(filteredProducts.data.filteredProduct));
 
     dispatch(setLoading(false));
   } catch (err) {
     console.error("Fetch filtered categories error: ", err);
+    dispatch(setError(err));
+    dispatch(setLoading(false));
+  }
+};
+
+export const fetchProductsByType = (type) => async (dispatch) => {
+  try {
+    dispatch(setLoading(true));
+
+    const productsByType = await axios.get(
+      `${import.meta.env.VITE_API_URL}/products/type/${type}`,
+      { withCredentials: true, credentials: "include" }
+    );
+
+    dispatch(setProducts(productsByType.data));
+
+    dispatch(setLoading(false));
+  } catch (err) {
+    console.error("fetchProductsByType error: ", err);
     dispatch(setError(err));
     dispatch(setLoading(false));
   }
