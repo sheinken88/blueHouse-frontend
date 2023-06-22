@@ -70,7 +70,9 @@ export const ProductDesk = (category) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchFilteredProducts(request));
+    if (request != "category=null") {
+      dispatch(fetchFilteredProducts(request));
+    }
   }, [id]);
 
   const AllBlueLabels = blueLabels;
@@ -168,7 +170,7 @@ export const ProductDesk = (category) => {
   };
 
   // console.log("SOY SEARDCUJEHFIUA", searchInput);
-  console.log("SOY REQUEST!!!!!!!", request);
+  // console.log("SOY REQUEST!!!!!!!", request);
   // console.log("SOY CATEGORY FILTERS PERO DESDE PD!!!!", categoryFilters);
   // console.log("SOY PRODUCTOS FILTRADOS POR CATEGORIA y sin filtro", products);
 
@@ -488,6 +490,7 @@ export const ProductDesk = (category) => {
           </Select>
         </Stack>
       </Box>
+
       {isLoading ? (
         <Center>
           <Spinner
