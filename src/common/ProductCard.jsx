@@ -227,26 +227,28 @@ export const ProductCard = ({ product }) => {
                 spacing={2}
                 mt={5}
               >
-                <Tooltip
-                  label="Add to cart"
-                  placement="top"
-                  hasArrow
-                  bg={mode("gray.800", "white")}
-                  color={mode("white", "gray.800")}
-                >
-                  <IconButton
-                    pr={12}
-                    pl={12}
-                    p={8}
-                    icon={<FaShoppingCart />}
-                    backgroundColor="#EA6244"
-                    aria-label="Add to cart"
-                    borderRadius="full"
-                    color="white"
-                    _hover={{ bg: "#EA6244" }}
-                    onClick={handleAddToCart}
-                  />
-                </Tooltip>
+                {location.pathname === "/productdesk/" && (
+                  <Tooltip
+                    label="Add to cart"
+                    placement="top"
+                    hasArrow
+                    bg={mode("gray.800", "white")}
+                    color={mode("white", "gray.800")}
+                  >
+                    <IconButton
+                      pr={12}
+                      pl={12}
+                      p={8}
+                      icon={<FaShoppingCart />}
+                      backgroundColor="#EA6244"
+                      aria-label="Add to cart"
+                      borderRadius="full"
+                      color="white"
+                      _hover={{ bg: "#EA6244" }}
+                      onClick={handleAddToCart}
+                    />
+                  </Tooltip>
+                )}
 
                 <Text
                   color="#254787"
