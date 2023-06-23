@@ -21,7 +21,7 @@ export const SingleProductPage = () => {
 
   useEffect(() => {
     dispatch(fetchSingleProduct(id));
-
+    dispatch(setViews(id));
   }, [id]);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export const SingleProductPage = () => {
       <Center m={10}>
         <Spinner
           thickness="4px"
-          speed="o.65s"
+          speed="o.66s"
           emptyColor="#D4D9FF"
           color="#22488B"
           size="xl"
