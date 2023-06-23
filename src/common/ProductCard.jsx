@@ -24,6 +24,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addItemToCart } from "../state/slices/cartSlice";
 import { setAlert, clearAlert } from "../state/slices/alertSlice";
 import { Link, useLocation } from "react-router-dom";
+import he from "he";
 
 export const ProductCard = ({ product }) => {
   const image = product.images[0]
@@ -175,7 +176,7 @@ export const ProductCard = ({ product }) => {
             overflow="hidden"
             lineHeight={"shorter"}
           >
-            {product.name}
+            {he.decode(product.name)}
           </Heading>
 
           {
