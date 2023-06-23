@@ -41,17 +41,14 @@ import {
 import { setCategoryFilters, setProducts } from "../state/slices/productsSlice";
 import he from "he";
 import { FilterCheckbox } from "../common/FilterCheckbox";
-import { redirect } from "react-router-dom";
 
-export const ProductDesk = (category) => {
+
+export const ProductDesk = () => {
   const categoryFilters = useSelector(
     (state) => state.products.categoryFilters
   );
   const categories = useSelector((state) => state.categories.categories);
   const products = useSelector((state) => state.products.products);
-  const filterProducts = useSelector(
-    (state) => state.products.filteredProducts
-  );
   const isLoading = useSelector((state) => state.products.isLoading);
 
   const [sliderValues, setSliderValues] = useState([1, 100]);
@@ -60,7 +57,9 @@ export const ProductDesk = (category) => {
   const [request, setRequest] = useState(
     `category=${categoryFilters.category}`
   );
-  const [filteredProducts, setFilteredProducts] = useState();
+  const [filteredProducts, setFilteredProducts] = useState(
+    `category=${categoryFilters.category}`
+  );
   const [id, setId] = useState();
   const [freeShipping, setFreeShipping] = useState(false);
   const [onSale, setOnSale] = useState(false);
@@ -70,11 +69,14 @@ export const ProductDesk = (category) => {
   const btnRef = React.useRef();
   const dispatch = useDispatch();
 
+  console.log("SOY EL FILTRO QUE SELECCIONO DE NAV", categoryFilters.category);
+
   useEffect(() => {
     if (request != "category=null") {
       dispatch(fetchFilteredProducts(request));
     }
-  }, [id]);
+    setRequest(`category=${categoryFilters.category}`);
+  }, [id, categoryFilters]);
 
   const AllBlueLabels = blueLabels;
 
@@ -103,8 +105,8 @@ export const ProductDesk = (category) => {
   };
 
   const handleCategorie = (e) => {
+    dispatch(setCategoryFilters({ category: e })), setRequest(`category=${e}`);
     setId(e);
-    setRequest(`category=${e}`);
   };
 
   const handleSliderChange = (newValues) => {
@@ -125,8 +127,8 @@ export const ProductDesk = (category) => {
   };
 
   const handleOnSale = (e) => {
-    console.log("SOY ON SALE", e.target.checked);
-    setOnSale(e.target.checked);
+    // console.log("SOY ON SALE", e.target.checked);
+    setOnSale(`&on_sale=${e.target.checked}`);
   };
 
   const handleBluelabel = (e) => {
@@ -135,23 +137,17 @@ export const ProductDesk = (category) => {
   };
 
   const handleApplyFilter = () => {
-    if (id) {
-      dispatch(
-        setCategoryFilters({
-          category: id,
-        })
-      );
-    } else {
-      dispatch(
-        setCategoryFilters({
-          category: categoryFilters.category,
-        })
-      );
-    }
+    setRequest(
+      `category=${categoryFilters.category}&min_price=${sliderValues[0]}&max_price=${sliderValues[1]}${onSale}`
+    );
 
-    setRequest(`category=${categoryFilters.category}`);
-    console.log("SOY EL PEDIDO QUE VOY A HACER CON LOS FILTROS", request);
-    dispatch(fetchFilteredProducts(request));
+    dispatch(
+      fetchFilteredProducts(
+        `category=${categoryFilters.category}&min_price=${sliderValues[0]}&max_price=${sliderValues[1]}${onSale}`
+      )
+    );
+
+    // dispatch(fetchFilteredProducts(request));
     onClose();
   };
 
@@ -171,7 +167,7 @@ export const ProductDesk = (category) => {
   };
 
   // console.log("SOY SEARDCUJEHFIUA", searchInput);
-  // console.log("SOY REQUEST!!!!!!!", request);
+  console.log("SOY REQUEST!!!!!!!", request);
   // console.log("SOY CATEGORY FILTERS PERO DESDE PD!!!!", categoryFilters);
   // console.log("SOY PRODUCTOS FILTRADOS POR CATEGORIA y sin filtro", products);
 
@@ -265,8 +261,7 @@ export const ProductDesk = (category) => {
           size={{ base: "full", md: "sm" }}
         >
           <DrawerOverlay
-            bg="blackAlpha.300"
-            backdropFilter="blur(10px) hue-rotate(90deg)"
+            bg="blackAlpha.500"
             backdropInvert="40%"
             backdropBlur="2px"
           />
@@ -274,18 +269,23 @@ export const ProductDesk = (category) => {
             <DrawerHeader mt={3}>FILTERS</DrawerHeader>
 
             <DrawerBody>
-              {/* <Box>
+              <Box>
                 <Text>CATEGORIES</Text>
                 {categories.map((category) => (
-                  <SubItemMenu
+                  // <SubItemMenu
+                  //   key={category.id}
+                  //   category={category}
+                  //   id={category.id}
+                  // />
+                  <FilterCheckbox
                     key={category.id}
                     category={category}
                     id={category.id}
                   />
                 ))}
-              </Box> */}
+              </Box>
 
-              <Stack>
+              {/* <Stack>
                 <Text>CATEGORIES</Text>
                 {categories.map((category) => (
                   <Checkbox
@@ -297,7 +297,7 @@ export const ProductDesk = (category) => {
                     <SubItemMenu category={category} />
                   </Checkbox>
                 ))}
-              </Stack>
+              </Stack> */}
 
               {/* <Box key={category.id}>
                 {categories.map((category) => (
@@ -350,7 +350,7 @@ export const ProductDesk = (category) => {
                 </Stack>
               </Box>
 
-              {/* <Box>
+              <Box>
                 <Text>Price</Text>
                 <Box pt={6} pb={2}>
                   <RangeSlider
@@ -370,33 +370,29 @@ export const ProductDesk = (category) => {
                       backgroundColor={"#0068FF"}
                       value={sliderValues[0]}
                       textAlign="center"
-                      w="35px"
-                      h="35px"
-                    >
-                      {sliderValues[0]}
-                    </RangeSliderThumb>
+                      w="15px"
+                      h="15px"
+                    ></RangeSliderThumb>
                     <RangeSliderThumb
                       color={"white"}
                       index={1}
                       backgroundColor={"#0068FF"}
                       value={sliderValues[1]}
                       textAlign="center"
-                      w="35px"
-                      h="35px"
-                    >
-                      {sliderValues[1]}
-                    </RangeSliderThumb>
+                      w="15px"
+                      h="15px"
+                    ></RangeSliderThumb>
                   </RangeSlider>
-                  <Stack direction={"row"} justifyContent={"space-around"}>
+                  <Stack direction={"row"} justifyContent={"space-between"}>
                     <Text left={0} top={-4}>
-                      1
+                      {sliderValues[0]}
                     </Text>
                     <Text right={0} top={-4}>
-                      500
+                      {sliderValues[1]}
                     </Text>
                   </Stack>
-                </Box> 
-              </Box>*/}
+                </Box>
+              </Box>
 
               <Box>
                 <Text>Brand</Text>

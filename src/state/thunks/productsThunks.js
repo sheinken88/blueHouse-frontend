@@ -80,8 +80,6 @@ export const fetchProductsByCategory = (categoryId) => async (dispatch) => {
     dispatch(
       setCategoryFilters({
         category: categoryId,
-        min_price: 1,
-        max_price: 100,
       })
     );
 
@@ -121,7 +119,7 @@ export const fetchFilteredProducts = (filters) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
     // dispatch(setCategoryFilters())
-
+    console.log("SOY LO QUE RECIBO DEL FRONTO PARA FILTRAR", filters);
     const filteredProducts = await axios.get(
       `${import.meta.env.VITE_API_URL}/products/filtered/${filters}`,
       { withCredentials: true, credentials: "include" }

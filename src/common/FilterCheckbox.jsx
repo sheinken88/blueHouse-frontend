@@ -1,5 +1,4 @@
 import {
-  Stack,
   Accordion,
   AccordionItem,
   AccordionButton,
@@ -7,17 +6,29 @@ import {
   AccordionIcon,
   Box,
   Checkbox,
+  Button,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { ImageMenuItem } from "./ImageMenuItem";
 import { useSelector, useDispatch } from "react-redux";
-import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { fetchSubCategories } from "../state/thunks/categoriesThunks";
+import { fetchProductsByCategory } from "../state/thunks/productsThunks";
 import he from "he";
+import { setCategoryFilters } from "../state/slices/productsSlice";
 
 export const FilterCheckbox = ({ category }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const subCategories = useSelector((state) => state.categories.subCategories);
+
+  let arr = [];
+  const [checked, setChecked] = useState([]);
+
+  useEffect(() => {
+    dispatch(fetchSubCategories(category.id));
+  }, [dispatch]);
 
   let subCat = [];
   subCategories.map((subcategory) => {
@@ -26,79 +37,62 @@ export const FilterCheckbox = ({ category }) => {
     }
   });
 
-  useEffect(() => {
-    dispatch(fetchSubCategories(category.id));
-  }, [dispatch]);
-
-  const [checkedItems, setCheckedItems] = useState([]);
-
-  useEffect(() => {
-    setCheckedItems(new Array(subCat.length).fill(false));
-  }, []);
-
-  const handleCheckboxChange = (index, isChecked) => {
-    const updatedCheckedItems = [...checkedItems];
-    updatedCheckedItems[index] = isChecked;
-    setCheckedItems(updatedCheckedItems);
+  const handleSubCategorySelector = (event) => {
+    subCategories.map((subcategory) => {
+      if (event.target.innerHTML === subcategory.name) {
+        dispatch(fetchProductsByCategory(subcategory.id));
+        navigate(`/productdesk/`);
+      }
+    });
   };
 
-  const handleParentCheckboxChange = (isChecked) => {
-    const updatedCheckedItems = checkedItems.map(() => isChecked);
-    setCheckedItems(updatedCheckedItems);
-  };
+  // const handleSubCategoryCheckbox = (e) => {
+  //   if (e.target.checked === true) {
+  //     if (!checked.includes(e.target.value)) {
+  //       setChecked(checked.concat(e.target.value)); // Agregar el valor al array
+  //     }
+  //   } else {
+  //     setChecked(checked.filter((value) => value !== e.target.value)); // Eliminar el valor del array
+  //   }
 
-  const getSelectedValues = () => {
-    const parentCheckboxId = category.id;
-    const selectedSubCategories = subCat
-      .filter((subCategory, index) => checkedItems[index])
-      .map((subCategory) => subCategory.id);
+  //   console.log("SOY EL CHECKBOX", checked);
 
-    return {
-      parentCheckboxId,
-      selectedSubCategories,
-    };
-  };
+  //   const checkedString = checked.join(",");
+  //   dispatch(setCategoryFilters({ category: `include=${checkedString}` }));
+  // };
 
   return (
-    <>
-      <Accordion
-        sx={{
-          mt: 1,
-          w: "100%",
-          borderColor: "white",
-          color: "primary",
-        }}
-        allowMultiple
-      >
-        <AccordionItem>
+    <Accordion
+      sx={{
+        mt: 1,
+        w: "100%",
+        borderColor: "white",
+        color: "primary",
+      }}
+      allowMultiple
+    >
+      <AccordionItem>
+        <h2>
           <AccordionButton>
             <ImageMenuItem category={category} />
-            <Checkbox
-              isChecked={checkedItems.every(Boolean)}
-              isIndeterminate={
-                checkedItems.some(Boolean) && !checkedItems.every(Boolean)
-              }
-              onChange={(e) => handleParentCheckboxChange(e.target.checked)}
-            >
+            <Box pl={10} flex="1" textAlign="left">
               {he.decode(category.name)}
-            </Checkbox>
+            </Box>
+            <AccordionIcon sx={{ w: "30%" }} />
           </AccordionButton>
-          <Stack pl={20} mt={1} spacing={1}>
-            {subCat.map((subCategory, index) => (
-              <AccordionPanel key={subCategory.id}>
-                <Checkbox
-                  isChecked={checkedItems[index]}
-                  onChange={(e) =>
-                    handleCheckboxChange(index, e.target.checked)
-                  }
-                >
-                  {he.decode(subCategory.name)}
-                </Checkbox>
-              </AccordionPanel>
-            ))}
-          </Stack>
-        </AccordionItem>
-      </Accordion>
-    </>
+        </h2>
+        {subCat.map((subcategory) => (
+          <AccordionPanel
+            key={category.id}
+            onClick={handleSubCategorySelector}
+            sx={{ fontSize: 12, pb: "2px", pl: 10 }}
+          >
+            <Button variant={"ghost"} pl={15} value={subcategory.id}>
+              {he.decode(subcategory.name)}
+            </Button>
+          </AccordionPanel>
+        ))}
+      </AccordionItem>
+    </Accordion>
   );
 };
